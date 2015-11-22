@@ -30,6 +30,9 @@
     <ClCompile Include="camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="block.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="texture.hpp">
@@ -42,6 +45,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="camera.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="block.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="blocks.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,34 +7,41 @@
 #include "texture.hpp"
 #include "camera.hpp"
 
+struct Chunk {
+	char blocks[32][32][32];
+};
+
 class Game {
 protected:
-	sf::Window* mWindow;
-	sf::VideoMode mVideoMode;
-	sf::ContextSettings mSettings;
-	bool mRunning;
+	sf::Window* window_;
 
-	Camera* mCamera;
+	bool isRunning_;
 
-	sf::Clock mClock;
+	Camera camera_;
 
-	std::array<GLfloat, 180> mCubeVertices;
-	std::vector<Texture> mCubeTextures;
-	std::vector<Shader> mShaders;
+	sf::Clock clock_;
 
-	GLuint mVAO, mVBO;
+	std::array<GLfloat, 180> cubeVertices_;
+	std::vector<Texture> cubeTextures_;
+	std::vector<Shader> shaders_;
 
-	bool mFirstMouse = true;
-	int mLastX, mLastY;
+	GLuint vao_, vbo_;
+
+	bool isCursorPositionSet_ = false;
+	bool isCursorCenteringEnabled_ = true;
+	sf::Event::MouseMoveEvent previousCursorPosition_;
 
 public:
-	Game();
+	Game(sf::Window* window);
 
 	void processEvents();
 	void draw();
 	void loop();
 
-	void centerMouseCursor();
+	void drawChunk(Chunk &chunk, glm::vec3 position);
+
+	sf::Vector2i getWindowCenterPosition();
+	void setCursorAtWindowCenter();
 };
 
 #endif

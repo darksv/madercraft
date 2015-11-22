@@ -2,50 +2,50 @@
 
 Camera::Camera()
 {
-	mCameraSpeed = 0.65f;
-	mCameraPos = glm::vec3(0.0f, 0.0f, -30.0f);
-	mCameraFront = glm::vec3(0.0f, -1.0f, -1.0f);
-	mCameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+	cameraSpeed_    = 0.65f;
+	cameraPosition_ = glm::vec3(0.0f, 30.0f, 0.0f);
+	cameraFront_    = glm::vec3(1.0f, 0.0f, 0.0f);
+	cameraUp_       = glm::vec3(0.0f, 1.0f, 0.0f);
 }
 
 void Camera::moveForward()
 {
-	mCameraPos += mCameraSpeed * mCameraFront;
+	cameraPosition_ += cameraSpeed_ * cameraFront_;
 }
 
 void Camera::moveBackward()
 {
-	mCameraPos -= mCameraSpeed * mCameraFront;
+	cameraPosition_ -= cameraSpeed_ * cameraFront_;
 }
 
 void Camera::moveLeft()
 {
-	mCameraPos -= glm::normalize(glm::cross(mCameraFront, mCameraUp)) * mCameraSpeed;
+	cameraPosition_ -= glm::normalize(glm::cross(cameraFront_, cameraUp_)) * cameraSpeed_;
 }
 
 void Camera::moveRight()
 {
-	mCameraPos += glm::normalize(glm::cross(mCameraFront, mCameraUp)) * mCameraSpeed;
+	cameraPosition_ += glm::normalize(glm::cross(cameraFront_, cameraUp_)) * cameraSpeed_;
 }
 
 glm::mat4 Camera::getViewMatrix()
 {
-	return glm::lookAt(mCameraPos, mCameraPos + mCameraFront, mCameraUp);
+	return glm::lookAt(cameraPosition_, cameraPosition_ + cameraFront_, cameraUp_);
 }
 
 void Camera::rotate(GLfloat offsetX, GLfloat offsetY)
 {
-	mYaw += offsetX;
-	mPitch += offsetY;
+	yaw_ += offsetX;
+	pitch_ += offsetY;
 
-	if (mPitch > 89.0f)
-		mPitch = 89.0f;
-	if (mPitch < -89.0f)
-		mPitch = -89.0f;
+	if (pitch_ > 89.0f)
+		pitch_ = 89.0f;
+	if (pitch_ < -89.0f)
+		pitch_ = -89.0f;
 
 	glm::vec3 front;
-	front.x = cos(glm::radians(mYaw)) * cos(glm::radians(mPitch));
-	front.y = sin(glm::radians(mPitch));
-	front.z = sin(glm::radians(mYaw)) * cos(glm::radians(mPitch));
-	mCameraFront = glm::normalize(front);
+	front.x = cos(glm::radians(pitch_)) * cos(glm::radians(yaw_));
+	front.y = sin(glm::radians(pitch_));
+	front.z = cos(glm::radians(pitch_)) * sin(glm::radians(yaw_));
+	cameraFront_ = glm::normalize(front);
 }

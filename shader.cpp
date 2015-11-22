@@ -35,24 +35,24 @@ GLuint loadAndCompileShader(GLenum shaderType, std::string shaderSource)
 
 
 Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath) :
-	mVertexShaderPath(vertexShaderPath),
-	mFragmentShaderPath(fragmentShaderPath)
+	vertexShaderPath_(vertexShaderPath),
+	fragmentShaderPath_(fragmentShaderPath)
 {
-	mVertexShader = loadAndCompileShader(GL_VERTEX_SHADER, getFileContent(mVertexShaderPath));
-	mFragmentShader = loadAndCompileShader(GL_FRAGMENT_SHADER, getFileContent(mFragmentShaderPath));
+	vertexShader_ = loadAndCompileShader(GL_VERTEX_SHADER, getFileContent(vertexShaderPath_));
+	fragmentShader_ = loadAndCompileShader(GL_FRAGMENT_SHADER, getFileContent(fragmentShaderPath_));
 	
-	mProgram = glCreateProgram();
-	glAttachShader(mProgram, mVertexShader);
-	glAttachShader(mProgram, mFragmentShader);
-	glLinkProgram(mProgram);
+	program_ = glCreateProgram();
+	glAttachShader(program_, vertexShader_);
+	glAttachShader(program_, fragmentShader_);
+	glLinkProgram(program_);
 
-	glDeleteShader(mVertexShader);
-	glDeleteShader(mFragmentShader);
+	glDeleteShader(vertexShader_);
+	glDeleteShader(fragmentShader_);
 }
 
 
 void Shader::use()
 {
-	glUseProgram(mProgram);
+	glUseProgram(program_);
 }
 

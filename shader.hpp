@@ -8,16 +8,16 @@
 
 class Shader {
 protected:
-	std::string mVertexShaderPath;
-	std::string mFragmentShaderPath;
-	GLuint mVertexShader;
-	GLuint mFragmentShader;
-	GLuint mProgram;
+	std::string vertexShaderPath_;
+	std::string fragmentShaderPath_;
+	GLuint vertexShader_;
+	GLuint fragmentShader_;
+	GLuint program_;
 
 public:
 	Shader(std::string vertexShaderPath, std::string fragmentShaderPath);
 
-	GLuint getProgram() const { return mProgram; };
+	GLuint getProgram() const { return program_; };
 	void use();
 };
 

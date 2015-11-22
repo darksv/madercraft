@@ -8,8 +8,8 @@
 
 class Texture {
 protected:
-	GLuint mTexture;
-	std::vector<char> mImage;
+	GLuint textureId_;
+	std::vector<char> imageData_;
 public:
 	Texture(std::string filePath);
 
