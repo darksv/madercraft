@@ -3,9 +3,9 @@
 Camera::Camera()
 {
 	cameraSpeed_    = 0.65f;
-	cameraPosition_ = glm::vec3(0.0f, 30.0f, 0.0f);
-	cameraFront_    = glm::vec3(1.0f, 0.0f, 0.0f);
-	cameraUp_       = glm::vec3(0.0f, 1.0f, 0.0f);
+	cameraPosition_ = glm::vec3(0.0f, 0.0f, 30.0f);
+	cameraFront_    = glm::vec3(0.0f, 0.0f, 1.0f);
+	cameraUp_       = glm::vec3(0.0f, 0.0f, 1.0f);
 }
 
 void Camera::moveForward()
@@ -35,7 +35,7 @@ glm::mat4 Camera::getViewMatrix()
 
 void Camera::rotate(GLfloat offsetX, GLfloat offsetY)
 {
-	yaw_ += offsetX;
+	yaw_ -= offsetX;
 	pitch_ += offsetY;
 
 	if (pitch_ > 89.0f)
@@ -44,8 +44,12 @@ void Camera::rotate(GLfloat offsetX, GLfloat offsetY)
 		pitch_ = -89.0f;
 
 	glm::vec3 front;
+
+	front.z = sin(glm::radians(pitch_));
 	front.x = cos(glm::radians(pitch_)) * cos(glm::radians(yaw_));
-	front.y = sin(glm::radians(pitch_));
-	front.z = cos(glm::radians(pitch_)) * sin(glm::radians(yaw_));
+	front.y = cos(glm::radians(pitch_)) * sin(glm::radians(yaw_));
+
 	cameraFront_ = glm::normalize(front);
+
+	std::cout << "cameraDirection: " << cameraFront_.x << ", " << cameraFront_.y << ", " << cameraFront_.z << std::endl;
 }
