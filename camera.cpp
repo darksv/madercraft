@@ -10,12 +10,12 @@ Camera::Camera()
 
 void Camera::moveForward()
 {
-	cameraPosition_ += cameraSpeed_ * glm::vec3(cameraFront_.x, cameraFront_.y, 0.0f);
+	cameraPosition_ += glm::normalize(glm::vec3(cameraFront_.x, cameraFront_.y, 0.0f)) * cameraSpeed_;
 }
 
 void Camera::moveBackward()
 {
-	cameraPosition_ -= cameraSpeed_ * glm::vec3(cameraFront_.x, cameraFront_.y, 0.0f);
+	cameraPosition_ -= glm::normalize(glm::vec3(cameraFront_.x, cameraFront_.y, 0.0f)) * cameraSpeed_;
 }
 
 void Camera::moveLeft()
