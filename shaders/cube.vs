@@ -9,10 +9,12 @@ uniform mat4 projection;
 uniform float time;
 
 out vec2 textureCoord;
+out float globalTime;
 
 
 void main()
 {
 	gl_Position = projection * view * model * vec4(position, 1.0f);
 	textureCoord = texCoord;
+	globalTime = time;
 }
