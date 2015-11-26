@@ -50,9 +50,13 @@ Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath) :
 	glDeleteShader(fragmentShader_);
 }
 
-
 void Shader::use()
 {
 	glUseProgram(program_);
+}
+
+GLint Shader::getUniform(const GLchar* name)
+{
+	return glGetUniformLocation(program_, name);
 }
 

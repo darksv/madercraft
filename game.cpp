@@ -3,57 +3,17 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "game.hpp"
+#include "block.hpp"
+
+glm::mat4 Game::getProjectionMatrix()
+{
+	sf::Vector2u windowSize = window_->getSize();
+	return glm::perspective(45.0f, (float)windowSize.x / (float)windowSize.y, 0.1f, 100.0f);
+}
 
 Game::Game(sf::Window* window)
 	: window_(window)
 {
-	cubeVertices_ = {{
-		// top
-		0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-		-0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
-		0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-		-0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
-		0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-
-		// bottom
-		-0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
-		0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-		0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
-		0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-		-0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-
-		// sides
-		-0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-		-0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-		-0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-		
-		0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
-		0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-		0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
-		0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
-		0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-
-		-0.5f, 0.5f, -0.5f, 1.0f, 0.0f,
-		-0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
-		0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
-		-0.5f, 0.5f, -0.5f, 1.0f, 0.0f,
-		0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
-		0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-
-		-0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-		0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-		0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-		-0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-		0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f, 1.0f, 1.0f
-	}};
-
 	window_->setMouseCursorVisible(false);
 
 	isRunning_ = true;
@@ -61,19 +21,9 @@ Game::Game(sf::Window* window)
 	glewExperimental = GL_TRUE;
 	glewInit();
 
-	cubeTextures_.push_back(Texture("textures\\cube_side.raw"));
-	cubeTextures_.push_back(Texture("textures\\cube_top.raw"));
-	cubeTextures_.push_back(Texture("textures\\cube_bottom.raw"));
-
-	shaders_.push_back(Shader("shaders\\cube.vs", "shaders\\cube.frag"));
-
-
-	auto windowSize = window_->getSize();
-
 	glEnable(GL_DEPTH_TEST);
 
-	glGenVertexArrays(1, &vao_);
-	glGenBuffers(1, &vbo_);
+	blockGrass_ = new BlockGrass();
 }
 
 void Game::loop()
@@ -81,7 +31,7 @@ void Game::loop()
 	while (isRunning_)
 	{
 		processEvents();
-		draw();
+		render();
 	}
 }
 
@@ -157,7 +107,16 @@ void Game::processEvents()
 
 void Game::drawChunk(Chunk& chunk, glm::vec3 position)
 {
-	GLuint modelUniform = glGetUniformLocation(shaders_[0].getProgram(), "model");
+	Shader* shader = blockGrass_->getShader();
+
+	GLint timeUniform = shader->getUniform("time");
+	glUniform1f(timeUniform, clock_.getElapsedTime().asSeconds());
+
+	GLuint viewUniform = shader->getUniform("view");
+	glUniformMatrix4fv(viewUniform, 1, GL_FALSE, glm::value_ptr(camera_.getViewMatrix()));
+
+	GLuint projectionUniform = shader->getUniform("projection");
+	glUniformMatrix4fv(projectionUniform, 1, GL_FALSE, glm::value_ptr(getProjectionMatrix()));
 
 	for (int x = 0; x < 32; ++x)
 	{
@@ -168,70 +127,18 @@ void Game::drawChunk(Chunk& chunk, glm::vec3 position)
 				if (x > 0 && x < 31 && y > 0 && y < 31 && z > 0 && z < 31)
 					continue;
 
-				glm::mat4 model;
-				model = glm::translate(model, glm::vec3(x, y, z));
-				model = glm::translate(model, position);
-
-				glUniformMatrix4fv(modelUniform, 1, GL_FALSE, glm::value_ptr(model));
-
-				cubeTextures_[1].bind();
-				glDrawArrays(GL_TRIANGLES, 6 * 0, 6 * 1);
-				cubeTextures_[0].bind();
-				glDrawArrays(GL_TRIANGLES, 6 * 2, 6 * 4);
-				cubeTextures_[2].bind();
-				glDrawArrays(GL_TRIANGLES, 6 * 1, 6 * 1);
-
-				glBindTexture(GL_TEXTURE_2D, 0);
+				blockGrass_->draw(position + glm::vec3(x, y, z));
 			}
 		}
 	}
 }
 
-void Game::draw()
+void Game::render()
 {
 	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glBindVertexArray(vao_);
-
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * cubeVertices_.size(), cubeVertices_.data(), GL_STATIC_DRAW);
-
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)0);
-	
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glBindVertexArray(0);
-
-	shaders_[0].use();
-
-	GLint timeUniform = glGetUniformLocation(shaders_[0].getProgram(), "time");
-	glUniform1f(timeUniform, clock_.getElapsedTime().asSeconds());
-
-	GLuint viewUniform = glGetUniformLocation(shaders_[0].getProgram(), "view");
-	glUniformMatrix4fv(viewUniform, 1, GL_FALSE, glm::value_ptr(camera_.getViewMatrix()));
-
-	sf::Vector2u windowSize = window_->getSize();
-
-	glm::mat4 projection;
-	projection = glm::perspective(45.0f, (float)windowSize.x / (float)windowSize.y, 0.1f, 100.0f);
-	GLuint projectionUniform = glGetUniformLocation(shaders_[0].getProgram(), "projection");
-	glUniformMatrix4fv(projectionUniform, 1, GL_FALSE, glm::value_ptr(projection));
-
-	glBindVertexArray(vao_);
-
-	//for (int i = 0; i < 4; ++i)
-	//{
-	//	drawChunk(Chunk(), glm::vec3(0.0f, 0.0f, 0.0f));
-	//}
-
 	drawChunk(Chunk(), glm::vec3(0.0f, 0.0f, 0.0f));
-
-	glBindVertexArray(0);
 
 	window_->display();
 }

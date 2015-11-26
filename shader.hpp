@@ -19,6 +19,8 @@ public:
 
 	GLuint getProgram() const { return program_; };
 	void use();
+
+	GLint getUniform(const GLchar* name);
 };
 
 #endif

@@ -3,39 +3,32 @@
 
 #include <array>
 #include <SFML\Window.hpp>
-#include "shader.hpp"
-#include "texture.hpp"
 #include "camera.hpp"
+#include "block.hpp"
 
-struct Chunk {
-	char blocks[32][32][32];
-};
+struct Chunk {};
 
 class Game {
 protected:
 	sf::Window* window_;
+	Camera camera_;
+	sf::Clock clock_;
 
 	bool isRunning_;
 
-	Camera camera_;
-
-	sf::Clock clock_;
-
-	std::array<GLfloat, 180> cubeVertices_;
-	std::vector<Texture> cubeTextures_;
-	std::vector<Shader> shaders_;
-
-	GLuint vao_, vbo_;
+	BlockGrass* blockGrass_;
 
 	bool isCursorPositionSet_ = false;
 	bool isCursorCenteringEnabled_ = true;
 	sf::Event::MouseMoveEvent previousCursorPosition_;
 
+	glm::mat4 getProjectionMatrix();
+
 public:
 	Game(sf::Window* window);
 
 	void processEvents();
-	void draw();
+	void render();
 	void loop();
 
 	void drawChunk(Chunk &chunk, glm::vec3 position);
