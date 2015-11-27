@@ -28,6 +28,17 @@ void Camera::moveRight()
 	cameraPosition_ += glm::normalize(glm::cross(cameraFront_, cameraUp_)) * cameraSpeed_;
 }
 
+void Camera::moveUp()
+{
+	cameraPosition_ += glm::vec3(0.0f, 0.0f, 1.0f) * cameraSpeed_;
+}
+
+void Camera::moveDown()
+{
+	cameraPosition_ += glm::vec3(0.0f, 0.0f, -1.0f) * cameraSpeed_;
+}
+
+
 glm::mat4 Camera::getViewMatrix()
 {
 	return glm::lookAt(cameraPosition_, cameraPosition_ + cameraFront_, cameraUp_);

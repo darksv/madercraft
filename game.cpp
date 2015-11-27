@@ -103,6 +103,12 @@ void Game::processEvents()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		camera_.moveRight();
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+		camera_.moveDown();
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		camera_.moveUp();
 }
 
 void Game::drawChunk(Chunk& chunk, glm::vec3 position)

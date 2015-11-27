@@ -24,6 +24,8 @@ public:
 	void moveBackward();
 	void moveLeft();
 	void moveRight();
+	void moveUp();
+	void moveDown();
 
 	glm::mat4 getViewMatrix();
 	void rotate(GLfloat offsetX, GLfloat offsetY);
