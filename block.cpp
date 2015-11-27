@@ -8,10 +8,9 @@ BlockModel::BlockModel(Texture* textureTop, Texture* textureBottom, Texture* tex
 	shader_(shader)
 {
 	glGenVertexArrays(1, &vao_);
-	glGenBuffers(1, &vbo_);
-
 	glBindVertexArray(vao_);
 
+	glGenBuffers(1, &vbo_);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * vertices_.size(), vertices_.data(), GL_STATIC_DRAW);
 
@@ -54,6 +53,65 @@ void BlockModel::draw(glm::vec3& position)
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	glBindVertexArray(0);
+}
+
+void BlockModel::draw(std::vector<glm::vec3>& positions)
+{
+	shader_->use();
+
+	std::vector<glm::mat4> modelMatrices;
+	modelMatrices.reserve(positions.size());
+
+	for (auto position : positions)
+	{
+		modelMatrices.push_back(glm::translate(glm::mat4(), position));
+	}
+
+	GLuint modelMatricesBuffer;
+	GLint modelAttrib = glGetAttribLocation(shader_->getProgram(), "model");
+
+	glBindVertexArray(vao_);
+
+	// create buffer for vector of model matrices for each instance
+	glGenBuffers(1, &modelMatricesBuffer);
+
+	glBindBuffer(GL_ARRAY_BUFFER, modelMatricesBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * modelMatrices.size(), modelMatrices.data(), GL_STATIC_DRAW);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	
+	glEnableVertexAttribArray(modelAttrib + 0);
+	glEnableVertexAttribArray(modelAttrib + 1);
+	glEnableVertexAttribArray(modelAttrib + 2);
+	glEnableVertexAttribArray(modelAttrib + 3);
+	
+	glBindBuffer(GL_ARRAY_BUFFER, modelMatricesBuffer);
+	glVertexAttribPointer(modelAttrib + 0, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (GLvoid*)( 0 * sizeof(GLfloat)));
+	glVertexAttribPointer(modelAttrib + 1, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (GLvoid*)( 4 * sizeof(GLfloat)));
+	glVertexAttribPointer(modelAttrib + 2, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (GLvoid*)( 8 * sizeof(GLfloat)));
+	glVertexAttribPointer(modelAttrib + 3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (GLvoid*)(12 * sizeof(GLfloat)));
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glVertexAttribDivisor(modelAttrib + 0, 1);
+	glVertexAttribDivisor(modelAttrib + 1, 1);
+	glVertexAttribDivisor(modelAttrib + 2, 1);
+	glVertexAttribDivisor(modelAttrib + 3, 1);
+
+	textureTop_->bind();
+	glDrawArraysInstanced(GL_TRIANGLES, 6 * 0, modelMatrices.size(), 6 * 1);
+
+	textureSide_->bind();
+	glDrawArraysInstanced(GL_TRIANGLES, 6 * 2, modelMatrices.size(), 6 * 4);
+
+	textureBottom_->bind();
+	glDrawArraysInstanced(GL_TRIANGLES, 6 * 1, modelMatrices.size(), 6 * 1);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glBindVertexArray(0);
+
+	glDeleteBuffers(1, &modelMatricesBuffer);
 }
 
 BlockGrass::BlockGrass()

@@ -118,6 +118,9 @@ void Game::drawChunk(Chunk& chunk, glm::vec3 position)
 	GLuint projectionUniform = shader->getUniform("projection");
 	glUniformMatrix4fv(projectionUniform, 1, GL_FALSE, glm::value_ptr(getProjectionMatrix()));
 
+
+	std::vector<glm::vec3> positions;
+
 	for (int x = 0; x < 32; ++x)
 	{
 		for (int y = 0; y < 32; ++y)
@@ -127,10 +130,12 @@ void Game::drawChunk(Chunk& chunk, glm::vec3 position)
 				if (x > 0 && x < 31 && y > 0 && y < 31 && z > 0 && z < 31)
 					continue;
 
-				blockGrass_->draw(position + glm::vec3(x, y, z));
+				positions.push_back(position + glm::vec3(x, y, z));
 			}
 		}
 	}
+
+	blockGrass_->draw(positions);
 }
 
 void Game::render()
