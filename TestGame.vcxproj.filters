@@ -9,9 +9,15 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
+    <Filter Include="Resources">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resources\Shaders">
+      <UniqueIdentifier>{b3ed7a3c-c1f3-4de4-bfd2-18d55882ae03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Textures">
+      <UniqueIdentifier>{eb78c081-4581-4a57-9f26-0c86098d8fcb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -50,5 +56,22 @@
     <ClInclude Include="texture.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="textures\cube_bottom.raw">
+      <Filter>Resources\Textures</Filter>
+    </None>
+    <None Include="textures\cube_side.raw">
+      <Filter>Resources\Textures</Filter>
+    </None>
+    <None Include="textures\cube_top.raw">
+      <Filter>Resources\Textures</Filter>
+    </None>
+    <None Include="shaders\cube.frag">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="shaders\cube.vs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -90,6 +90,13 @@
     <ClInclude Include="shader.hpp" />
     <ClInclude Include="texture.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\cube.frag" />
+    <None Include="shaders\cube.vs" />
+    <None Include="textures\cube_bottom.raw" />
+    <None Include="textures\cube_side.raw" />
+    <None Include="textures\cube_top.raw" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
