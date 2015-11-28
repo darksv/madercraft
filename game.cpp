@@ -115,13 +115,13 @@ void Game::drawChunk(Chunk& chunk, glm::vec3 position)
 {
 	Shader* shader = blockGrass_->getShader();
 
-	GLint timeUniform = shader->getUniform("time");
+	GLint timeUniform = shader->getUniform("globalTime_");
 	glUniform1f(timeUniform, clock_.getElapsedTime().asSeconds());
 
-	GLuint viewUniform = shader->getUniform("view");
+	GLuint viewUniform = shader->getUniform("viewMatrix");
 	glUniformMatrix4fv(viewUniform, 1, GL_FALSE, glm::value_ptr(camera_.getViewMatrix()));
 
-	GLuint projectionUniform = shader->getUniform("projection");
+	GLuint projectionUniform = shader->getUniform("projectionMatrix");
 	glUniformMatrix4fv(projectionUniform, 1, GL_FALSE, glm::value_ptr(getProjectionMatrix()));
 
 

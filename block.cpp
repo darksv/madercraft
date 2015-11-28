@@ -45,16 +45,16 @@ void BlockModel::draw(std::vector<glm::vec3>& positions)
 	}
 
 	GLuint modelMatricesBuffer;
-	GLint modelAttrib = glGetAttribLocation(shader_->getProgram(), "model");
+	GLint modelAttrib = glGetAttribLocation(shader_->getProgram(), "modelMatrix");
 
 	glBindVertexArray(vao_);
 
 	// create buffer for vector of model matrices for each instance
 	glGenBuffers(1, &modelMatricesBuffer);
-
 	glBindBuffer(GL_ARRAY_BUFFER, modelMatricesBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * instancesNum, modelMatrices.data(), GL_STATIC_DRAW);
-	
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 	glEnableVertexAttribArray(modelAttrib + 0);
 	glEnableVertexAttribArray(modelAttrib + 1);
 	glEnableVertexAttribArray(modelAttrib + 2);
@@ -73,16 +73,16 @@ void BlockModel::draw(std::vector<glm::vec3>& positions)
 	glVertexAttribDivisor(modelAttrib + 3, 1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+	{
+		textureTop_->bind();
+		glDrawArraysInstanced(GL_TRIANGLES, 6 * 0, 6 * 1, instancesNum);
 
-	textureTop_->bind();
-	glDrawArraysInstanced(GL_TRIANGLES, 6 * 0, 6 * 1, instancesNum);
+		textureSide_->bind();
+		glDrawArraysInstanced(GL_TRIANGLES, 6 * 2, 6 * 4, instancesNum);
 
-	textureSide_->bind();
-	glDrawArraysInstanced(GL_TRIANGLES, 6 * 2, 6 * 4, instancesNum);
-
-	textureBottom_->bind();
-	glDrawArraysInstanced(GL_TRIANGLES, 6 * 1, 6 * 1, instancesNum);
-
+		textureBottom_->bind();
+		glDrawArraysInstanced(GL_TRIANGLES, 6 * 1, 6 * 1, instancesNum);
+	}
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glBindTexture(GL_TEXTURE_2D, 0);

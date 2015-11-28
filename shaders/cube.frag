@@ -1,13 +1,14 @@
 #version 330 core
 
-in vec2 textureCoord;
+uniform sampler2D faceTexture;
+
 in float globalTime;
+in vec2 textureCoords;
+in int instanceId;
 
 out vec4 color;
-uniform float time;
-uniform sampler2D ourTexture;
 
 void main()
 {
-	color = texture(ourTexture, vec2(textureCoord.x, 1.0 - textureCoord.y)) * sin(globalTime * gl_InstanceID);
+	color = texture(faceTexture, vec2(textureCoords.x, 1.0 - textureCoords.y)) * tan(globalTime * sqrt(textureCoords.x * textureCoords.x + textureCoords.y * textureCoords.y));
 }	
