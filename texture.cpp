@@ -1,17 +1,9 @@
 #include "texture.hpp"
-
-std::vector<char> getTexture(std::string filePath)
-{
-	std::ifstream fileStream(filePath, std::ios::binary);
-	return std::vector<char>(
-		(std::istreambuf_iterator<char>(fileStream)),
-		(std::istreambuf_iterator<char>())
-	);
-}
+#include "helpers.hpp"
 
 Texture::Texture(std::string filePath)
 {
-	imageData_ = getTexture(filePath);
+	imageData_ = getFileContent(filePath);
 
 	glGenTextures(1, &textureId_);
 	glBindTexture(GL_TEXTURE_2D, textureId_);

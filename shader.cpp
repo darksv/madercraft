@@ -1,15 +1,5 @@
 #include "shader.hpp"
-
-static std::string getFileContent(std::string filePath)
-{
-	std::ifstream fileStream(filePath);
-	std::string fileContent(
-		(std::istreambuf_iterator<char>(fileStream)),
-		(std::istreambuf_iterator<char>())
-	);
-
-	return fileContent;
-}
+#include "helpers.hpp"
 
 GLuint loadAndCompileShader(GLenum shaderType, std::string shaderSource)
 {
@@ -38,8 +28,13 @@ Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath) :
 	vertexShaderPath_(vertexShaderPath),
 	fragmentShaderPath_(fragmentShaderPath)
 {
-	vertexShader_ = loadAndCompileShader(GL_VERTEX_SHADER, getFileContent(vertexShaderPath_));
-	fragmentShader_ = loadAndCompileShader(GL_FRAGMENT_SHADER, getFileContent(fragmentShaderPath_));
+	auto vertexShaderData = getFileContent(vertexShaderPath_);
+	auto fragmentShaderData = getFileContent(fragmentShaderPath_);
+	std::string vertexShaderSource(vertexShaderData.begin(), vertexShaderData.end());
+	std::string fragmentShaderSource(fragmentShaderData.begin(), fragmentShaderData.end());
+
+	vertexShader_ = loadAndCompileShader(GL_VERTEX_SHADER, vertexShaderSource);
+	fragmentShader_ = loadAndCompileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
 	
 	program_ = glCreateProgram();
 	glAttachShader(program_, vertexShader_);
