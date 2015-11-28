@@ -76,13 +76,13 @@ void BlockModel::draw(std::vector<glm::vec3>& positions)
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_);
 	{
-		textureBottom_->bind();
+		glBindTexture(GL_TEXTURE_2D, textureBottom_->getId());
 		glDrawArraysInstanced(GL_TRIANGLES, 6 * 0, 6 * 1, instancesNum);
 
-		textureTop_->bind();
+		glBindTexture(GL_TEXTURE_2D, textureTop_->getId());
 		glDrawArraysInstanced(GL_TRIANGLES, 6 * 1, 6 * 1, instancesNum);
 
-		textureSide_->bind();
+		glBindTexture(GL_TEXTURE_2D, textureSide_->getId());
 		glDrawArraysInstanced(GL_TRIANGLES, 6 * 2, 6 * 4, instancesNum);
 	}
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

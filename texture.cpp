@@ -12,12 +12,7 @@ Texture::Texture(std::string filePath)
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Texture::bind()
+GLuint Texture::getId()
 {
-	glBindTexture(GL_TEXTURE_2D, textureId_);
-}
-
-void Texture::unbind()
-{
-	glBindTextureEXT(GL_TEXTURE_2D, 0);
+	return textureId_;
 }

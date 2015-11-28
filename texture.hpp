@@ -13,8 +13,7 @@ protected:
 public:
 	Texture(std::string filePath);
 
-	void bind();
-	void unbind();
+	GLuint getId();
 };
 
 #endif
