@@ -79,6 +79,7 @@
     <ClCompile Include="block.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="grass.cpp" />
     <ClCompile Include="helpers.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="shader.cpp" />
@@ -88,6 +89,7 @@
     <ClInclude Include="block.hpp" />
     <ClInclude Include="camera.hpp" />
     <ClInclude Include="game.hpp" />
+    <ClInclude Include="grass.hpp" />
     <ClInclude Include="helpers.hpp" />
     <ClInclude Include="shader.hpp" />
     <ClInclude Include="texture.hpp" />

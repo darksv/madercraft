@@ -16,7 +16,7 @@ protected:
 
 	bool isRunning_;
 
-	BlockGrass* blockGrass_;
+	std::vector<BlockModel*> blocks_;
 
 	bool isCursorPositionSet_ = false;
 	bool isCursorCenteringEnabled_ = true;

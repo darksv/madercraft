@@ -4,7 +4,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "game.hpp"
-#include "block.hpp"
+#include "grass.hpp"
 
 glm::mat4 Game::getProjectionMatrix()
 {
@@ -27,7 +27,7 @@ Game::Game(sf::Window* window)
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CW);
 
-	blockGrass_ = new BlockGrass();
+	blocks_.push_back((BlockModel*)new BlockGrass());
 }
 
 void Game::loop()
@@ -117,7 +117,7 @@ void Game::processEvents()
 
 void Game::drawChunk(Chunk& chunk, glm::vec3 position)
 {
-	Shader* shader = blockGrass_->getShader();
+	Shader* shader = blocks_[0]->getShader();
 
 	GLint timeUniform = shader->getUniform("globalTime_");
 	glUniform1f(timeUniform, clock_.getElapsedTime().asSeconds());
@@ -145,7 +145,7 @@ void Game::drawChunk(Chunk& chunk, glm::vec3 position)
 		}
 	}
 
-	blockGrass_->draw(positions);
+	blocks_[0]->draw(positions);
 }
 
 void Game::render()

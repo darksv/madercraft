@@ -79,11 +79,4 @@ public:
 	void draw(std::vector<glm::vec3>& positions);
 };
 
-
-struct BlockGrass : BlockModel
-{
-public:
-	BlockGrass();
-};
-
 #endif

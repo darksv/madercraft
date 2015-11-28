@@ -19,6 +19,12 @@
     <Filter Include="Resources\Textures">
       <UniqueIdentifier>{eb78c081-4581-4a57-9f26-0c86098d8fcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Blocks">
+      <UniqueIdentifier>{cc7e62e8-8498-453e-ad7c-c5a197613e3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Blocks">
+      <UniqueIdentifier>{042036ff-a1bb-41ca-aa46-1aa79dff2b48}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,6 +48,9 @@
     <ClCompile Include="helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="grass.cpp">
+      <Filter>Source Files\Blocks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="block.hpp">
@@ -61,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="helpers.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="grass.hpp">
+      <Filter>Header Files\Blocks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
