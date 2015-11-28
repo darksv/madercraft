@@ -30,31 +30,6 @@ Shader* BlockModel::getShader()
 	return shader_;
 }
 
-void BlockModel::draw(glm::vec3& position)
-{
-	shader_->use();
-
-	glm::mat4 model;
-	model = glm::translate(model, position);
-
-	glUniformMatrix4fv(shader_->getUniform("model"), 1, GL_FALSE, glm::value_ptr(model));
-
-	glBindVertexArray(vao_);
-
-	textureTop_->bind();
-	glDrawArrays(GL_TRIANGLES, 6 * 0, 6 * 1);
-
-	textureSide_->bind();
-	glDrawArrays(GL_TRIANGLES, 6 * 2, 6 * 4);
-
-	textureBottom_->bind();
-	glDrawArrays(GL_TRIANGLES, 6 * 1, 6 * 1);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	glBindVertexArray(0);
-}
-
 void BlockModel::draw(std::vector<glm::vec3>& positions)
 {
 	size_t instancesNum = positions.size();
