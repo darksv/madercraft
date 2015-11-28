@@ -10,5 +10,5 @@ out vec4 color;
 
 void main()
 {
-	color = texture(faceTexture, vec2(textureCoords.x, 1.0 - textureCoords.y)) * tan(globalTime * sqrt(textureCoords.x * textureCoords.x + textureCoords.y * textureCoords.y));
+	color = texture(faceTexture, vec2(textureCoords.x, 1.0 - textureCoords.y));// * tan(globalTime * sqrt(textureCoords.x * textureCoords.x + textureCoords.y * textureCoords.y));
 }	
