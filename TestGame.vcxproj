@@ -85,7 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="block.hpp" />
-    <ClInclude Include="blocks.hpp" />
     <ClInclude Include="camera.hpp" />
     <ClInclude Include="game.hpp" />
     <ClInclude Include="shader.hpp" />
