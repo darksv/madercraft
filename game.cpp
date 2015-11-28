@@ -1,3 +1,4 @@
+#include <chrono>
 #include <GL\glew.h>
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -124,7 +125,7 @@ void Game::drawChunk(Chunk& chunk, glm::vec3 position)
 	GLuint projectionUniform = shader->getUniform("projectionMatrix");
 	glUniformMatrix4fv(projectionUniform, 1, GL_FALSE, glm::value_ptr(getProjectionMatrix()));
 
-
+	auto start = std::chrono::system_clock::now();
 	std::vector<glm::vec3> positions;
 
 	for (int x = 0; x < 32; ++x)

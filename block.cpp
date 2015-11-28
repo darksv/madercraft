@@ -1,4 +1,5 @@
 #include <string>
+#include <chrono>
 #include "block.hpp"
 
 BlockModel::BlockModel(Texture* textureTop, Texture* textureBottom, Texture* textureSide, Shader* shader) :
@@ -34,15 +35,12 @@ void BlockModel::draw(std::vector<glm::vec3>& positions)
 {
 	size_t instancesNum = positions.size();
 
-	shader_->use();
+	// create translation matrices
+	glm::mat4* modelMatrices = new glm::mat4[instancesNum];
 
-	std::vector<glm::mat4> modelMatrices;
-	modelMatrices.reserve(instancesNum);
-
-	for (auto position : positions)
-	{
-		modelMatrices.push_back(glm::translate(glm::mat4(), position));
-	}
+	auto identityMatrix = glm::mat4();
+	for (size_t i = 0; i < instancesNum; ++i)
+		modelMatrices[i] = glm::translate(identityMatrix, positions[i]);
 
 	GLuint modelMatricesBuffer;
 	GLint modelAttrib = glGetAttribLocation(shader_->getProgram(), "modelMatrix");
@@ -52,8 +50,10 @@ void BlockModel::draw(std::vector<glm::vec3>& positions)
 	// create buffer for vector of model matrices for each instance
 	glGenBuffers(1, &modelMatricesBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, modelMatricesBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * instancesNum, modelMatrices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * instancesNum, &modelMatrices[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	delete[] modelMatrices;
 
 	glEnableVertexAttribArray(modelAttrib + 0);
 	glEnableVertexAttribArray(modelAttrib + 1);
@@ -71,6 +71,8 @@ void BlockModel::draw(std::vector<glm::vec3>& positions)
 	glVertexAttribDivisor(modelAttrib + 1, 1);
 	glVertexAttribDivisor(modelAttrib + 2, 1);
 	glVertexAttribDivisor(modelAttrib + 3, 1);
+
+	shader_->use();
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_);
 	{
