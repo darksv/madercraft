@@ -9,5 +9,5 @@ uniform sampler2D ourTexture;
 
 void main()
 {
-	color = texture(ourTexture, vec2(textureCoord.x, 1.0 - textureCoord.y)) * sin(globalTime * sqrt(textureCoord.x * textureCoord.x + textureCoord.y * textureCoord.y));
+	color = texture(ourTexture, vec2(textureCoord.x, 1.0 - textureCoord.y)) * sin(globalTime * gl_InstanceID);
 }	
