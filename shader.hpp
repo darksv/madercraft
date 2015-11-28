@@ -17,9 +17,7 @@ protected:
 public:
 	Shader(std::string vertexShaderPath, std::string fragmentShaderPath);
 
-	GLuint getProgram() const { return program_; };
-	void use();
-
+	GLuint getId();
 	GLint getUniform(const GLchar* name);
 };
 

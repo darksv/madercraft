@@ -43,7 +43,7 @@ void BlockModel::draw(std::vector<glm::vec3>& positions)
 		modelMatrices[i] = glm::translate(identityMatrix, positions[i]);
 
 	GLuint modelMatricesBuffer;
-	GLint modelAttrib = glGetAttribLocation(shader_->getProgram(), "modelMatrix");
+	GLint modelAttrib = glGetAttribLocation(shader_->getId(), "modelMatrix");
 
 	glBindVertexArray(vao_);
 
@@ -72,7 +72,7 @@ void BlockModel::draw(std::vector<glm::vec3>& positions)
 	glVertexAttribDivisor(modelAttrib + 2, 1);
 	glVertexAttribDivisor(modelAttrib + 3, 1);
 
-	shader_->use();
+	glUseProgram(shader_->getId());
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_);
 	{

@@ -35,7 +35,7 @@ Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath) :
 
 	vertexShader_ = loadAndCompileShader(GL_VERTEX_SHADER, vertexShaderSource);
 	fragmentShader_ = loadAndCompileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
-	
+
 	program_ = glCreateProgram();
 	glAttachShader(program_, vertexShader_);
 	glAttachShader(program_, fragmentShader_);
@@ -45,9 +45,9 @@ Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath) :
 	glDeleteShader(fragmentShader_);
 }
 
-void Shader::use()
+GLuint Shader::getId()
 {
-	glUseProgram(program_);
+	return program_;
 }
 
 GLint Shader::getUniform(const GLchar* name)
