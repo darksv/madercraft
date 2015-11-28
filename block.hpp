@@ -76,7 +76,6 @@ public:
 	BlockModel(const BlockModel&) = delete;
 
 	Shader* getShader();
-	void draw(glm::vec3& position);
 	void draw(std::vector<glm::vec3>& positions);
 };
 
