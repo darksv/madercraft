@@ -78,6 +78,7 @@
   <ItemGroup>
     <ClCompile Include="block.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="dirt.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="grass.cpp" />
     <ClCompile Include="helpers.cpp" />
@@ -88,6 +89,7 @@
   <ItemGroup>
     <ClInclude Include="block.hpp" />
     <ClInclude Include="camera.hpp" />
+    <ClInclude Include="dirt.hpp" />
     <ClInclude Include="game.hpp" />
     <ClInclude Include="grass.hpp" />
     <ClInclude Include="helpers.hpp" />

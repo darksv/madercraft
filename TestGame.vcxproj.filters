@@ -51,6 +51,9 @@
     <ClCompile Include="grass.cpp">
       <Filter>Source Files\Blocks</Filter>
     </ClCompile>
+    <ClCompile Include="dirt.cpp">
+      <Filter>Source Files\Blocks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="block.hpp">
@@ -72,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="grass.hpp">
+      <Filter>Header Files\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="dirt.hpp">
       <Filter>Header Files\Blocks</Filter>
     </ClInclude>
   </ItemGroup>

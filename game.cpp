@@ -1,10 +1,11 @@
-#include <chrono>
+#include <map>
 #include <GL\glew.h>
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "game.hpp"
 #include "grass.hpp"
+#include "dirt.hpp"
 
 glm::mat4 Game::getProjectionMatrix()
 {
@@ -27,7 +28,13 @@ Game::Game(sf::Window* window)
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CW);
 
-	blocks_.push_back((BlockModel*)new BlockGrass());
+	Texture *t1 = new Texture("textures\\cube_top.raw");
+	Texture *t2 = new Texture("textures\\cube_bottom.raw");
+	Texture *t3 = new Texture("textures\\cube_side.raw");
+	Shader *s1 = new Shader("shaders\\cube.vs", "shaders\\cube.frag");
+
+	blocks_.push_back((BlockModel*)new BlockGrass(t1, t2, t3, s1));
+	blocks_.push_back((BlockModel*)new BlockDirt(t2, t2, t3, s1));
 }
 
 void Game::loop()
@@ -117,19 +124,7 @@ void Game::processEvents()
 
 void Game::drawChunk(Chunk& chunk, glm::vec3 position)
 {
-	Shader* shader = blocks_[0]->getShader();
-
-	GLint timeUniform = shader->getUniform("globalTime_");
-	glUniform1f(timeUniform, clock_.getElapsedTime().asSeconds());
-
-	GLuint viewUniform = shader->getUniform("viewMatrix");
-	glUniformMatrix4fv(viewUniform, 1, GL_FALSE, glm::value_ptr(camera_.getViewMatrix()));
-
-	GLuint projectionUniform = shader->getUniform("projectionMatrix");
-	glUniformMatrix4fv(projectionUniform, 1, GL_FALSE, glm::value_ptr(getProjectionMatrix()));
-
-	auto start = std::chrono::system_clock::now();
-	std::vector<glm::vec3> positions;
+	std::map<size_t, std::vector<glm::vec3>> positions;
 
 	for (int x = 0; x < 32; ++x)
 	{
@@ -140,12 +135,30 @@ void Game::drawChunk(Chunk& chunk, glm::vec3 position)
 				if (x > 0 && x < 31 && y > 0 && y < 31 && z > 0 && z < 31)
 					continue;
 
-				positions.push_back(position + glm::vec3(x, y, z));
+				bool kind = sqrt(pow(x - 15.5, 2) + pow(y - 15.5, 2)) > 16 ? 0 : 1;
+
+				positions[kind].push_back(position + glm::vec3(x, y, z + kind));
 			}
 		}
 	}
 
-	blocks_[0]->draw(positions);
+	
+
+	for (size_t i = 0; i < blocks_.size(); ++i)
+	{
+		Shader* shader = blocks_[i]->getShader();
+
+		GLint timeUniform = shader->getUniform("globalTime_");
+		glUniform1f(timeUniform, clock_.getElapsedTime().asSeconds());
+
+		GLuint viewUniform = shader->getUniform("viewMatrix");
+		glUniformMatrix4fv(viewUniform, 1, GL_FALSE, glm::value_ptr(camera_.getViewMatrix()));
+
+		GLuint projectionUniform = shader->getUniform("projectionMatrix");
+		glUniformMatrix4fv(projectionUniform, 1, GL_FALSE, glm::value_ptr(getProjectionMatrix()));
+
+		blocks_[i]->draw(positions[i]);
+	}
 }
 
 void Game::render()

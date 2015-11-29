@@ -5,5 +5,5 @@
 class BlockGrass : BlockModel
 {
 public:
-	BlockGrass::BlockGrass();
+	BlockGrass::BlockGrass(Texture* textureTop, Texture* textureBottom, Texture* textureSide, Shader* shader);
 };
