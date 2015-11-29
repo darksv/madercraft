@@ -1,3 +1,4 @@
+#include <iostream>
 #include <map>
 
 #include <GL/glew.h>
@@ -41,10 +42,20 @@ Game::Game(sf::Window* window) :
 
 void Game::loop()
 {
+	sf::Clock renderClock;
+
 	while (isRunning_)
 	{
-		processEvents();
-		render();
+		sf::Time timeStart = renderClock.getElapsedTime();
+		{
+			processEvents();
+			render();
+		}
+		sf::Time timeEnd = renderClock.restart();
+
+		unsigned int fps = (unsigned int)(1.0 / (timeEnd - timeStart).asSeconds());
+
+		std::cout << fps << "fps" << std::endl;
 	}
 }
 
