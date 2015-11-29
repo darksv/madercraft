@@ -1,4 +1,8 @@
-#include "camera.hpp"
+#include <iostream>
+
+#include <glm/gtc/matrix_transform.hpp>
+
+#include "Camera.hpp"
 
 Camera::Camera()
 {
@@ -37,7 +41,6 @@ void Camera::moveDown()
 {
 	cameraPosition_ += glm::vec3(0.0f, 0.0f, -1.0f) * cameraSpeed_;
 }
-
 
 glm::mat4 Camera::getViewMatrix()
 {

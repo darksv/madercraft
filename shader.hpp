@@ -1,12 +1,11 @@
-#ifndef _SHADER_HPP
-#define _SHADER_HPP
+#pragma once
 
 #include <string>
-#include <iostream>
-#include <fstream>
+
 #include <GL/GLew.h>
 
-class Shader {
+class Shader
+{
 protected:
 	std::string vertexShaderPath_;
 	std::string fragmentShaderPath_;
@@ -20,5 +19,3 @@ public:
 	GLuint getId();
 	GLint getUniform(const GLchar* name);
 };
-
-#endif

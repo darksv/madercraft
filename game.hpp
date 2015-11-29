@@ -1,14 +1,14 @@
-#ifndef _GAME_HPP
-#define _GAME_HPP
+#pragma once
 
-#include <array>
 #include <SFML\Window.hpp>
-#include "camera.hpp"
-#include "block.hpp"
+
+#include "Block.hpp"
+#include "Camera.hpp"
 
 struct Chunk {};
 
-class Game {
+class Game
+{
 protected:
 	sf::Window* window_;
 	Camera camera_;
@@ -36,5 +36,3 @@ public:
 	sf::Vector2i getWindowCenterPosition();
 	void setCursorAtWindowCenter();
 };
-
-#endif

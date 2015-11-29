@@ -1,7 +1,4 @@
-#include <iostream>
-
-#include "game.hpp"
-#include "shader.hpp"
+#include "Game.hpp"
 
 int main()
 {

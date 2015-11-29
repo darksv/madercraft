@@ -1,14 +1,12 @@
-#ifndef _BLOCK_H
-#define _BLOCK_H
+#pragma once
 
-#include <string>
 #include <array>
-#include <GL\glew.h>
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
-#include "texture.hpp"
-#include "shader.hpp"
+
+#include <GL/glew.h>
+#include <glm/glm.hpp>
+
+#include "Shader.hpp"
+#include "Texture.hpp"
 
 struct BlockModel
 {
@@ -78,5 +76,3 @@ public:
 	Shader* getShader();
 	void draw(std::vector<glm::vec3>& positions);
 };
-
-#endif

@@ -40,11 +40,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>E:\glew-1.13.0\include;C:\DEV\SFML-2.3.2\include;$(IncludePath)</IncludePath>
+    <IncludePath>E:\glew-1.13.0\include;E:\glm;C:\DEV\SFML-2.3.2\include;$(IncludePath)</IncludePath>
     <LibraryPath>E:\glew-1.13.0\lib\Release\Win32;C:\DEV\SFML-2.3.2\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>E:\glew-1.13.0\include;C:\DEV\SFML-2.3.1\include;$(IncludePath)</IncludePath>
+    <IncludePath>E:\glew-1.13.0\include;E:\glm;C:\DEV\SFML-2.3.2\include;$(IncludePath)</IncludePath>
     <LibraryPath>E:\glew-1.13.0\lib\Release\Win32;C:\DEV\SFML-2.3.1\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -76,25 +76,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="block.cpp" />
-    <ClCompile Include="camera.cpp" />
-    <ClCompile Include="dirt.cpp" />
-    <ClCompile Include="game.cpp" />
-    <ClCompile Include="grass.cpp" />
+    <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Dirt.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Grass.cpp" />
     <ClCompile Include="helpers.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="shader.cpp" />
-    <ClCompile Include="texture.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="block.hpp" />
-    <ClInclude Include="camera.hpp" />
-    <ClInclude Include="dirt.hpp" />
-    <ClInclude Include="game.hpp" />
-    <ClInclude Include="grass.hpp" />
+    <ClInclude Include="Block.hpp" />
+    <ClInclude Include="Camera.hpp" />
+    <ClInclude Include="Dirt.hpp" />
+    <ClInclude Include="Game.hpp" />
+    <ClInclude Include="Grass.hpp" />
     <ClInclude Include="helpers.hpp" />
-    <ClInclude Include="shader.hpp" />
-    <ClInclude Include="texture.hpp" />
+    <ClInclude Include="Shader.hpp" />
+    <ClInclude Include="Texture.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\cube.frag" />

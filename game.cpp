@@ -1,11 +1,13 @@
 #include <map>
-#include <GL\glew.h>
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
-#include "game.hpp"
-#include "grass.hpp"
-#include "dirt.hpp"
+
+#include <GL/glew.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#include "Dirt.hpp"
+#include "Game.hpp"
+#include "Grass.hpp"
 
 glm::mat4 Game::getProjectionMatrix()
 {
@@ -13,8 +15,8 @@ glm::mat4 Game::getProjectionMatrix()
 	return glm::perspective(45.0f, (float)windowSize.x / (float)windowSize.y, 0.1f, 100.0f);
 }
 
-Game::Game(sf::Window* window)
-	: window_(window)
+Game::Game(sf::Window* window) :
+	window_(window)
 {
 	window_->setMouseCursorVisible(false);
 

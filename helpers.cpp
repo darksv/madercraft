@@ -1,3 +1,5 @@
+#include <fstream>
+
 #include "helpers.hpp"
 
 std::vector<char> getFileContent(std::string filePath)

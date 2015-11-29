@@ -1,5 +1,7 @@
-#include "texture.hpp"
+#include <GL/glew.h>
+
 #include "helpers.hpp"
+#include "Texture.hpp"
 
 Texture::Texture(std::string filePath)
 {

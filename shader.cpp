@@ -1,5 +1,7 @@
-#include "shader.hpp"
+#include <iostream>
+
 #include "helpers.hpp"
+#include "Shader.hpp"
 
 GLuint loadAndCompileShader(GLenum shaderType, std::string shaderSource)
 {
