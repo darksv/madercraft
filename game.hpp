@@ -19,7 +19,7 @@ protected:
 
 	bool isRunning_;
 
-	std::vector<BlockModel*> blocks_;
+	std::map<BlockKind, BlockModel*> blocks_;
 
 	bool isCursorPositionSet_ = false;
 	bool isCursorCenteringEnabled_ = true;
@@ -34,7 +34,7 @@ public:
 	void render();
 	void loop();
 
-	void drawChunk(Chunk &chunk, glm::vec3 position);
+	void drawChunk(Chunk &chunk, glm::vec3 chunkPosition);
 
 	sf::Vector2i getWindowCenterPosition();
 	void setCursorAtWindowCenter();

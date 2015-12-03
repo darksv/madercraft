@@ -9,7 +9,7 @@ Chunk World::generateChunk()
 		{
 			for (unsigned char z = 0; z < 32; ++z)
 			{
-				chunk.blocks[x][y][z] = (x + y + z) % 3;
+				chunk.blocks[x][y][z] = x + y + z ? BlockKind::GRASS : BlockKind::DIRT;
 			}
 		}
 	}
@@ -17,9 +17,9 @@ Chunk World::generateChunk()
 	return chunk;
 }
 
-std::map<size_t, std::vector<glm::vec3>> World::calculateBlocks(const Chunk& chunk, glm::vec3 position)
+std::map<BlockKind, std::vector<glm::vec3>> World::calculateBlocks(const Chunk& chunk, glm::vec3 position)
 {
-	std::map<size_t, std::vector<glm::vec3>> blockPositions;
+	std::map<BlockKind, std::vector<glm::vec3>> blockPositions;
 
 	for (int x = 0; x < 32; ++x)
 	{
@@ -29,10 +29,10 @@ std::map<size_t, std::vector<glm::vec3>> World::calculateBlocks(const Chunk& chu
 			{
 				auto kind = chunk.blocks[x][y][z];
 
-				if (kind == 0)
+				if (kind == BlockKind::NONE)
 					continue;
 
-				blockPositions[kind-1].push_back(position + glm::vec3(x, y, z));
+				blockPositions[kind].push_back(position + glm::vec3(x, y, z));
 			}
 		}
 	}

@@ -1,9 +1,9 @@
 #pragma once
 
-#include <cstdint>
+#include "BlockKind.hpp"
 
 struct Chunk
 {
 public:
-	std::uint8_t blocks[32][32][32];
+	BlockKind blocks[32][32][32];
 };

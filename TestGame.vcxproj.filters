@@ -89,6 +89,9 @@
     <ClInclude Include="BlockModel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BlockKind.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="textures\cube_bottom.raw">

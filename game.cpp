@@ -36,8 +36,8 @@ Game::Game(sf::Window* window) :
 	Texture *t3 = new Texture("textures\\cube_side.raw");
 	Shader *s1 = new Shader("shaders\\cube.vs", "shaders\\cube.frag");
 
-	blocks_.push_back((BlockModel*)new BlockGrass(t1, t2, t3, s1));
-	blocks_.push_back((BlockModel*)new BlockDirt(t2, t2, t3, s1));
+	blocks_[BlockKind::DIRT] = (BlockModel*)new BlockGrass(t1, t2, t3, s1);
+	blocks_[BlockKind::GRASS] = (BlockModel*)new BlockGrass(t2, t2, t3, s1);
 
 	chunk_ = world_.generateChunk();
 }
@@ -140,13 +140,16 @@ void Game::processEvents()
 		chunkPosition_.x++;
 }
 
-void Game::drawChunk(Chunk& chunk, glm::vec3 position)
+void Game::drawChunk(Chunk& chunk, glm::vec3 chunkPosition)
 {
 	auto positions = world_.calculateBlocks(chunk_, chunkPosition_);
 
-	for (size_t i = 0; i < blocks_.size(); ++i)
+	for (auto item : positions)
 	{
-		Shader* shader = blocks_[i]->getShader();
+		BlockKind blockKind = item.first;
+		auto blockPositions = item.second;
+		BlockModel* blockModel = blocks_[blockKind];
+		Shader* shader = blockModel->getShader();
 
 		GLint timeUniform = shader->getUniform("globalTime_");
 		glUniform1f(timeUniform, clock_.getElapsedTime().asSeconds());
@@ -157,7 +160,7 @@ void Game::drawChunk(Chunk& chunk, glm::vec3 position)
 		GLuint projectionUniform = shader->getUniform("projectionMatrix");
 		glUniformMatrix4fv(projectionUniform, 1, GL_FALSE, glm::value_ptr(getProjectionMatrix()));
 
-		blocks_[i]->draw(positions[i]);
+		blockModel->draw(blockPositions);
 	}
 }
 
