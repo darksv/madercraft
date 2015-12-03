@@ -80,7 +80,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Block.cpp" />
+    <ClCompile Include="BlockModel.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Dirt.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -92,7 +92,7 @@
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Block.hpp" />
+    <ClInclude Include="BlockModel.hpp" />
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="Chunk.hpp" />
     <ClInclude Include="Dirt.hpp" />

@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Block.hpp"
+#include "BlockModel.hpp"
 
 BlockModel::BlockModel(Texture* textureTop, Texture* textureBottom, Texture* textureSide, Shader* shader) :
 	textureTop_(textureTop),

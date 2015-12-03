@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Block.hpp"
+#include "BlockModel.hpp"
 
 class BlockDirt : BlockModel
 {

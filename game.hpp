@@ -2,7 +2,7 @@
 
 #include <SFML\Window.hpp>
 
-#include "Block.hpp"
+#include "BlockModel.hpp"
 #include "Camera.hpp"
 #include "Chunk.hpp"
 #include "World.hpp"
