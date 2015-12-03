@@ -27,7 +27,7 @@ std::map<size_t, std::vector<glm::vec3>> World::calculateBlocks(const Chunk& chu
 		{
 			for (int z = 0; z < 32; ++z)
 			{
-				unsigned char kind = chunk.blocks[x][y][z];
+				auto kind = chunk.blocks[x][y][z];
 
 				if (kind == 0)
 					continue;
