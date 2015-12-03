@@ -38,6 +38,8 @@ Game::Game(sf::Window* window) :
 
 	blocks_.push_back((BlockModel*)new BlockGrass(t1, t2, t3, s1));
 	blocks_.push_back((BlockModel*)new BlockDirt(t2, t2, t3, s1));
+
+	chunk_ = world_.generateChunk();
 }
 
 void Game::loop()
@@ -133,29 +135,14 @@ void Game::processEvents()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		camera_.moveUp();
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+		chunkPosition_.x++;
 }
 
 void Game::drawChunk(Chunk& chunk, glm::vec3 position)
 {
-	std::map<size_t, std::vector<glm::vec3>> positions;
-
-	for (int x = 0; x < 32; ++x)
-	{
-		for (int y = 0; y < 32; ++y)
-		{
-			for (int z = 0; z < 32; ++z)
-			{
-				if (x > 0 && x < 31 && y > 0 && y < 31 && z > 0 && z < 31)
-					continue;
-
-				bool kind = sqrt(pow(x - 15.5, 2) + pow(y - 15.5, 2)) > 16 ? 0 : 1;
-
-				positions[kind].push_back(position + glm::vec3(x, y, z + kind));
-			}
-		}
-	}
-
-	
+	auto positions = world_.calculateBlocks(chunk_, chunkPosition_);
 
 	for (size_t i = 0; i < blocks_.size(); ++i)
 	{

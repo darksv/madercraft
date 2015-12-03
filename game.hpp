@@ -4,14 +4,17 @@
 
 #include "Block.hpp"
 #include "Camera.hpp"
-
-struct Chunk {};
+#include "Chunk.hpp"
+#include "World.hpp"
 
 class Game
 {
 protected:
 	sf::Window* window_;
 	Camera camera_;
+	World world_;
+	Chunk chunk_;
+	glm::vec3 chunkPosition_;
 	sf::Clock clock_;
 
 	bool isRunning_;

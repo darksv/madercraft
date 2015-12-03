@@ -89,16 +89,19 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.hpp" />
     <ClInclude Include="Camera.hpp" />
+    <ClInclude Include="Chunk.hpp" />
     <ClInclude Include="Dirt.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="Grass.hpp" />
     <ClInclude Include="helpers.hpp" />
     <ClInclude Include="Shader.hpp" />
     <ClInclude Include="Texture.hpp" />
+    <ClInclude Include="World.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\cube.frag" />
