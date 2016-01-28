@@ -10,5 +10,5 @@ protected:
 	std::map<std::string, Texture*> loadedTextures_;
 
 public:
-	Texture * loadTexture(std::string file);
+	Texture * loadTexture(std::string filePath);
 };
