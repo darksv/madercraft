@@ -5,6 +5,7 @@
 #include "BlockModel.hpp"
 #include "Camera.hpp"
 #include "Chunk.hpp"
+#include "TextureManager.hpp"
 #include "World.hpp"
 
 class Game
@@ -16,6 +17,7 @@ protected:
 	Chunk chunk_;
 	glm::vec3 chunkPosition_;
 	sf::Clock clock_;
+	TextureManager textureManager_;
 
 	bool isRunning_;
 
