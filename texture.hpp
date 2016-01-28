@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include <GL/glew.h>
+
 class Texture
 {
 protected:
