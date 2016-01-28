@@ -1,0 +1,21 @@
+#pragma once
+
+#include <string>
+
+#include <GL/GLew.h>
+
+class Shader
+{
+protected:
+	std::string vertexShaderPath_;
+	std::string fragmentShaderPath_;
+	GLuint vertexShader_;
+	GLuint fragmentShader_;
+	GLuint program_;
+
+public:
+	Shader(std::string vertexShaderPath, std::string fragmentShaderPath);
+
+	GLuint getId();
+	GLint getUniform(const GLchar* name);
+};
