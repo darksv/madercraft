@@ -6,11 +6,11 @@
 
 #include "BlockModel.hpp"
 
-BlockModel::BlockModel(Texture* textureTop, Texture* textureBottom, Texture* textureSide, Shader* shader) :
+BlockModel::BlockModel(Texture* textureTop, Texture* textureBottom, Texture* textureSide, ShaderProgram* shaderProgram) :
 	textureTop_(textureTop),
 	textureBottom_(textureBottom),
 	textureSide_(textureSide),
-	shader_(shader)
+	shaderProgram_(shaderProgram)
 {
 	glGenVertexArrays(1, &vao_);
 	glBindVertexArray(vao_);
@@ -30,9 +30,9 @@ BlockModel::BlockModel(Texture* textureTop, Texture* textureBottom, Texture* tex
 	glBindVertexArray(0);
 }
 
-Shader* BlockModel::getShader()
+ShaderProgram* BlockModel::getShaderProgram()
 {
-	return shader_;
+	return shaderProgram_;
 }
 
 void BlockModel::draw(std::vector<glm::vec3>& positions)
@@ -47,7 +47,7 @@ void BlockModel::draw(std::vector<glm::vec3>& positions)
 		modelMatrices[i] = glm::translate(identityMatrix, positions[i]);
 
 	GLuint modelMatricesBuffer;
-	GLint modelAttrib = glGetAttribLocation(shader_->getId(), "modelMatrix");
+	GLint modelAttrib = glGetAttribLocation(shaderProgram_->getId(), "modelMatrix");
 
 	glBindVertexArray(vao_);
 
@@ -76,7 +76,7 @@ void BlockModel::draw(std::vector<glm::vec3>& positions)
 	glVertexAttribDivisor(modelAttrib + 2, 1);
 	glVertexAttribDivisor(modelAttrib + 3, 1);
 
-	glUseProgram(shader_->getId());
+	glUseProgram(shaderProgram_->getId());
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_);
 	{

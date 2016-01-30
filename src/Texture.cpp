@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include <GL/glew.h>
 
 #include "Texture.hpp"
@@ -40,6 +42,6 @@ GLuint Texture::getId()
 {
 	if (!loaded_)
 		loaded_ = loadToGpu();
-	
+
 	return textureId_;
 }

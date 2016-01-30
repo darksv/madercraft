@@ -4,18 +4,23 @@
 
 #include <GL/GLew.h>
 
+enum class ShaderType {
+	VERTEX_SHADER,
+	FRAGMENT_SHADER
+};
+
 class Shader
 {
 protected:
-	std::string vertexShaderPath_;
-	std::string fragmentShaderPath_;
-	GLuint vertexShader_;
-	GLuint fragmentShader_;
-	GLuint program_;
+	ShaderType type_;
+	std::string filePath_;
+	std::string source_;
+	GLuint shaderId_;
+	bool isCompiled_;
 
 public:
-	Shader(std::string vertexShaderPath, std::string fragmentShaderPath);
+	Shader(ShaderType type, std::string filePath);
 
 	GLuint getId();
-	GLint getUniform(const GLchar* name);
+	bool compile();
 };

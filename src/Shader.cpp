@@ -3,57 +3,48 @@
 #include "helpers.hpp"
 #include "Shader.hpp"
 
-GLuint loadAndCompileShader(GLenum shaderType, std::string shaderSource)
+Shader::Shader(ShaderType type, std::string filePath) :
+	type_(type), filePath_(filePath)
 {
-	GLuint shader = glCreateShader(shaderType);
-
-	const GLchar * source = shaderSource.c_str();
-
-	glShaderSource(shader, 1, &source, NULL);
-	glCompileShader(shader);
-
-	GLint success;
-	GLchar infoLog[512];
-
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(shader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-
-	return shader;
-}
-
-
-Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath) :
-	vertexShaderPath_(vertexShaderPath),
-	fragmentShaderPath_(fragmentShaderPath)
-{
-	auto vertexShaderData = getFileContent(vertexShaderPath_);
-	auto fragmentShaderData = getFileContent(fragmentShaderPath_);
-	std::string vertexShaderSource(vertexShaderData.begin(), vertexShaderData.end());
-	std::string fragmentShaderSource(fragmentShaderData.begin(), fragmentShaderData.end());
-
-	vertexShader_ = loadAndCompileShader(GL_VERTEX_SHADER, vertexShaderSource);
-	fragmentShader_ = loadAndCompileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
-
-	program_ = glCreateProgram();
-	glAttachShader(program_, vertexShader_);
-	glAttachShader(program_, fragmentShader_);
-	glLinkProgram(program_);
-
-	glDeleteShader(vertexShader_);
-	glDeleteShader(fragmentShader_);
+	auto shaderSource = getFileContent(filePath);
+	source_ = std::string(shaderSource.begin(), shaderSource.end());
 }
 
 GLuint Shader::getId()
 {
-	return program_;
+	return shaderId_;
 }
 
-GLint Shader::getUniform(const GLchar* name)
+bool Shader::compile()
 {
-	return glGetUniformLocation(program_, name);
+	if (isCompiled_)
+		return true;
+
+	GLenum shaderType;
+	switch (type_)
+	{
+	case ShaderType::FRAGMENT_SHADER:
+		shaderType = GL_FRAGMENT_SHADER;
+		break;
+	case ShaderType::VERTEX_SHADER:
+		shaderType = GL_VERTEX_SHADER;
+		break;
+	}
+
+	shaderId_ = glCreateShader(shaderType);
+
+	const GLchar* source = source_.c_str();
+	GLint length = source_.size();
+
+	glShaderSource(shaderId_, 1, &source, &length);
+	glCompileShader(shaderId_);
+
+	GLint success = 0;
+	glGetShaderiv(shaderId_, GL_COMPILE_STATUS, &success);
+
+	if (success)
+		isCompiled_ = true;
+
+	return success;
 }
 

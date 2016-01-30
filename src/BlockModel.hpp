@@ -5,7 +5,7 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
-#include "Shader.hpp"
+#include "ShaderProgram.hpp"
 #include "Texture.hpp"
 
 struct BlockModel
@@ -65,14 +65,14 @@ protected:
 	Texture* textureBottom_;
 	Texture* textureSide_;
 
-	Shader* shader_;
+	ShaderProgram* shaderProgram_;
 
 	GLuint vao_, vbo_;
 
 public:
-	BlockModel(Texture* textureTop, Texture* textureBottom, Texture* textureSide, Shader* shader);
+	BlockModel(Texture* textureTop, Texture* textureBottom, Texture* textureSide, ShaderProgram* shaderProgram);
 	BlockModel(const BlockModel&) = delete;
 
-	Shader* getShader();
+	ShaderProgram* getShaderProgram();
 	void draw(std::vector<glm::vec3>& positions);
 };

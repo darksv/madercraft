@@ -9,6 +9,7 @@
 #include "Dirt.hpp"
 #include "Game.hpp"
 #include "Grass.hpp"
+#include "ShaderProgram.hpp"
 
 glm::mat4 Game::getProjectionMatrix()
 {
@@ -34,10 +35,14 @@ Game::Game(sf::Window* window) :
 	Texture *t1 = textureManager_.loadTexture("textures\\cube_top.raw");
 	Texture *t2 = textureManager_.loadTexture("textures\\cube_bottom.raw");
 	Texture *t3 = textureManager_.loadTexture("textures\\cube_side.raw");
-	Shader *s1 = new Shader("shaders\\cube.vs", "shaders\\cube.frag");
 
-	blocks_[BlockKind::DIRT] = (BlockModel*)new BlockGrass(t1, t2, t3, s1);
-	blocks_[BlockKind::GRASS] = (BlockModel*)new BlockGrass(t2, t2, t3, s1);
+	ShaderProgram* s = new ShaderProgram();
+	s->addShader(new Shader(ShaderType::VERTEX_SHADER, "shaders\\cube.vs"));
+	s->addShader(new Shader(ShaderType::FRAGMENT_SHADER, "shaders\\cube.frag"));
+	s->compile();
+
+	blocks_[BlockKind::DIRT] = (BlockModel*)new BlockGrass(t1, t2, t3, s);
+	blocks_[BlockKind::GRASS] = (BlockModel*)new BlockGrass(t2, t2, t3, s);
 
 	chunk_ = world_.generateChunk();
 }
@@ -149,7 +154,7 @@ void Game::drawChunk(Chunk& chunk, glm::vec3 chunkPosition)
 		BlockKind blockKind = item.first;
 		auto blockPositions = item.second;
 		BlockModel* blockModel = blocks_[blockKind];
-		Shader* shader = blockModel->getShader();
+		ShaderProgram* shader = blockModel->getShaderProgram();
 
 		GLint timeUniform = shader->getUniform("globalTime_");
 		glUniform1f(timeUniform, clock_.getElapsedTime().asSeconds());
@@ -170,7 +175,7 @@ void Game::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	drawChunk(Chunk(), glm::vec3(0.0f, 0.0f, 0.0f));
-
+	
 	window_->display();
 }
 

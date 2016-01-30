@@ -76,6 +76,8 @@
     <LibraryPath>E:\Biblioteki\glew-1.13.0\lib\Release\Win32;C:\DEV\SFML-2.3.2\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <SourcePath>$(VC_SourcePath)\src;</SourcePath>
+    <ExcludePath>$(VC_IncludePath)\src;$(WindowsSDK_IncludePath);$(MSBuild_ExecutablePath);$(VC_LibraryPath_x86);</ExcludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>E:\Biblioteki\glew-1.13.0\include;E:\Biblioteki\glm;C:\DEV\SFML-2.3.2\include;$(IncludePath)</IncludePath>
@@ -86,6 +88,8 @@
     <LibraryPath>E:\Biblioteki\glew-1.13.0\lib\Release\Win32;C:\DEV\SFML-2.3.2\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <SourcePath>$(VC_SourcePath)\src;</SourcePath>
+    <ExcludePath>$(VC_IncludePath)\src;$(WindowsSDK_IncludePath);$(MSBuild_ExecutablePath);$(VC_LibraryPath_x86);</ExcludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -152,38 +156,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BlockModel.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Dirt.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Grass.cpp" />
-    <ClCompile Include="helpers.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="TextureManager.cpp" />
-    <ClCompile Include="World.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="BlockKind.hpp" />
-    <ClInclude Include="BlockModel.hpp" />
-    <ClInclude Include="Camera.hpp" />
-    <ClInclude Include="Chunk.hpp" />
-    <ClInclude Include="Dirt.hpp" />
-    <ClInclude Include="Game.hpp" />
-    <ClInclude Include="Grass.hpp" />
-    <ClInclude Include="helpers.hpp" />
-    <ClInclude Include="Shader.hpp" />
-    <ClInclude Include="Texture.hpp" />
-    <ClInclude Include="TextureManager.hpp" />
-    <ClInclude Include="World.hpp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="shaders\cube.frag" />
     <None Include="shaders\cube.vs" />
     <None Include="textures\cube_bottom.raw" />
     <None Include="textures\cube_side.raw" />
     <None Include="textures\cube_top.raw" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\BlockKind.hpp" />
+    <ClInclude Include="src\BlockModel.hpp" />
+    <ClInclude Include="src\Camera.hpp" />
+    <ClInclude Include="src\Chunk.hpp" />
+    <ClInclude Include="src\Dirt.hpp" />
+    <ClInclude Include="src\Game.hpp" />
+    <ClInclude Include="src\Grass.hpp" />
+    <ClInclude Include="src\helpers.hpp" />
+    <ClInclude Include="src\Shader.hpp" />
+    <ClInclude Include="src\ShaderProgram.hpp" />
+    <ClInclude Include="src\Texture.hpp" />
+    <ClInclude Include="src\TextureManager.hpp" />
+    <ClInclude Include="src\World.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\BlockModel.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\Dirt.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\Grass.cpp" />
+    <ClCompile Include="src\helpers.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\ShaderProgram.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\TextureManager.cpp" />
+    <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
