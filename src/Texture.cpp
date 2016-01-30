@@ -4,12 +4,12 @@
 
 #include "Texture.hpp"
 
-Texture::Texture(TextureType type, TextureFormat format, const std::vector<char>& data) :
+Texture::Texture(TextureType type, TexturePixelFormat pixelFormat, const std::vector<char>& data) :
 	type_(type),
-	format_(format),
+	pixelFormat_(pixelFormat),
 	data_(data)
 {
-	if (format == TextureFormat::TEXTURE_RGB)
+	if (pixelFormat == TexturePixelFormat::TEXTURE_RGB)
 	{
 		size_t dimension = std::sqrt(data.size() / 3);
 
@@ -20,9 +20,9 @@ Texture::Texture(TextureType type, TextureFormat format, const std::vector<char>
 	}
 }
 
-Texture::Texture(TextureType type, TextureFormat format, size_t width, size_t height, const std::vector<char>& data) :
+Texture::Texture(TextureType type, TexturePixelFormat pixelFormat, size_t width, size_t height, const std::vector<char>& data) :
 	type_(type),
-	format_(format),
+	pixelFormat_(pixelFormat_),
 	width_(width),
 	height_(height),
 	data_(data)
