@@ -1,5 +1,6 @@
 #pragma once
 
+#include <list>
 #include <vector>
 
 #include "Shader.hpp"
@@ -7,7 +8,8 @@
 class ShaderProgram
 {
 protected:
-	std::vector <Shader*> shaders_;
+	//std::vector <Shader*> shaders_;
+	std::list<Shader> shaders_;
 	GLuint programId_;
 	bool isCompiled_;
 
@@ -19,5 +21,6 @@ public:
 	GLint getUniform(const GLchar* name);
 
 	void addShaderFromFile(ShaderType type, std::string filePath);
+	bool compileShaders();
 	bool compile();
 };

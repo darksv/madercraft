@@ -20,7 +20,12 @@ GLint ShaderProgram::getUniform(const GLchar* name)
 
 void ShaderProgram::addShaderFromFile(ShaderType type, std::string filePath)
 {
-	shaders_.push_back(new Shader(type, filePath));
+	shaders_.emplace_back(type, filePath);
+}
+
+bool ShaderProgram::compileShaders()
+{
+	// TODO write here something...
 }
 
 bool ShaderProgram::compile()
@@ -31,12 +36,12 @@ bool ShaderProgram::compile()
 
 		programId_ = glCreateProgram();
 
-		for (Shader* shader : shaders_)
+		for (Shader& shader : shaders_)
 		{
-			if (shader->compile())
+			if (shader.compile())
 			{
-				std::cout << "Compiled shader " << shader->getId() << std::endl;
-				glAttachShader(programId_, shader->getId());
+				std::cout << "Compiled shader " << shader.getId() << std::endl;
+				glAttachShader(programId_, shader.getId());
 			}
 			else
 			{
