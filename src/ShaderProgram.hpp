@@ -21,6 +21,6 @@ public:
 	GLint getUniform(const GLchar* name);
 
 	void addShaderFromFile(ShaderType type, std::string filePath);
-	bool compileShaders();
+	bool compileShader(Shader& shader);
 	bool compile();
 };

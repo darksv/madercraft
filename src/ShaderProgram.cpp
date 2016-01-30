@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "helpers.hpp"
 #include "ShaderProgram.hpp"
 
 ShaderProgram::ShaderProgram() :
@@ -23,9 +24,37 @@ void ShaderProgram::addShaderFromFile(ShaderType type, std::string filePath)
 	shaders_.emplace_back(type, filePath);
 }
 
-bool ShaderProgram::compileShaders()
+bool ShaderProgram::compileShader(Shader& shader)
 {
-	// TODO write here something...
+	GLenum shaderType;
+	switch (shader.type_)
+	{
+	case ShaderType::FRAGMENT_SHADER:
+		shaderType = GL_FRAGMENT_SHADER;
+		break;
+	case ShaderType::VERTEX_SHADER:
+		shaderType = GL_VERTEX_SHADER;
+		break;
+	}
+
+	shader.shaderId_ = glCreateShader(shaderType);
+
+	auto shaderSource = getFileContent(shader.filePath_);
+	shader.source_ = std::string(shaderSource.begin(), shaderSource.end());
+
+	const GLchar* source = shader.source_.c_str();
+	GLint length = shader.source_.size();
+
+	glShaderSource(shader.shaderId_, 1, &source, &length);
+	glCompileShader(shader.shaderId_);
+
+	GLint success = 0;
+	glGetShaderiv(shader.shaderId_, GL_COMPILE_STATUS, &success);
+
+	if (success)
+		isCompiled_ = true;
+
+	return success;
 }
 
 bool ShaderProgram::compile()
@@ -38,7 +67,7 @@ bool ShaderProgram::compile()
 
 		for (Shader& shader : shaders_)
 		{
-			if (shader.compile())
+			if (compileShader(shader))
 			{
 				std::cout << "Compiled shader " << shader.getId() << std::endl;
 				glAttachShader(programId_, shader.getId());

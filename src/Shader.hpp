@@ -11,6 +11,8 @@ enum class ShaderType {
 
 class Shader
 {
+	friend class ShaderProgram;
+
 protected:
 	ShaderType type_;
 	std::string filePath_;
@@ -23,5 +25,5 @@ public:
 	Shader(const Shader& shader) = delete;
 
 	GLuint getId();
-	bool compile();
+	ShaderType getType();
 };
