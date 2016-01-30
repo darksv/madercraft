@@ -12,6 +12,8 @@ protected:
 	bool isCompiled_;
 
 public:
+	ShaderProgram(const ShaderProgram& shaderProgram) = delete;
+
 	GLuint getId();
 	GLint getUniform(const GLchar* name);
 

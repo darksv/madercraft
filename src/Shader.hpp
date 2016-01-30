@@ -20,6 +20,7 @@ protected:
 
 public:
 	Shader(ShaderType type, std::string filePath);
+	Shader(const Shader& shader) = delete;
 
 	GLuint getId();
 	bool compile();

@@ -28,6 +28,7 @@ protected:
 public:
 	Texture(TextureType type, TextureFormat format, const std::vector<char> &data);
 	Texture(TextureType type, TextureFormat format, size_t width, size_t height, const std::vector<char> &data);
+	Texture(const Texture& texture) = delete;
 
 	bool loadToGpu();
 	GLuint getId();
