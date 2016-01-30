@@ -18,9 +18,9 @@ GLint ShaderProgram::getUniform(const GLchar* name)
 	return glGetUniformLocation(programId_, name);
 }
 
-void ShaderProgram::addShader(Shader* shader)
+void ShaderProgram::addShaderFromFile(ShaderType type, std::string filePath)
 {
-	shaders_.push_back(shader);
+	shaders_.push_back(new Shader(type, filePath));
 }
 
 bool ShaderProgram::compile()

@@ -37,8 +37,8 @@ Game::Game(sf::Window* window) :
 	Texture* t3 = textureManager_.loadTextureFromFile("textures\\cube_side.raw");
 
 	ShaderProgram* s = new ShaderProgram();
-	s->addShader(new Shader(ShaderType::VERTEX_SHADER, "shaders\\cube.vs"));
-	s->addShader(new Shader(ShaderType::FRAGMENT_SHADER, "shaders\\cube.frag"));
+	s->addShaderFromFile(ShaderType::VERTEX_SHADER, "shaders\\cube.vs");
+	s->addShaderFromFile(ShaderType::FRAGMENT_SHADER, "shaders\\cube.frag");
 	s->compile();
 
 	blocks_[BlockKind::DIRT] = (BlockModel*)new BlockGrass(t1, t2, t3, s);

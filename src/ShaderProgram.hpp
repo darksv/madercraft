@@ -18,6 +18,6 @@ public:
 	GLuint getId();
 	GLint getUniform(const GLchar* name);
 
-	void addShader(Shader* shader);
+	void addShaderFromFile(ShaderType type, std::string filePath);
 	bool compile();
 };
