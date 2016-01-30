@@ -12,7 +12,7 @@ protected:
 	bool isCompiled_;
 
 public:
-	ShaderProgram() {};
+	ShaderProgram();
 	ShaderProgram(const ShaderProgram& shaderProgram) = delete;
 
 	GLuint getId();

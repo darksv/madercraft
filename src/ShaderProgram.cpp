@@ -2,6 +2,12 @@
 
 #include "ShaderProgram.hpp"
 
+ShaderProgram::ShaderProgram() :
+	isCompiled_(false)
+{
+
+}
+
 GLuint ShaderProgram::getId()
 {
 	return programId_;

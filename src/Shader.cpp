@@ -5,7 +5,8 @@
 
 Shader::Shader(ShaderType type, std::string filePath) :
 	type_(type),
-	filePath_(filePath)
+	filePath_(filePath),
+	isCompiled_(false)
 {
 	auto shaderSource = getFileContent(filePath);
 	source_ = std::string(shaderSource.begin(), shaderSource.end());
