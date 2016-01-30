@@ -4,7 +4,8 @@
 #include "Shader.hpp"
 
 Shader::Shader(ShaderType type, std::string filePath) :
-	type_(type), filePath_(filePath)
+	type_(type),
+	filePath_(filePath)
 {
 	auto shaderSource = getFileContent(filePath);
 	source_ = std::string(shaderSource.begin(), shaderSource.end());

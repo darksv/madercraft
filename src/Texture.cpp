@@ -4,8 +4,10 @@
 
 #include "Texture.hpp"
 
-Texture::Texture(TextureType type, TextureFormat format, const std::vector<char>& data)
-	: type_(type), format_(format), data_(data)
+Texture::Texture(TextureType type, TextureFormat format, const std::vector<char>& data) :
+	type_(type),
+	format_(format),
+	data_(data)
 {
 	if (format == TextureFormat::TEXTURE_RGB)
 	{
@@ -18,8 +20,12 @@ Texture::Texture(TextureType type, TextureFormat format, const std::vector<char>
 	}
 }
 
-Texture::Texture(TextureType type, TextureFormat format, size_t width, size_t height, const std::vector<char>& data)
-	: type_(type), format_(format), width_(width), height_(height), data_(data)
+Texture::Texture(TextureType type, TextureFormat format, size_t width, size_t height, const std::vector<char>& data) :
+	type_(type),
+	format_(format),
+	width_(width),
+	height_(height),
+	data_(data)
 {
 	
 }
