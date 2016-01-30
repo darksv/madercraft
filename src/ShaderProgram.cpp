@@ -39,20 +39,24 @@ bool ShaderProgram::compileShader(Shader& shader)
 
 	shader.shaderId_ = glCreateShader(shaderType);
 
-	auto shaderSource = getFileContent(shader.filePath_);
-	shader.source_ = std::string(shaderSource.begin(), shaderSource.end());
+	if (shader.isFromFile_)
+	{
+		auto fileContent = getFileContent(shader.filePath_);
+		std::string shaderSource(fileContent.begin(), fileContent.end());
 
-	const GLchar* source = shader.source_.c_str();
-	GLint length = shader.source_.size();
+		const GLchar* source = shaderSource.c_str();
+		GLint length = shaderSource.size();
 
-	glShaderSource(shader.shaderId_, 1, &source, &length);
+		glShaderSource(shader.shaderId_, 1, &source, &length);
+	}
+
 	glCompileShader(shader.shaderId_);
 
 	GLint success = 0;
 	glGetShaderiv(shader.shaderId_, GL_COMPILE_STATUS, &success);
 
 	if (success)
-		isCompiled_ = true;
+		shader.isCompiled_ = true;
 
 	return success;
 }

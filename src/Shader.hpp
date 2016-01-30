@@ -16,7 +16,8 @@ class Shader
 protected:
 	ShaderType type_;
 	std::string filePath_;
-	std::string source_;
+	bool isFromFile_;
+
 	GLuint shaderId_;
 	bool isCompiled_;
 

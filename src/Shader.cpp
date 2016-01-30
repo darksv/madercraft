@@ -5,6 +5,7 @@
 Shader::Shader(ShaderType type, std::string filePath) :
 	type_(type),
 	filePath_(filePath),
+	isFromFile_(true),
 	isCompiled_(false)
 {
 	
