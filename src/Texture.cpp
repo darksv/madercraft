@@ -9,15 +9,16 @@ Texture::Texture(TextureType type, TexturePixelFormat pixelFormat, const std::ve
 	pixelFormat_(pixelFormat),
 	data_(data)
 {
+	size_t bytesPerPixel, pixelCount, dimension;
 	if (pixelFormat == TexturePixelFormat::TEXTURE_RGB)
-	{
-		size_t dimension = std::sqrt(data.size() / 3);
+		bytesPerPixel = 3;
 
-		if (dimension * dimension == data.size() / 3)
-		{
-			width_ = height_ = dimension;
-		}
-	}
+	pixelCount = data.size() / bytesPerPixel;
+
+	dimension = std::sqrt(pixelCount);
+	// detect square texture
+	if (dimension * dimension == pixelCount)
+		width_ = height_ = dimension;
 }
 
 Texture::Texture(TextureType type, TexturePixelFormat pixelFormat, size_t width, size_t height, const std::vector<char>& data) :
