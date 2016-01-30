@@ -39,15 +39,18 @@ bool Texture::loadToGpu()
 	glGenerateMipmap(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	loaded_ = true;
+	GLboolean isLoaded;
+	glAreTexturesResident(1, &textureId_, &isLoaded);
 
-	return true;
+	loaded_ = isLoaded;
+
+	return isLoaded;
 }
 
 GLuint Texture::getId()
 {
 	if (!loaded_)
-		loaded_ = loadToGpu();
+		loadToGpu();
 
 	return textureId_;
 }
