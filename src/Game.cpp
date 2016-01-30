@@ -121,8 +121,6 @@ void Game::processEvents()
 		previousCursorPosition_.y = centerPosition.y;
 	}
 
-	GLfloat cameraSpeed = 0.65f;
-
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		camera_.moveForward();
 
