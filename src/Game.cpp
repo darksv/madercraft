@@ -32,9 +32,9 @@ Game::Game(sf::Window* window) :
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CW);
 
-	Texture *t1 = textureManager_.loadTexture("textures\\cube_top.raw");
-	Texture *t2 = textureManager_.loadTexture("textures\\cube_bottom.raw");
-	Texture *t3 = textureManager_.loadTexture("textures\\cube_side.raw");
+	Texture* t1 = textureManager_.loadTexture("textures\\cube_top.raw");
+	Texture* t2 = textureManager_.loadTexture("textures\\cube_bottom.raw");
+	Texture* t3 = textureManager_.loadTexture("textures\\cube_side.raw");
 
 	ShaderProgram* s = new ShaderProgram();
 	s->addShader(new Shader(ShaderType::VERTEX_SHADER, "shaders\\cube.vs"));
