@@ -1,7 +1,7 @@
 #include "helpers.hpp"
 #include "TextureManager.hpp"
 
-Texture * TextureManager::loadTexture(std::string filePath)
+Texture* TextureManager::loadTextureFromFile(std::string filePath)
 {
 	for (auto pair : loadedTextures_)
 		if (pair.first == filePath)
