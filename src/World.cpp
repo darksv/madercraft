@@ -39,3 +39,9 @@ std::map<BlockKind, std::vector<glm::vec3>> World::translateChunkBlocks(const Ch
 
 	return blockPositions;
 }
+
+glm::uvec3 World::getChunkPositionByBlock(glm::uvec3 blockPosition)
+{
+	// TODO make it work...
+	return glm::uvec3(0, 0, 0);
+}
