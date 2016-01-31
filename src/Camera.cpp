@@ -47,6 +47,11 @@ glm::mat4 Camera::getViewMatrix()
 	return glm::lookAt(cameraPosition_, cameraPosition_ + cameraFront_, cameraUp_);
 }
 
+glm::vec3 Camera::getDirection()
+{
+	return glm::vec3(cameraFront_.x, cameraFront_.y, cameraFront_.z);
+}
+
 void Camera::rotate(GLfloat offsetX, GLfloat offsetY)
 {
 	yaw_ -= offsetX;

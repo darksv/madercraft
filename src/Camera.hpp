@@ -24,5 +24,6 @@ public:
 	void moveDown();
 
 	glm::mat4 getViewMatrix();
+	glm::vec3 getDirection();
 	void rotate(GLfloat offsetX, GLfloat offsetY);
 };
