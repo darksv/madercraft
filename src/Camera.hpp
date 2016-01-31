@@ -11,7 +11,7 @@ protected:
 	glm::vec3 cameraFront_;
 	glm::vec3 cameraUp_;
 
-	float pitch_ = 0.0f, yaw_ = 0.0f, roll_ = 0.0f;
+	float pitch_, yaw_, roll_;
 
 public:
 	Camera();

@@ -4,12 +4,16 @@
 
 #include "Camera.hpp"
 
-Camera::Camera()
+Camera::Camera() :
+	pitch_(0.0f),
+	roll_(0.0f),
+	yaw_(0.0f),
+	cameraSpeed_(0.65f),
+	cameraPosition_(0.0f, 0.0f, 30.0f),
+	cameraFront_(0.0f, 0.0f, 1.0f),
+	cameraUp_(0.0f, 0.0f, 1.0f)
 {
-	cameraSpeed_    = 0.65f;
-	cameraPosition_ = glm::vec3(0.0f, 0.0f, 30.0f);
-	cameraFront_    = glm::vec3(0.0f, 0.0f, 1.0f);
-	cameraUp_       = glm::vec3(0.0f, 0.0f, 1.0f);
+
 }
 
 void Camera::moveForward()
