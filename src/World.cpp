@@ -17,7 +17,7 @@ Chunk World::generateChunk()
 	return chunk;
 }
 
-std::map<BlockKind, std::vector<glm::vec3>> World::calculateBlocks(const Chunk& chunk, glm::vec3 position)
+std::map<BlockKind, std::vector<glm::vec3>> World::translateChunkBlocks(const Chunk& chunk, glm::vec3 offset)
 {
 	std::map<BlockKind, std::vector<glm::vec3>> blockPositions;
 
@@ -32,7 +32,7 @@ std::map<BlockKind, std::vector<glm::vec3>> World::calculateBlocks(const Chunk& 
 				if (kind == BlockKind::NONE)
 					continue;
 
-				blockPositions[kind].push_back(position + glm::vec3(x, y, z));
+				blockPositions[kind].push_back(offset + glm::vec3(x, y, z));
 			}
 		}
 	}

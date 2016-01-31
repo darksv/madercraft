@@ -145,7 +145,7 @@ void Game::processEvents()
 
 void Game::drawChunk(Chunk& chunk, glm::vec3 chunkPosition)
 {
-	auto positions = world_.calculateBlocks(chunk_, chunkPosition_);
+	auto positions = world_.translateChunkBlocks(chunk_, chunkPosition_);
 
 	for (auto item : positions)
 	{
