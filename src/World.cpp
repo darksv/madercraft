@@ -63,6 +63,28 @@ glm::ivec3 World::getChunkPositionByBlock(glm::ivec3 blockPosition)
 	return chunkPosition;
 }
 
+glm::ivec3 World::getBlockByPosition(glm::vec3 blockPosition)
+{
+	glm::ivec3 blockPositionConverted;
+
+	if (blockPosition.x >= 0)
+		blockPositionConverted.x = ceil(blockPosition.x);
+	else
+		blockPositionConverted.x = floor(blockPosition.x);
+
+	if (blockPosition.y >= 0)
+		blockPositionConverted.y = ceil(blockPosition.y);
+	else
+		blockPositionConverted.y = floor(blockPosition.y);
+
+	if (blockPosition.z >= 0)
+		blockPositionConverted.z = ceil(blockPosition.z);
+	else
+		blockPositionConverted.z = floor(blockPosition.z);
+
+	return blockPositionConverted;
+}
+
 glm::ivec3 World::getBlockIntersectedByLine(glm::vec3 direction)
 {
 	return glm::ivec3();
