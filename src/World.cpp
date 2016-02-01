@@ -11,7 +11,7 @@ Chunk World::generateChunk(glm::ivec3 position)
 		{
 			for (unsigned char z = 0; z < CHUNK_SIZE; ++z)
 			{
-				chunk.blocks[x][y][z] = (rand() % 10) < 3 ? BlockKind::GRASS : BlockKind::DIRT;
+				chunk.blocks[x][y][z] = BlockKind::NONE;
 			}
 		}
 	}
@@ -40,6 +40,23 @@ std::map<BlockKind, std::vector<glm::vec3>> World::translateChunkBlocks(const Ch
 	}
 
 	return blockPositions;
+}
+
+bool World::putBlockAt(BlockKind kind, glm::ivec3 position)
+{
+	auto chunkPosition = getChunkPositionByBlock(position);
+	auto blockOffsetInChunk = getBlockPositionInChunk(position);
+
+	for (Chunk& chunk : chunks_)
+	{
+		if (chunkPosition == chunk.position)
+		{
+			chunk.blocks[blockOffsetInChunk.x][blockOffsetInChunk.y][blockOffsetInChunk.z] = kind;
+			return true;
+		}
+	}
+
+	return false;
 }
 
 glm::ivec3 World::getChunkPositionByBlock(glm::ivec3 blockPosition)

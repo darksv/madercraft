@@ -19,6 +19,8 @@ public:
 	Chunk generateChunk(glm::ivec3 position);
 	std::map<BlockKind, std::vector<glm::vec3>> translateChunkBlocks(const Chunk& chunk);
 
+	bool putBlockAt(BlockKind kind, glm::ivec3 position);
+
 	glm::ivec3 getChunkPositionByBlock(glm::ivec3 blockPosition);
 	glm::uvec3 getBlockPositionInChunk(glm::ivec3 blockPosition);
 	glm::ivec3 getBlockByPosition(glm::vec3 blockPosition);
