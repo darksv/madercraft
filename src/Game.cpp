@@ -66,6 +66,7 @@ void Game::loop()
 		auto cameraDirection = camera_.getDirection();
 		auto cameraPosition = camera_.getPosition();
 		auto currentBlockPosition = world_.getBlockByPosition(camera_.getPosition());
+		auto currentChunkPosition = world_.getChunkPositionByBlock(currentBlockPosition);
 
 		std::cout << "\r";
 		std::cout << fps << "fps";
@@ -73,6 +74,8 @@ void Game::loop()
 		std::cout << "(" << cameraPosition.x << ", " << cameraPosition.y << ", " << cameraPosition.z << ")";
 		std::cout << " ";
 		std::cout << "(" << currentBlockPosition.x << ", " << currentBlockPosition.y << ", " << currentBlockPosition.z << ")";
+		std::cout << " ";
+		std::cout << "(" << currentChunkPosition.x << ", " << currentChunkPosition.y << ", " << currentChunkPosition.z << ")";
 		std::cout << " ";
 		std::cout << "(" << cameraDirection.x << ", " << cameraDirection.y << ", " << cameraDirection.z << ")";
 		
