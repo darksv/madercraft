@@ -40,10 +40,27 @@ std::map<BlockKind, std::vector<glm::vec3>> World::translateChunkBlocks(const Ch
 	return blockPositions;
 }
 
-glm::uvec3 World::getChunkPositionByBlock(glm::uvec3 blockPosition)
+glm::ivec3 World::getChunkPositionByBlock(glm::ivec3 blockPosition)
 {
-	// TODO make it work...
-	return glm::uvec3(0, 0, 0);
+	glm::ivec3 chunkPosition;
+
+	if (blockPosition.x >= 0)
+		chunkPosition.x = blockPosition.x / 32;
+	else
+		chunkPosition.x = (blockPosition.x + 1) / 32 - 1;
+
+	if (blockPosition.y >= 0)
+		chunkPosition.y = blockPosition.y / 32;
+	else
+		chunkPosition.y = (blockPosition.y + 1) / 32 - 1;
+
+	if (blockPosition.z >= 0)
+		chunkPosition.z = blockPosition.z / 32;
+	else
+		chunkPosition.z = (blockPosition.z + 1) / 32 - 1;
+	
+
+	return chunkPosition;
 }
 
 glm::ivec3 World::getBlockIntersectedByLine(glm::vec3 direction)
