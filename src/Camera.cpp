@@ -56,6 +56,11 @@ glm::vec3 Camera::getDirection()
 	return glm::vec3(cameraFront_.x, cameraFront_.y, cameraFront_.z);
 }
 
+glm::vec3 Camera::getPosition()
+{
+	return cameraPosition_;
+}
+
 void Camera::rotate(GLfloat offsetX, GLfloat offsetY)
 {
 	yaw_ -= offsetX;
@@ -73,6 +78,4 @@ void Camera::rotate(GLfloat offsetX, GLfloat offsetY)
 	front.y = cos(glm::radians(pitch_)) * sin(glm::radians(yaw_));
 
 	cameraFront_ = glm::normalize(front);
-
-	std::cout << "cameraDirection: " << cameraFront_.x << ", " << cameraFront_.y << ", " << cameraFront_.z << std::endl;
 }

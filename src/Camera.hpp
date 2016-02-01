@@ -25,5 +25,6 @@ public:
 
 	glm::mat4 getViewMatrix();
 	glm::vec3 getDirection();
+	glm::vec3 getPosition();
 	void rotate(GLfloat offsetX, GLfloat offsetY);
 };

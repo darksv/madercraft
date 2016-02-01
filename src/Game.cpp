@@ -63,7 +63,15 @@ void Game::loop()
 
 		unsigned int fps = (unsigned int)(1.0 / (timeEnd - timeStart).asSeconds());
 
-		std::cout << fps << "fps" << std::endl;
+		auto cameraDirection = camera_.getDirection();
+		auto cameraPosition = camera_.getPosition();
+
+		std::cout << "\r";
+		std::cout << fps << "fps";
+		std::cout << " ";
+		std::cout << "(" << cameraDirection.x << ", " << cameraDirection.y << ", " << cameraDirection.z << ")";
+		std::cout << " ";
+		std::cout << "(" << cameraPosition.x << ", " << cameraPosition.y << ", " << cameraPosition.z << ")";
 	}
 }
 
