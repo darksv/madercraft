@@ -102,3 +102,12 @@ glm::ivec3 World::getBlockIntersectedByLine(glm::vec3 direction, glm::vec3 offse
 
 	return v;
 }
+
+BlockKind World::getBlockKind(glm::ivec3 position)
+{
+	glm::ivec3 chunkPosition = getChunkPositionByBlock(position);
+
+	// TODO complete this...
+
+	return BlockKind();
+}

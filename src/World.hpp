@@ -20,4 +20,5 @@ public:
 	glm::ivec3 getChunkPositionByBlock(glm::ivec3 blockPosition);
 	glm::ivec3 getBlockByPosition(glm::vec3 blockPosition);
 	glm::ivec3 getBlockIntersectedByLine(glm::vec3 direction, glm::vec3 offset);
+	BlockKind getBlockKind(glm::ivec3 position);
 };
