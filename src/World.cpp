@@ -121,8 +121,12 @@ BlockKind World::getBlockKind(glm::ivec3 position)
 {
 	auto chunkPosition = getChunkPositionByBlock(position);
 	auto blockOffsetInChunk = getBlockPositionInChunk(position);
-	
-	// TODO complete this...
 
-	return BlockKind();
+	for (Chunk& chunk : chunks_)
+	{
+		if (chunkPosition == chunk.position)
+			return chunk.blocks[blockOffsetInChunk.x][blockOffsetInChunk.y][blockOffsetInChunk.y];
+	}
+	
+	return BlockKind::NONE;
 }

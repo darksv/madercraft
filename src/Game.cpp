@@ -45,7 +45,7 @@ Game::Game(sf::Window* window) :
 	blocks_[BlockKind::GRASS] = (BlockModel*)new BlockGrass(t2, t2, t3, s);
 
 	for (size_t i = 0; i < 4; ++i)
-		chunks_[i] = world_.generateChunk(glm::vec3(i * 32, 0.0f, 0.0f));
+		world_.chunks_.push_back(world_.generateChunk(glm::vec3(i * 32, 0.0f, 0.0f)));
 }
 
 void Game::loop()
@@ -160,6 +160,7 @@ void Game::processEvents()
 		auto v = world_.getBlockIntersectedByLine(camera_.getDirection(), camera_.getPosition());
 
 		std::cout << std::endl << "(" << v.x << ", " << v.y << ", " << v.z << ")" << std::endl;
+		std::cout << (int) world_.getBlockKind(v) << std::endl;
 	}
 }
 
@@ -192,8 +193,8 @@ void Game::render()
 	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	for (size_t i = 0; i < 4; ++i)
-		drawChunk(chunks_[i]);
+	for (Chunk& chunk : world_.chunks_)
+		drawChunk(chunk);
 	
 	window_->display();
 }

@@ -10,6 +10,8 @@
 
 class World
 {
+	friend class Game;
+
 protected:
 	std::list<Chunk> chunks_;
 
