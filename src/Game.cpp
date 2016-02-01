@@ -65,13 +65,17 @@ void Game::loop()
 
 		auto cameraDirection = camera_.getDirection();
 		auto cameraPosition = camera_.getPosition();
+		auto currentBlockPosition = world_.getBlockByPosition(camera_.getPosition());
 
 		std::cout << "\r";
 		std::cout << fps << "fps";
 		std::cout << " ";
-		std::cout << "(" << cameraDirection.x << ", " << cameraDirection.y << ", " << cameraDirection.z << ")";
-		std::cout << " ";
 		std::cout << "(" << cameraPosition.x << ", " << cameraPosition.y << ", " << cameraPosition.z << ")";
+		std::cout << " ";
+		std::cout << "(" << currentBlockPosition.x << ", " << currentBlockPosition.y << ", " << currentBlockPosition.z << ")";
+		std::cout << " ";
+		std::cout << "(" << cameraDirection.x << ", " << cameraDirection.y << ", " << cameraDirection.z << ")";
+		
 	}
 }
 
