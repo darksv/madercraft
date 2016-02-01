@@ -160,6 +160,7 @@ void Game::processEvents()
 		std::cout << "get:" << (int)world_.getBlockKind(v) << std::endl;
 		std::cout << "put: " << world_.putBlockAt(BlockKind::DIRT, v) << std::endl;
 		std::cout << "get:" << (int)world_.getBlockKind(v) << std::endl;
+		std::cout << "chunks:" << world_.chunks_.size() << std::endl;
 	}
 }
 
