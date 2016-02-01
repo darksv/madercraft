@@ -87,5 +87,18 @@ glm::ivec3 World::getBlockByPosition(glm::vec3 blockPosition)
 
 glm::ivec3 World::getBlockIntersectedByLine(glm::vec3 direction, glm::vec3 offset)
 {
-	return glm::ivec3();
+	glm::vec3 v;
+	const float epsilon = 0.1f;
+	const float maxDistance = 1.0f;
+
+	for (float c = epsilon; c < maxDistance; c += epsilon)
+	{
+		v = c * direction + offset;
+
+		auto block = getBlockByPosition(v);
+
+		// TODO make it work...
+	}
+
+	return v;
 }

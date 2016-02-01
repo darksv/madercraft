@@ -154,6 +154,13 @@ void Game::processEvents()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		camera_.moveUp();
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt))
+	{
+		auto v = world_.getBlockIntersectedByLine(camera_.getDirection(), camera_.getPosition());
+
+		std::cout << std::endl << "(" << v.x << ", " << v.y << ", " << v.z << ")" << std::endl;
+	}
 }
 
 void Game::drawChunk(Chunk& chunk, glm::vec3 chunkPosition)
