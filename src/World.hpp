@@ -14,8 +14,8 @@ protected:
 	std::list<Chunk> chunks_;
 
 public:
-	Chunk generateChunk();
-	std::map<BlockKind, std::vector<glm::vec3>> translateChunkBlocks(const Chunk& chunk, glm::vec3 offset);
+	Chunk generateChunk(glm::ivec3 position);
+	std::map<BlockKind, std::vector<glm::vec3>> translateChunkBlocks(const Chunk& chunk);
 
 	glm::ivec3 getChunkPositionByBlock(glm::ivec3 blockPosition);
 	glm::uvec3 getBlockPositionInChunk(glm::ivec3 blockPosition);

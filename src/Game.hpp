@@ -35,7 +35,7 @@ public:
 	void render();
 	void loop();
 
-	void drawChunk(Chunk &chunk, glm::vec3 chunkPosition);
+	void drawChunk(Chunk &chunk);
 
 	sf::Vector2i getWindowCenterPosition();
 	void setCursorAtWindowCenter();

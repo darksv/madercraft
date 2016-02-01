@@ -1,8 +1,10 @@
 #include "World.hpp"
 
-Chunk World::generateChunk()
+Chunk World::generateChunk(glm::ivec3 position)
 {
 	Chunk chunk;
+	chunk.position = position;
+
 	for (unsigned char x = 0; x < CHUNK_SIZE; ++x)
 	{
 		for (unsigned char y = 0; y < CHUNK_SIZE; ++y)
@@ -17,7 +19,7 @@ Chunk World::generateChunk()
 	return chunk;
 }
 
-std::map<BlockKind, std::vector<glm::vec3>> World::translateChunkBlocks(const Chunk& chunk, glm::vec3 offset)
+std::map<BlockKind, std::vector<glm::vec3>> World::translateChunkBlocks(const Chunk& chunk)
 {
 	std::map<BlockKind, std::vector<glm::vec3>> blockPositions;
 
@@ -32,7 +34,7 @@ std::map<BlockKind, std::vector<glm::vec3>> World::translateChunkBlocks(const Ch
 				if (kind == BlockKind::NONE)
 					continue;
 
-				blockPositions[kind].push_back(offset + glm::vec3(x, y, z));
+				blockPositions[kind].push_back(glm::vec3(chunk.position) + glm::vec3(x, y, z));
 			}
 		}
 	}
