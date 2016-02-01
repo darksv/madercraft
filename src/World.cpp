@@ -117,8 +117,9 @@ glm::ivec3 World::getBlockIntersectedByLine(glm::vec3 direction, glm::vec3 offse
 
 BlockKind World::getBlockKind(glm::ivec3 position)
 {
-	glm::ivec3 chunkPosition = getChunkPositionByBlock(position);
-
+	auto chunkPosition = getChunkPositionByBlock(position);
+	auto blockOffsetInChunk = getBlockPositionInChunk(position);
+	
 	// TODO complete this...
 
 	return BlockKind();
