@@ -18,4 +18,5 @@ public:
 	std::map<BlockKind, std::vector<glm::vec3>> translateChunkBlocks(const Chunk& chunk, glm::vec3 offset);
 
 	glm::uvec3 getChunkPositionByBlock(glm::uvec3 blockPosition);
+	glm::ivec3 getBlockIntersectedByLine(glm::vec3 direction);
 };

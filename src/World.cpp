@@ -45,3 +45,8 @@ glm::uvec3 World::getChunkPositionByBlock(glm::uvec3 blockPosition)
 	// TODO make it work...
 	return glm::uvec3(0, 0, 0);
 }
+
+glm::ivec3 World::getBlockIntersectedByLine(glm::vec3 direction)
+{
+	return glm::ivec3();
+}
