@@ -9,7 +9,7 @@ Chunk World::generateChunk()
 		{
 			for (unsigned char z = 0; z < 32; ++z)
 			{
-				chunk.blocks[x][y][z] = x + y + z ? BlockKind::GRASS : BlockKind::DIRT;
+				chunk.blocks[x][y][z] = (rand() % 10) < 3 ? BlockKind::GRASS : BlockKind::DIRT;
 			}
 		}
 	}

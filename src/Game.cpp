@@ -44,7 +44,8 @@ Game::Game(sf::Window* window) :
 	blocks_[BlockKind::DIRT] = (BlockModel*)new BlockGrass(t1, t2, t3, s);
 	blocks_[BlockKind::GRASS] = (BlockModel*)new BlockGrass(t2, t2, t3, s);
 
-	chunk_ = world_.generateChunk();
+	for (size_t i = 0; i < 4; ++i)
+		chunks_[i] = world_.generateChunk();
 }
 
 void Game::loop()
@@ -138,14 +139,11 @@ void Game::processEvents()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		camera_.moveUp();
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-		chunkPosition_.x++;
 }
 
 void Game::drawChunk(Chunk& chunk, glm::vec3 chunkPosition)
 {
-	auto positions = world_.translateChunkBlocks(chunk_, chunkPosition_);
+	auto positions = world_.translateChunkBlocks(chunk, chunkPosition);
 
 	for (auto item : positions)
 	{
@@ -172,7 +170,8 @@ void Game::render()
 	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	drawChunk(Chunk(), glm::vec3(0.0f, 0.0f, 0.0f));
+	for (size_t i = 0; i < 4; ++i)
+		drawChunk(chunks_[i], glm::vec3(i * 32, 0.0f, 0.0f));
 	
 	window_->display();
 }

@@ -14,8 +14,7 @@ protected:
 	sf::Window* window_;
 	Camera camera_;
 	World world_;
-	Chunk chunk_;
-	glm::vec3 chunkPosition_;
+	Chunk chunks_[4];
 	sf::Clock clock_;
 	TextureManager textureManager_;
 
