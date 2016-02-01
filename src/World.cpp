@@ -56,6 +56,10 @@ bool World::putBlockAt(BlockKind kind, glm::ivec3 position)
 		}
 	}
 
+	Chunk chunk = generateChunk(chunkPosition);
+	chunk.blocks[blockOffsetInChunk.x][blockOffsetInChunk.y][blockOffsetInChunk.z] = kind;
+	chunks_.push_back(chunk);
+
 	return false;
 }
 

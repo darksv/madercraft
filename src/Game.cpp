@@ -43,9 +43,6 @@ Game::Game(sf::Window* window) :
 
 	blocks_[BlockKind::DIRT] = (BlockModel*)new BlockGrass(t1, t2, t3, s);
 	blocks_[BlockKind::GRASS] = (BlockModel*)new BlockGrass(t2, t2, t3, s);
-
-	for (size_t i = 0; i < 4; ++i)
-		world_.chunks_.push_back(world_.generateChunk(glm::vec3(i * 32, 0.0f, 0.0f)));
 }
 
 void Game::loop()
