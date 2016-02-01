@@ -3,11 +3,11 @@
 Chunk World::generateChunk()
 {
 	Chunk chunk;
-	for (unsigned char x = 0; x < 32; ++x)
+	for (unsigned char x = 0; x < CHUNK_SIZE; ++x)
 	{
-		for (unsigned char y = 0; y < 32; ++y)
+		for (unsigned char y = 0; y < CHUNK_SIZE; ++y)
 		{
-			for (unsigned char z = 0; z < 32; ++z)
+			for (unsigned char z = 0; z < CHUNK_SIZE; ++z)
 			{
 				chunk.blocks[x][y][z] = (rand() % 10) < 3 ? BlockKind::GRASS : BlockKind::DIRT;
 			}
@@ -21,11 +21,11 @@ std::map<BlockKind, std::vector<glm::vec3>> World::translateChunkBlocks(const Ch
 {
 	std::map<BlockKind, std::vector<glm::vec3>> blockPositions;
 
-	for (int x = 0; x < 32; ++x)
+	for (int x = 0; x < CHUNK_SIZE; ++x)
 	{
-		for (int y = 0; y < 32; ++y)
+		for (int y = 0; y < CHUNK_SIZE; ++y)
 		{
-			for (int z = 0; z < 32; ++z)
+			for (int z = 0; z < CHUNK_SIZE; ++z)
 			{
 				auto kind = chunk.blocks[x][y][z];
 
