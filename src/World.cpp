@@ -63,6 +63,18 @@ glm::ivec3 World::getChunkPositionByBlock(glm::ivec3 blockPosition)
 	return chunkPosition;
 }
 
+glm::uvec3 World::getBlockPositionInChunk(glm::ivec3 blockPosition)
+{
+	auto chunkPosition = getChunkPositionByBlock(blockPosition);
+	glm::ivec3 offset;
+
+	offset.x = blockPosition.x - CHUNK_SIZE * chunkPosition.x;
+	offset.y = blockPosition.y - CHUNK_SIZE * chunkPosition.y;
+	offset.z = blockPosition.z - CHUNK_SIZE * chunkPosition.z;
+
+	return offset;
+}
+
 glm::ivec3 World::getBlockByPosition(glm::vec3 blockPosition)
 {
 	glm::ivec3 blockPositionConverted;
