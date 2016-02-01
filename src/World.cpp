@@ -85,7 +85,7 @@ glm::ivec3 World::getBlockByPosition(glm::vec3 blockPosition)
 	return blockPositionConverted;
 }
 
-glm::ivec3 World::getBlockIntersectedByLine(glm::vec3 direction)
+glm::ivec3 World::getBlockIntersectedByLine(glm::vec3 direction, glm::vec3 offset)
 {
 	return glm::ivec3();
 }
