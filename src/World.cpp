@@ -43,25 +43,35 @@ std::map<BlockKind, std::vector<glm::vec3>> World::translateChunkBlocks(const Ch
 	return blockPositions;
 }
 
+Chunk* World::createEmptyChunk(glm::ivec3 position)
+{
+	chunks_.push_back(generateChunk(position));
+	return &chunks_.back();
+}
+
+Chunk* World::getChunk(glm::ivec3 position)
+{
+	for (Chunk& chunk : chunks_)
+	{
+		if (position == chunk.position)
+			return &chunk;
+	}
+
+	return nullptr;
+}
+
 bool World::putBlockAt(BlockKind kind, glm::ivec3 position)
 {
 	auto chunkPosition = getChunkPositionByBlock(position);
 	auto blockOffsetInChunk = getBlockPositionInChunk(position);
+	auto chunk = getChunk(chunkPosition);
 
-	for (Chunk& chunk : chunks_)
-	{
-		if (chunkPosition == chunk.position)
-		{
-			chunk.blocks[blockOffsetInChunk.x][blockOffsetInChunk.y][blockOffsetInChunk.z] = kind;
-			return true;
-		}
-	}
+	if (chunk == nullptr)
+		chunk = createEmptyChunk(chunkPosition);
+	
+	chunk->blocks[blockOffsetInChunk.x][blockOffsetInChunk.y][blockOffsetInChunk.z] = kind;
 
-	Chunk chunk = generateChunk(chunkPosition);
-	chunk.blocks[blockOffsetInChunk.x][blockOffsetInChunk.y][blockOffsetInChunk.z] = kind;
-	chunks_.push_back(chunk);
-
-	return false;
+	return true;
 }
 
 static int calculateBlockOffset(int absoluteBlockPosition)
@@ -133,12 +143,10 @@ BlockKind World::getBlockKind(glm::ivec3 position)
 {
 	auto chunkPosition = getChunkPositionByBlock(position);
 	auto blockOffsetInChunk = getBlockPositionInChunk(position);
+	auto chunk = getChunk(chunkPosition);
 
-	for (Chunk& chunk : chunks_)
-	{
-		if (chunkPosition == chunk.position)
-			return chunk.blocks[blockOffsetInChunk.x][blockOffsetInChunk.y][blockOffsetInChunk.y];
-	}
-	
-	return BlockKind::NONE;
+	if (chunk == nullptr)
+		return BlockKind::NONE;
+	else
+		return chunk->blocks[blockOffsetInChunk.x][blockOffsetInChunk.y][blockOffsetInChunk.y];
 }
