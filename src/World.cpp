@@ -1,6 +1,6 @@
 #include "World.hpp"
 
-Chunk World::generateChunk(glm::ivec3 position)
+Chunk World::generateEmptyChunk(glm::ivec3 position)
 {
 	Chunk chunk;
 	chunk.position = position;
@@ -12,6 +12,25 @@ Chunk World::generateChunk(glm::ivec3 position)
 			for (unsigned char z = 0; z < CHUNK_SIZE; ++z)
 			{
 				chunk.blocks[x][y][z] = BlockKind::NONE;
+			}
+		}
+	}
+
+	return chunk;
+}
+
+Chunk World::generateRandomizedChunk(glm::ivec3 position)
+{
+	Chunk chunk;
+	chunk.position = position;
+
+	for (unsigned char x = 0; x < CHUNK_SIZE; ++x)
+	{
+		for (unsigned char y = 0; y < CHUNK_SIZE; ++y)
+		{
+			for (unsigned char z = 0; z < CHUNK_SIZE; ++z)
+			{
+				chunk.blocks[x][y][z] = (BlockKind) (rand() % 3);
 			}
 		}
 	}
@@ -45,7 +64,7 @@ std::map<BlockKind, std::vector<glm::vec3>> World::translateChunkBlocks(const Ch
 
 Chunk* World::createEmptyChunk(glm::ivec3 position)
 {
-	chunks_.push_back(generateChunk(position));
+	chunks_.push_back(generateEmptyChunk(position));
 	return &chunks_.back();
 }
 

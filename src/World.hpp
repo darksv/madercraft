@@ -14,7 +14,8 @@ protected:
 	std::list<Chunk> chunks_;
 
 public:
-	Chunk generateChunk(glm::ivec3 position);
+	Chunk generateEmptyChunk(glm::ivec3 position);
+	Chunk generateRandomizedChunk(glm::ivec3 position);
 	std::map<BlockKind, std::vector<glm::vec3>> translateChunkBlocks(const Chunk& chunk);
 
 	Chunk* createEmptyChunk(glm::ivec3 position);
