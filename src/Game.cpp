@@ -41,8 +41,11 @@ Game::Game(sf::Window* window) :
 	s->addShaderFromFile(ShaderType::FRAGMENT_SHADER, "shaders\\cube.frag");
 	s->compile();
 
-	blocks_[BlockKind::DIRT] = (BlockModel*)new BlockGrass(t1, t2, t3, s);
+	blocks_[BlockKind::DIRT]  = (BlockModel*)new BlockGrass(t1, t2, t3, s);
 	blocks_[BlockKind::GRASS] = (BlockModel*)new BlockGrass(t2, t2, t3, s);
+
+	world_.createRandomizedChunk(glm::vec3(0, 0, 0));
+	world_.createRandomizedChunk(glm::vec3(0, 1, 0));
 }
 
 void Game::loop()

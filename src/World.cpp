@@ -68,6 +68,12 @@ Chunk* World::createEmptyChunk(glm::ivec3 position)
 	return &chunks_.back();
 }
 
+Chunk* World::createRandomizedChunk(glm::ivec3 position)
+{
+	chunks_.push_back(generateRandomizedChunk(position));
+	return &chunks_.back();
+}
+
 Chunk* World::getChunk(glm::ivec3 position)
 {
 	for (Chunk& chunk : chunks_)

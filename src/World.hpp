@@ -19,6 +19,7 @@ public:
 	std::map<BlockKind, std::vector<glm::vec3>> translateChunkBlocks(const Chunk& chunk);
 
 	Chunk* createEmptyChunk(glm::ivec3 position);
+	Chunk* createRandomizedChunk(glm::ivec3 position);
 	Chunk* getChunk(glm::ivec3 position);
 	std::list<Chunk>& getAllChunks();
 
