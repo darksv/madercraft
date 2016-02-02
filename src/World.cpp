@@ -69,19 +69,19 @@ glm::ivec3 World::getChunkPositionByBlock(glm::ivec3 blockPosition)
 	glm::ivec3 chunkPosition;
 
 	if (blockPosition.x >= 0)
-		chunkPosition.x = blockPosition.x / 32;
+		chunkPosition.x = blockPosition.x / (int)CHUNK_SIZE;
 	else
-		chunkPosition.x = (blockPosition.x + 1) / 32 - 1;
+		chunkPosition.x = (blockPosition.x + 1) / (int)CHUNK_SIZE - 1;
 
 	if (blockPosition.y >= 0)
-		chunkPosition.y = blockPosition.y / 32;
+		chunkPosition.y = blockPosition.y / (int)CHUNK_SIZE;
 	else
-		chunkPosition.y = (blockPosition.y + 1) / 32 - 1;
+		chunkPosition.y = (blockPosition.y + 1) / (int)CHUNK_SIZE - 1;
 
 	if (blockPosition.z >= 0)
-		chunkPosition.z = blockPosition.z / 32;
+		chunkPosition.z = blockPosition.z / (int)CHUNK_SIZE;
 	else
-		chunkPosition.z = (blockPosition.z + 1) / 32 - 1;
+		chunkPosition.z = (blockPosition.z + 1) / (int)CHUNK_SIZE - 1;
 	
 
 	return chunkPosition;
