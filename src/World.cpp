@@ -148,5 +148,5 @@ BlockKind World::getBlockKind(glm::ivec3 position)
 	if (chunk == nullptr)
 		return BlockKind::NONE;
 	else
-		return chunk->blocks[blockOffsetInChunk.x][blockOffsetInChunk.y][blockOffsetInChunk.y];
+		return chunk->blocks[blockOffsetInChunk.x][blockOffsetInChunk.y][blockOffsetInChunk.z];
 }
