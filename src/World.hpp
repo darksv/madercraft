@@ -10,8 +10,6 @@
 
 class World
 {
-	friend class Game;
-
 protected:
 	std::list<Chunk> chunks_;
 
@@ -21,6 +19,7 @@ public:
 
 	Chunk* createEmptyChunk(glm::ivec3 position);
 	Chunk* getChunk(glm::ivec3 position);
+	std::list<Chunk>& getAllChunks();
 
 	bool putBlockAt(BlockKind kind, glm::ivec3 position);
 

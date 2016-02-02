@@ -60,6 +60,11 @@ Chunk* World::getChunk(glm::ivec3 position)
 	return nullptr;
 }
 
+std::list<Chunk>& World::getAllChunks()
+{
+	return chunks_;
+}
+
 bool World::putBlockAt(BlockKind kind, glm::ivec3 position)
 {
 	auto chunkPosition = getChunkPositionByBlock(position);

@@ -194,7 +194,7 @@ void Game::render()
 	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	for (Chunk& chunk : world_.chunks_)
+	for (Chunk& chunk : world_.getAllChunks())
 		drawChunk(chunk);
 	
 	window_->display();
