@@ -195,7 +195,11 @@ void Game::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	for (Chunk& chunk : world_.getAllChunks())
-		drawChunk(chunk);
+	{
+		if (world_.getDistanceToChunk(chunk, camera_.getPosition()) < 100.0f)
+			drawChunk(chunk);
+	}
+		
 	
 	window_->display();
 }

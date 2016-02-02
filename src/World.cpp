@@ -155,3 +155,10 @@ BlockKind World::getBlockKind(glm::ivec3 position)
 	else
 		return chunk->blocks[blockOffsetInChunk.x][blockOffsetInChunk.y][blockOffsetInChunk.z];
 }
+
+float World::getDistanceToChunk(const Chunk& chunk, glm::vec3 position)
+{
+	// TODO use chunk's center point
+
+	return sqrt(pow((float)chunk.position.x * CHUNK_SIZE - position.x, 2) + pow((float)chunk.position.y * CHUNK_SIZE - position.y, 2) + pow((float)chunk.position.z * CHUNK_SIZE - position.z, 2));
+}
