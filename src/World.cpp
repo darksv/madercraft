@@ -95,24 +95,18 @@ glm::uvec3 World::getBlockPositionInChunk(glm::ivec3 blockPosition)
 	return offset;
 }
 
+static int calculateBlockIndexByCoord(float absoluteCoord)
+{
+	return (absoluteCoord > 0.0f) ? ceil(absoluteCoord) : floor(absoluteCoord);
+}
+
 glm::ivec3 World::getBlockByPosition(glm::vec3 blockPosition)
 {
 	glm::ivec3 blockPositionConverted;
 
-	if (blockPosition.x >= 0)
-		blockPositionConverted.x = ceil(blockPosition.x);
-	else
-		blockPositionConverted.x = floor(blockPosition.x);
-
-	if (blockPosition.y >= 0)
-		blockPositionConverted.y = ceil(blockPosition.y);
-	else
-		blockPositionConverted.y = floor(blockPosition.y);
-
-	if (blockPosition.z >= 0)
-		blockPositionConverted.z = ceil(blockPosition.z);
-	else
-		blockPositionConverted.z = floor(blockPosition.z);
+	blockPositionConverted.x = calculateBlockIndexByCoord(blockPosition.x);
+	blockPositionConverted.y = calculateBlockIndexByCoord(blockPosition.y);
+	blockPositionConverted.z = calculateBlockIndexByCoord(blockPosition.z);
 
 	return blockPositionConverted;
 }
