@@ -22,6 +22,7 @@ Chunk World::generateChunk(glm::ivec3 position)
 std::map<BlockKind, std::vector<glm::vec3>> World::translateChunkBlocks(const Chunk& chunk)
 {
 	std::map<BlockKind, std::vector<glm::vec3>> blockPositions;
+	glm::vec3 chunkPosition((float)chunk.position.x * CHUNK_SIZE, (float)chunk.position.y * CHUNK_SIZE, (float)chunk.position.z * CHUNK_SIZE);
 
 	for (int x = 0; x < CHUNK_SIZE; ++x)
 	{
@@ -34,7 +35,7 @@ std::map<BlockKind, std::vector<glm::vec3>> World::translateChunkBlocks(const Ch
 				if (kind == BlockKind::NONE)
 					continue;
 
-				blockPositions[kind].push_back(glm::vec3(chunk.position) + glm::vec3(x, y, z));
+				blockPositions[kind].push_back(chunkPosition + glm::vec3(x, y, z));
 			}
 		}
 	}
