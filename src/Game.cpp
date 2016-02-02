@@ -152,11 +152,16 @@ void Game::processEvents()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		camera_.moveUp();
 
+	auto pickedBlock = world_.getBlockIntersectedByLine(camera_.getDirection(), camera_.getPosition());
+
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-		auto v = world_.getBlockIntersectedByLine(camera_.getDirection(), camera_.getPosition());
+		world_.putBlockAt(BlockKind::DIRT, pickedBlock);
+	}
 
-		world_.putBlockAt(BlockKind::DIRT, v);
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+	{
+		world_.putBlockAt(BlockKind::NONE, pickedBlock);
 	}
 }
 
