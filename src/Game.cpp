@@ -152,15 +152,11 @@ void Game::processEvents()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		camera_.moveUp();
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt))
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		auto v = world_.getBlockIntersectedByLine(camera_.getDirection(), camera_.getPosition());
 
-		std::cout << std::endl << "(" << v.x << ", " << v.y << ", " << v.z << ")" << std::endl;
-		std::cout << "get:" << (int)world_.getBlockKind(v) << std::endl;
-		std::cout << "put: " << world_.putBlockAt(BlockKind::DIRT, v) << std::endl;
-		std::cout << "get:" << (int)world_.getBlockKind(v) << std::endl;
-		std::cout << "chunks:" << world_.chunks_.size() << std::endl;
+		world_.putBlockAt(BlockKind::DIRT, v);
 	}
 }
 
