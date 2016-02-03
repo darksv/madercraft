@@ -29,6 +29,7 @@ public:
 	BlockKind getBlockKindAt(glm::uvec3 relativePosition);
 	std::map<BlockKind, std::vector<glm::vec3>> getCalculatedPositions();
 	glm::ivec3 getPosition() const;
+	std::vector<glm::vec3> getVertices() const;
 	void putBlockAt(BlockKind kind, glm::uvec3 relativePosition);
 };
 

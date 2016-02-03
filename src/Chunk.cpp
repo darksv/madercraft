@@ -52,6 +52,34 @@ glm::ivec3 Chunk::getPosition() const
 	return position_;
 }
 
+std::vector<glm::vec3> Chunk::getVertices() const
+{
+	auto position = getPosition();
+	float x1, x2, y1, y2, z1, z2;
+	std::vector<glm::vec3> vertices;
+	vertices.resize(8);
+
+	x1 = position.x * Chunk::SIZE;
+	x2 = x1 + Chunk::SIZE;
+
+	y1 = position.y * Chunk::SIZE;
+	y2 = y1 + Chunk::SIZE;
+
+	z1 = position.z * Chunk::SIZE;
+	z2 = z1 + Chunk::SIZE;
+
+	vertices[0] = glm::vec3(x1, y1, z1);
+	vertices[1] = glm::vec3(x1, y1, z2);
+	vertices[2] = glm::vec3(x1, y2, z1);
+	vertices[3] = glm::vec3(x1, y2, z2);
+	vertices[4] = glm::vec3(x2, y1, z1);
+	vertices[5] = glm::vec3(x2, y1, z2);
+	vertices[6] = glm::vec3(x2, y2, z1);
+	vertices[7] = glm::vec3(x2, y2, z2);
+
+	return vertices;
+}
+
 void Chunk::putBlockAt(BlockKind kind, glm::uvec3 relativePosition)
 {
 	blocks_[relativePosition.x][relativePosition.y][relativePosition.z] = kind;
