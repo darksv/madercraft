@@ -14,7 +14,7 @@
 glm::mat4 Game::getProjectionMatrix()
 {
 	sf::Vector2u windowSize = window_->getSize();
-	return glm::perspective(45.0f, (float)windowSize.x / (float)windowSize.y, 0.1f, 100.0f);
+	return camera_.getProjectionMatrix((float)windowSize.x / (float)windowSize.y);
 }
 
 Game::Game(sf::Window* window) :
