@@ -58,7 +58,7 @@ glm::mat4 Camera::getProjectionMatrix(float aspectRatio)
 
 glm::vec3 Camera::getDirection()
 {
-	return glm::vec3(cameraFront_.x, cameraFront_.y, cameraFront_.z);
+	return cameraFront_;
 }
 
 glm::vec3 Camera::getPosition()
