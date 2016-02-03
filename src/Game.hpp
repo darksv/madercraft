@@ -18,6 +18,7 @@ protected:
 	TextureManager textureManager_;
 
 	bool isRunning_;
+	unsigned int framesPerSecond_;
 
 	std::map<BlockKind, BlockModel*> blocks_;
 

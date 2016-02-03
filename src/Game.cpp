@@ -61,7 +61,7 @@ void Game::loop()
 		}
 		sf::Time timeEnd = renderClock.restart();
 
-		unsigned int fps = (unsigned int)(1.0 / (timeEnd - timeStart).asSeconds());
+		framesPerSecond_ = (unsigned int)(1.0 / (timeEnd - timeStart).asSeconds());
 
 		auto cameraDirection = camera_.getDirection();
 		auto cameraPosition = camera_.getPosition();
@@ -69,7 +69,7 @@ void Game::loop()
 		auto currentChunkPosition = world_.getChunkPositionByBlock(currentBlockPosition);
 
 		std::cout << "\r";
-		std::cout << fps << "fps";
+		std::cout << framesPerSecond_ << "fps";
 		std::cout << " ";
 		std::cout << "(" << cameraPosition.x << ", " << cameraPosition.y << ", " << cameraPosition.z << ")";
 		std::cout << " ";
