@@ -170,8 +170,18 @@ void Game::processEvents()
 
 void Game::drawChunk(Chunk& chunk)
 {
-	auto positions = world_.translateChunkBlocks(chunk);
-
+	std::map<BlockKind, std::vector<glm::vec3>> positions;
+	if (chunk.needsCacheUpdate)
+	{
+		positions = world_.translateChunkBlocks(chunk);
+		chunk.cachedPositions = positions;
+		chunk.needsCacheUpdate = false;
+	}
+	else
+	{
+		positions = chunk.cachedPositions;
+	}
+	
 	for (auto item : positions)
 	{
 		BlockKind blockKind = item.first;

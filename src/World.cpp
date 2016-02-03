@@ -100,6 +100,7 @@ bool World::putBlockAt(BlockKind kind, glm::ivec3 position)
 		chunk = createEmptyChunk(chunkPosition);
 	
 	chunk->blocks[blockOffsetInChunk.x][blockOffsetInChunk.y][blockOffsetInChunk.z] = kind;
+	chunk->needsCacheUpdate = true;
 
 	return true;
 }
