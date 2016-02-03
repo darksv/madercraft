@@ -2,16 +2,16 @@
 
 Chunk World::generateEmptyChunk(glm::ivec3 position)
 {
-	Chunk chunk;
-	chunk.position = position;
+	Chunk chunk(position);
+	auto& blocks = chunk.getBlocks();
 
-	for (unsigned char x = 0; x < CHUNK_SIZE; ++x)
+	for (unsigned char x = 0; x < Chunk::SIZE; ++x)
 	{
-		for (unsigned char y = 0; y < CHUNK_SIZE; ++y)
+		for (unsigned char y = 0; y < Chunk::SIZE; ++y)
 		{
-			for (unsigned char z = 0; z < CHUNK_SIZE; ++z)
+			for (unsigned char z = 0; z < Chunk::SIZE; ++z)
 			{
-				chunk.blocks[x][y][z] = BlockKind::NONE;
+				blocks[x][y][z] = BlockKind::NONE;
 			}
 		}
 	}
@@ -21,45 +21,21 @@ Chunk World::generateEmptyChunk(glm::ivec3 position)
 
 Chunk World::generateRandomizedChunk(glm::ivec3 position)
 {
-	Chunk chunk;
-	chunk.position = position;
+	Chunk chunk(position);
+	auto& blocks = chunk.getBlocks();
 
-	for (unsigned char x = 0; x < CHUNK_SIZE; ++x)
+	for (unsigned char x = 0; x < Chunk::SIZE; ++x)
 	{
-		for (unsigned char y = 0; y < CHUNK_SIZE; ++y)
+		for (unsigned char y = 0; y < Chunk::SIZE; ++y)
 		{
-			for (unsigned char z = 0; z < CHUNK_SIZE; ++z)
+			for (unsigned char z = 0; z < Chunk::SIZE; ++z)
 			{
-				chunk.blocks[x][y][z] = (BlockKind) (rand() % 3);
+				blocks[x][y][z] = (BlockKind) (rand() % 3);
 			}
 		}
 	}
 
 	return chunk;
-}
-
-std::map<BlockKind, std::vector<glm::vec3>> World::translateChunkBlocks(const Chunk& chunk)
-{
-	std::map<BlockKind, std::vector<glm::vec3>> blockPositions;
-	glm::vec3 chunkPosition((float)chunk.position.x * CHUNK_SIZE, (float)chunk.position.y * CHUNK_SIZE, (float)chunk.position.z * CHUNK_SIZE);
-
-	for (int x = 0; x < CHUNK_SIZE; ++x)
-	{
-		for (int y = 0; y < CHUNK_SIZE; ++y)
-		{
-			for (int z = 0; z < CHUNK_SIZE; ++z)
-			{
-				auto kind = chunk.blocks[x][y][z];
-
-				if (kind == BlockKind::NONE)
-					continue;
-
-				blockPositions[kind].push_back(chunkPosition + glm::vec3(x, y, z));
-			}
-		}
-	}
-
-	return blockPositions;
 }
 
 Chunk* World::createEmptyChunk(glm::ivec3 position)
@@ -78,7 +54,7 @@ Chunk* World::getChunk(glm::ivec3 position)
 {
 	for (Chunk& chunk : chunks_)
 	{
-		if (position == chunk.position)
+		if (chunk.getPosition() == position)
 			return &chunk;
 	}
 
@@ -99,8 +75,7 @@ bool World::putBlockAt(BlockKind kind, glm::ivec3 position)
 	if (chunk == nullptr)
 		chunk = createEmptyChunk(chunkPosition);
 	
-	chunk->blocks[blockOffsetInChunk.x][blockOffsetInChunk.y][blockOffsetInChunk.z] = kind;
-	chunk->needsCacheUpdate = true;
+	chunk->putBlockAt(kind, blockOffsetInChunk);
 
 	return true;
 }
@@ -108,9 +83,9 @@ bool World::putBlockAt(BlockKind kind, glm::ivec3 position)
 static int calculateBlockOffset(int absoluteBlockPosition)
 {
 	if (absoluteBlockPosition >= 0)
-		return absoluteBlockPosition / (int)CHUNK_SIZE;
+		return absoluteBlockPosition / (int)Chunk::SIZE;
 	else
-		return (absoluteBlockPosition + 1) / (int)CHUNK_SIZE - 1;
+		return (absoluteBlockPosition + 1) / (int)Chunk::SIZE - 1;
 }
 
 glm::ivec3 World::getChunkPositionByBlock(glm::ivec3 blockPosition)
@@ -129,9 +104,9 @@ glm::uvec3 World::getBlockPositionInChunk(glm::ivec3 blockPosition)
 	auto chunkPosition = getChunkPositionByBlock(blockPosition);
 	glm::ivec3 offset;
 
-	offset.x = blockPosition.x - CHUNK_SIZE * chunkPosition.x;
-	offset.y = blockPosition.y - CHUNK_SIZE * chunkPosition.y;
-	offset.z = blockPosition.z - CHUNK_SIZE * chunkPosition.z;
+	offset.x = blockPosition.x - Chunk::SIZE * chunkPosition.x;
+	offset.y = blockPosition.y - Chunk::SIZE * chunkPosition.y;
+	offset.z = blockPosition.z - Chunk::SIZE * chunkPosition.z;
 
 	return offset;
 }
@@ -179,12 +154,13 @@ BlockKind World::getBlockKind(glm::ivec3 position)
 	if (chunk == nullptr)
 		return BlockKind::NONE;
 	else
-		return chunk->blocks[blockOffsetInChunk.x][blockOffsetInChunk.y][blockOffsetInChunk.z];
+		return chunk->getBlockKindAt(blockOffsetInChunk);
 }
 
 float World::getDistanceToChunk(const Chunk& chunk, glm::vec3 position)
 {
+	auto chunkPosition = chunk.getPosition();
 	// TODO use chunk's center point
 
-	return sqrt(pow((float)chunk.position.x * CHUNK_SIZE - position.x, 2) + pow((float)chunk.position.y * CHUNK_SIZE - position.y, 2) + pow((float)chunk.position.z * CHUNK_SIZE - position.z, 2));
+	return sqrt(pow((float)chunkPosition.x * Chunk::SIZE - position.x, 2) + pow((float)chunkPosition.y * Chunk::SIZE - position.y, 2) + pow((float)chunkPosition.z * Chunk::SIZE - position.z, 2));
 }
