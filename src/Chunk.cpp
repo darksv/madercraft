@@ -12,9 +12,9 @@ Blocks& Chunk::getBlocks()
 	return blocks_;
 }
 
-BlockKind Chunk::getBlockKindAt(glm::ivec3 position)
+BlockKind Chunk::getBlockKindAt(glm::uvec3 relativePosition)
 {
-	return blocks_[position.x][position.y][position.z];
+	return blocks_[relativePosition.x][relativePosition.y][relativePosition.z];
 }
 
 std::map<BlockKind, std::vector<glm::vec3>> Chunk::getCalculatedPositions()
@@ -52,7 +52,8 @@ glm::ivec3 Chunk::getPosition() const
 	return position_;
 }
 
-void Chunk::putBlockAt(BlockKind kind, glm::ivec3 position)
+void Chunk::putBlockAt(BlockKind kind, glm::uvec3 relativePosition)
 {
-	blocks_[position.x][position.y][position.z] = kind;
+	blocks_[relativePosition.x][relativePosition.y][relativePosition.z] = kind;
+	needsCacheUpdate_ = true;
 }

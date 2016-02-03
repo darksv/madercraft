@@ -26,9 +26,9 @@ public:
 	Chunk(glm::ivec3 position);
 
 	Blocks& getBlocks();
-	BlockKind getBlockKindAt(glm::ivec3 position);
+	BlockKind getBlockKindAt(glm::uvec3 relativePosition);
 	std::map<BlockKind, std::vector<glm::vec3>> getCalculatedPositions();
 	glm::ivec3 getPosition() const;
-	void putBlockAt(BlockKind kind, glm::ivec3 position);
+	void putBlockAt(BlockKind kind, glm::uvec3 relativePosition);
 };
 
