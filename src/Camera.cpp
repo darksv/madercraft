@@ -4,6 +4,13 @@
 
 #include "Camera.hpp"
 
+static glm::vec4 calculatePlane(glm::vec3 a, glm::vec3 b, glm::vec3 point)
+{
+	auto normal = glm::normalize(glm::cross(a, b));
+
+	return glm::vec4(normal, -glm::dot(normal, point));
+}
+
 void Camera::updateFrustum()
 {
 	FrustumVertices& fv = frustumVertices_;
@@ -31,6 +38,13 @@ void Camera::updateFrustum()
 	fv.ftr = farPlaneCenter + farPlaneUp - farPlaneLeft;
 	fv.fbl = farPlaneCenter - farPlaneUp + farPlaneLeft;
 	fv.fbr = farPlaneCenter - farPlaneUp - farPlaneLeft;
+
+
+	FrustumPlanes& fp = frustumPlanes_;
+
+	// calculate planes
+	fp.far = calculatePlane(fv.ftl - fv.ftr, fv.fbr - fv.ftr, fv.ftr);
+	fp.near = calculatePlane(fv.nbr - fv.ntr, fv.ntl - fv.ntr, fv.ntr);
 }
 
 Camera::Camera() :
@@ -121,6 +135,11 @@ glm::vec3 Camera::getPosition()
 FrustumVertices Camera::getFrustumVertices()
 {
 	return frustumVertices_;
+}
+
+FrustumPlanes Camera::getFrustumPlanes()
+{
+	return frustumPlanes_;
 }
 
 glm::vec2 Camera::getNearPlaneDimensions()

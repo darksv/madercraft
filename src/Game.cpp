@@ -111,6 +111,8 @@ void Game::processEvents()
 			else if (event.key.code == sf::Keyboard::F)
 			{
 				auto fv = camera_.getFrustumVertices();
+				auto fp = camera_.getFrustumPlanes();
+
 				std::cout << std::endl;
 				std::cout << "ftl (" << fv.ftl.x << ", " << fv.ftl.y << ", " << fv.ftl.z << ")" << std::endl;
 				std::cout << "ftr (" << fv.ftr.x << ", " << fv.ftr.y << ", " << fv.ftr.z << ")" << std::endl;
@@ -120,6 +122,9 @@ void Game::processEvents()
 				std::cout << "ntr (" << fv.ntr.x << ", " << fv.ntr.y << ", " << fv.ntr.z << ")" << std::endl;
 				std::cout << "nbl (" << fv.nbl.x << ", " << fv.nbl.y << ", " << fv.nbl.z << ")" << std::endl;
 				std::cout << "nbr (" << fv.nbr.x << ", " << fv.nbr.y << ", " << fv.nbr.z << ")" << std::endl;
+				std::cout << std::endl;
+				std::cout << "far (" << fp.far.x << ", " << fp.far.y << ", " << fp.far.z << ", " << fp.far.w << ")" << std::endl;
+				std::cout << "near (" << fp.near.x << ", " << fp.near.y << ", " << fp.near.z << ", " << fp.near.w << ")" << std::endl;
 			}
 		}
 		else if (event.type == sf::Event::MouseMoved)

@@ -8,6 +8,11 @@ struct FrustumVertices
 	glm::vec3 ftl, ftr, fbl, fbr, ntl, ntr, nbl, nbr;
 };
 
+struct FrustumPlanes
+{
+	glm::vec4 bottom, top, left, right, near, far;
+};
+
 class Camera
 {
 protected:
@@ -22,6 +27,7 @@ protected:
 
 	glm::vec2 nearPlaneDimensions_, farPlaneDimensions_;
 	FrustumVertices frustumVertices_;
+	FrustumPlanes frustumPlanes_;
 
 	void updateFrustum();
 public:
@@ -41,6 +47,7 @@ public:
 	glm::vec3 getDirection();
 	glm::vec3 getPosition();
 	FrustumVertices getFrustumVertices();
+	FrustumPlanes getFrustumPlanes();
 	glm::vec2 getNearPlaneDimensions();
 	glm::vec2 getFarPlaneDimensions();
 	void rotate(GLfloat offsetX, GLfloat offsetY);
