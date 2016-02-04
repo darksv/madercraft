@@ -4,68 +4,11 @@
 
 #include "Camera.hpp"
 
-Camera::Camera() :
-	pitch_(0.0f),
-	roll_(0.0f),
-	yaw_(0.0f),
-	cameraSpeed_(0.65f),
-	cameraPosition_(0.0f, 0.0f, 30.0f),
-	cameraFront_(0.0f, 0.0f, 1.0f),
-	cameraUp_(0.0f, 0.0f, 1.0f),
-	farDistance_(100.0f),
-	nearDistance_(0.1f),
-	fieldAngle_(45.0f),
-	aspectRatio_(1.0f)
+void Camera::updateFrustum()
 {
-
-}
-
-void Camera::moveForward()
-{
-	cameraPosition_ += glm::normalize(glm::vec3(cameraFront_.x, cameraFront_.y, 0.0f)) * cameraSpeed_;
-}
-
-void Camera::moveBackward()
-{
-	cameraPosition_ -= glm::normalize(glm::vec3(cameraFront_.x, cameraFront_.y, 0.0f)) * cameraSpeed_;
-}
-
-void Camera::moveLeft()
-{
-	cameraPosition_ -= glm::normalize(glm::cross(cameraFront_, cameraUp_)) * cameraSpeed_;
-}
-
-void Camera::moveRight()
-{
-	cameraPosition_ += glm::normalize(glm::cross(cameraFront_, cameraUp_)) * cameraSpeed_;
-}
-
-void Camera::moveUp()
-{
-	cameraPosition_ += glm::vec3(0.0f, 0.0f, 1.0f) * cameraSpeed_;
-}
-
-void Camera::moveDown()
-{
-	cameraPosition_ += glm::vec3(0.0f, 0.0f, -1.0f) * cameraSpeed_;
-}
-
-void Camera::updateAspectRatio(float aspectRatio)
-{
-	aspectRatio_ = aspectRatio;
-
-	const float dft = 2.0 * tan(glm::radians(fieldAngle_) / 2.0);
-
-	nearPlaneDimensions_.x = dft * nearDistance_ * aspectRatio_;
-	nearPlaneDimensions_.y = dft * nearDistance_;
-
-	farPlaneDimensions_.x = dft * farDistance_ * aspectRatio_;
-	farPlaneDimensions_.y = dft * farDistance_;
-
+	FrustumVertices& fv = frustumVertices_;
 
 	// algorithm based on http://www.lighthouse3d.com/tutorials/view-frustum-culling/geometric-approach-extracting-the-planes/
-
-	FrustumVertices& fv = frustumVertices_;
 
 	// near plane
 
@@ -88,6 +31,71 @@ void Camera::updateAspectRatio(float aspectRatio)
 	fv.ftr = farPlaneCenter + farPlaneUp - farPlaneLeft;
 	fv.fbl = farPlaneCenter - farPlaneUp + farPlaneLeft;
 	fv.fbr = farPlaneCenter - farPlaneUp - farPlaneLeft;
+}
+
+Camera::Camera() :
+	pitch_(0.0f),
+	roll_(0.0f),
+	yaw_(0.0f),
+	cameraSpeed_(0.65f),
+	cameraPosition_(0.0f, 0.0f, 30.0f),
+	cameraFront_(0.0f, 0.0f, 1.0f),
+	cameraUp_(0.0f, 0.0f, 1.0f),
+	farDistance_(100.0f),
+	nearDistance_(0.1f),
+	fieldAngle_(45.0f),
+	aspectRatio_(1.0f)
+{
+
+}
+
+void Camera::moveForward()
+{
+	cameraPosition_ += glm::normalize(glm::vec3(cameraFront_.x, cameraFront_.y, 0.0f)) * cameraSpeed_;
+	updateFrustum();
+}
+
+void Camera::moveBackward()
+{
+	cameraPosition_ -= glm::normalize(glm::vec3(cameraFront_.x, cameraFront_.y, 0.0f)) * cameraSpeed_;
+	updateFrustum();
+}
+
+void Camera::moveLeft()
+{
+	cameraPosition_ -= glm::normalize(glm::cross(cameraFront_, cameraUp_)) * cameraSpeed_;
+	updateFrustum();
+}
+
+void Camera::moveRight()
+{
+	cameraPosition_ += glm::normalize(glm::cross(cameraFront_, cameraUp_)) * cameraSpeed_;
+	updateFrustum();
+}
+
+void Camera::moveUp()
+{
+	cameraPosition_ += glm::vec3(0.0f, 0.0f, 1.0f) * cameraSpeed_;
+	updateFrustum();
+}
+
+void Camera::moveDown()
+{
+	cameraPosition_ += glm::vec3(0.0f, 0.0f, -1.0f) * cameraSpeed_;
+	updateFrustum();
+}
+
+void Camera::updateAspectRatio(float aspectRatio)
+{
+	aspectRatio_ = aspectRatio;
+
+	const float dft = 2.0 * tan(glm::radians(fieldAngle_) / 2.0);
+
+	nearPlaneDimensions_.x = dft * nearDistance_ * aspectRatio_;
+	nearPlaneDimensions_.y = dft * nearDistance_;
+
+	farPlaneDimensions_.x = dft * farDistance_ * aspectRatio_;
+	farPlaneDimensions_.y = dft * farDistance_;
 }
 
 glm::mat4 Camera::getViewMatrix()

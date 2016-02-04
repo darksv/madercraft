@@ -22,6 +22,8 @@ protected:
 
 	glm::vec2 nearPlaneDimensions_, farPlaneDimensions_;
 	FrustumVertices frustumVertices_;
+
+	void updateFrustum();
 public:
 	Camera();
 
