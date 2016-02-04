@@ -116,6 +116,31 @@ void Camera::updateAspectRatio(float aspectRatio)
 	farPlaneDimensions_.y = dft * farDistance_;
 }
 
+bool Camera::isVerticeInFrustum(glm::vec3 position)
+{
+	auto frustumPlanes = getFrustumPlanes();
+	
+	if (glm::dot(glm::vec4(position, 1.0), frustumPlanes.far) < 0)
+		return false;
+
+	if (glm::dot(glm::vec4(position, 1.0), frustumPlanes.near) < 0)
+		return false;
+
+	if (glm::dot(glm::vec4(position, 1.0), frustumPlanes.left) < 0)
+		return false;
+
+	if (glm::dot(glm::vec4(position, 1.0), frustumPlanes.right) < 0)
+		return false;
+
+	if (glm::dot(glm::vec4(position, 1.0), frustumPlanes.top) < 0)
+		return false;
+
+	if (glm::dot(glm::vec4(position, 1.0), frustumPlanes.bottom) < 0)
+		return false;
+	
+	return true;
+}
+
 glm::mat4 Camera::getViewMatrix()
 {
 	return glm::lookAt(cameraPosition_, cameraPosition_ + cameraFront_, cameraUp_);

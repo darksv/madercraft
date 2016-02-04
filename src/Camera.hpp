@@ -42,6 +42,8 @@ public:
 
 	void updateAspectRatio(float aspectRatio);
 
+	bool isVerticeInFrustum(glm::vec3 position);
+
 	glm::mat4 getViewMatrix();
 	glm::mat4 getProjectionMatrix(float aspectRatio);
 	glm::vec3 getDirection();

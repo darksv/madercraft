@@ -223,8 +223,19 @@ void Game::render()
 
 	for (Chunk& chunk : world_.getAllChunks())
 	{
-		if (world_.getDistanceToChunk(chunk, camera_.getPosition()) < 100.0f)
+		bool isInFrustum = true;
+		for (auto& vertice : chunk.getVertices())
+		{
+			if (!camera_.isVerticeInFrustum(vertice))
+			{
+				isInFrustum = false;
+				break;
+			}
+		}
+
+		if (isInFrustum)
 			drawChunk(chunk);
+		
 	}
 	
 	window_->display();
