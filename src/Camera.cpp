@@ -76,6 +76,18 @@ FrustumVertices Camera::getFrustumVertices()
 	return FrustumVertices();
 }
 
+glm::vec2 Camera::getNearPlaneDimensions()
+{
+	// TODO complete
+	return glm::vec2();
+}
+
+glm::vec2 Camera::getFarPlaneDimensions()
+{
+	// TODO complete
+	return glm::vec2();
+}
+
 void Camera::rotate(GLfloat offsetX, GLfloat offsetY)
 {
 	yaw_ -= offsetX;

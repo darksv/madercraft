@@ -35,5 +35,7 @@ public:
 	glm::vec3 getDirection();
 	glm::vec3 getPosition();
 	FrustumVertices getFrustumVertices();
+	glm::vec2 getNearPlaneDimensions();
+	glm::vec2 getFarPlaneDimensions();
 	void rotate(GLfloat offsetX, GLfloat offsetY);
 };
