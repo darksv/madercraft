@@ -47,6 +47,8 @@ void Camera::updateFrustum()
 	fp.near = calculatePlane(fv.nbr - fv.ntr, fv.ntl - fv.ntr, fv.ntr);
 	fp.top = calculatePlane(fv.ntl - fv.ftl, fv.ftr - fv.ftl, fv.ftl);
 	fp.bottom = calculatePlane(fv.nbl - fv.nbr, fv.fbr - fv.nbr, fv.nbr);
+	fp.left = calculatePlane(fv.ftl - fv.fbl, fv.nbl - fv.fbl, fv.fbl);
+	fp.right = calculatePlane(fv.ftr - fv.fbr, fv.nbr - fv.fbr, fv.fbr);
 }
 
 Camera::Camera() :
