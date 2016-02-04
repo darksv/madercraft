@@ -62,7 +62,32 @@ void Camera::updateAspectRatio(float aspectRatio)
 	farPlaneDimensions_.x = dft * farDistance_ * aspectRatio_;
 	farPlaneDimensions_.y = dft * farDistance_;
 
-	// TODO calculate frustum vertices and then planes
+
+	// algorithm based on http://www.lighthouse3d.com/tutorials/view-frustum-culling/geometric-approach-extracting-the-planes/
+
+	FrustumVertices& fv = frustumVertices_;
+
+	// near plane
+
+	glm::vec3 nearPlaneCenter = cameraPosition_ + cameraFront_ * nearDistance_;
+	glm::vec3 nearPlaneUp = cameraUp_ * (nearPlaneDimensions_.y / 2.0f);
+	glm::vec3 nearPlaneLeft = glm::cross(cameraFront_, cameraUp_) * (nearPlaneDimensions_.x / 2.0f);
+
+	fv.ntl = nearPlaneCenter + nearPlaneUp + nearPlaneLeft;
+	fv.ntr = nearPlaneCenter + nearPlaneUp - nearPlaneLeft;
+	fv.nbl = nearPlaneCenter - nearPlaneUp + nearPlaneLeft;
+	fv.nbr = nearPlaneCenter - nearPlaneUp - nearPlaneLeft;
+
+	// far plane
+
+	glm::vec3 farPlaneCenter = cameraPosition_ + cameraFront_ * farDistance_;
+	glm::vec3 farPlaneUp = cameraUp_ * (farPlaneDimensions_.y / 2.0f);
+	glm::vec3 farPlaneLeft = glm::cross(cameraFront_, cameraUp_) * (farPlaneDimensions_.x / 2.0f);
+
+	fv.ftl = farPlaneCenter + farPlaneUp + farPlaneLeft;
+	fv.ftr = farPlaneCenter + farPlaneUp - farPlaneLeft;
+	fv.fbl = farPlaneCenter - farPlaneUp + farPlaneLeft;
+	fv.fbr = farPlaneCenter - farPlaneUp - farPlaneLeft;
 }
 
 glm::mat4 Camera::getViewMatrix()
