@@ -150,4 +150,6 @@ void Camera::rotate(GLfloat offsetX, GLfloat offsetY)
 	front.y = cos(glm::radians(pitch_)) * sin(glm::radians(yaw_));
 
 	cameraFront_ = glm::normalize(front);
+
+	updateFrustum();
 }
