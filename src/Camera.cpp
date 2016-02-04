@@ -53,6 +53,14 @@ void Camera::moveDown()
 void Camera::updateAspectRatio(float aspectRatio)
 {
 	aspectRatio_ = aspectRatio;
+
+	const float dft = 2.0 * tan(glm::radians(fieldAngle_) / 2.0);
+
+	nearPlaneDimensions_.x = dft * nearDistance_ * aspectRatio_;
+	nearPlaneDimensions_.y = dft * nearDistance_;
+
+	farPlaneDimensions_.x = dft * farDistance_ * aspectRatio_;
+	farPlaneDimensions_.y = dft * farDistance_;
 }
 
 glm::mat4 Camera::getViewMatrix()
@@ -84,16 +92,12 @@ FrustumVertices Camera::getFrustumVertices()
 
 glm::vec2 Camera::getNearPlaneDimensions()
 {
-	float height = 2.0 * tan(glm::radians(fieldAngle_) / 2.0) * nearDistance_;
-	
-	return glm::vec2(height * aspectRatio_, height);
+	return nearPlaneDimensions_;
 }
 
 glm::vec2 Camera::getFarPlaneDimensions()
 {
-	float height = 2.0 * tan(glm::radians(fieldAngle_) / 2.0) * farDistance_;
-
-	return glm::vec2(height * aspectRatio_, height);
+	return farPlaneDimensions_;
 }
 
 void Camera::rotate(GLfloat offsetX, GLfloat offsetY)

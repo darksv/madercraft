@@ -20,6 +20,8 @@ protected:
 	float nearDistance_, farDistance_;
 	float aspectRatio_, fieldAngle_;
 
+	glm::vec2 nearPlaneDimensions_, farPlaneDimensions_;
+
 public:
 	Camera();
 
