@@ -108,6 +108,19 @@ void Game::processEvents()
 				isCursorCenteringEnabled_ = false;
 				window_->setVisible(false);;
 			}
+			else if (event.key.code == sf::Keyboard::F)
+			{
+				auto fv = camera_.getFrustumVertices();
+				std::cout << std::endl;
+				std::cout << "ftl (" << fv.ftl.x << ", " << fv.ftl.y << ", " << fv.ftl.z << ")" << std::endl;
+				std::cout << "ftr (" << fv.ftr.x << ", " << fv.ftr.y << ", " << fv.ftr.z << ")" << std::endl;
+				std::cout << "fbl (" << fv.fbl.x << ", " << fv.fbl.y << ", " << fv.fbl.z << ")" << std::endl;
+				std::cout << "fbr (" << fv.fbr.x << ", " << fv.fbr.y << ", " << fv.fbr.z << ")" << std::endl;
+				std::cout << "ntl (" << fv.ntl.x << ", " << fv.ntl.y << ", " << fv.ntl.z << ")" << std::endl;
+				std::cout << "ntr (" << fv.ntr.x << ", " << fv.ntr.y << ", " << fv.ntr.z << ")" << std::endl;
+				std::cout << "nbl (" << fv.nbl.x << ", " << fv.nbl.y << ", " << fv.nbl.z << ")" << std::endl;
+				std::cout << "nbr (" << fv.nbr.x << ", " << fv.nbr.y << ", " << fv.nbr.z << ")" << std::endl;
+			}
 		}
 		else if (event.type == sf::Event::MouseMoved)
 		{
