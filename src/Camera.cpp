@@ -42,9 +42,11 @@ void Camera::updateFrustum()
 
 	FrustumPlanes& fp = frustumPlanes_;
 
-	// calculate planes
+	// calculate planes with normal vectors directed to the inside of frustum
 	fp.far = calculatePlane(fv.ftl - fv.ftr, fv.fbr - fv.ftr, fv.ftr);
 	fp.near = calculatePlane(fv.nbr - fv.ntr, fv.ntl - fv.ntr, fv.ntr);
+	fp.top = calculatePlane(fv.ntl - fv.ftl, fv.ftr - fv.ftl, fv.ftl);
+	fp.bottom = calculatePlane(fv.nbl - fv.nbr, fv.fbr - fv.nbr, fv.nbr);
 }
 
 Camera::Camera() :

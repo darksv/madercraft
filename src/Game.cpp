@@ -125,6 +125,8 @@ void Game::processEvents()
 				std::cout << std::endl;
 				std::cout << "far (" << fp.far.x << ", " << fp.far.y << ", " << fp.far.z << ", " << fp.far.w << ")" << std::endl;
 				std::cout << "near (" << fp.near.x << ", " << fp.near.y << ", " << fp.near.z << ", " << fp.near.w << ")" << std::endl;
+				std::cout << "top (" << fp.top.x << ", " << fp.top.y << ", " << fp.top.z << ", " << fp.top.w << ")" << std::endl;
+				std::cout << "bottom (" << fp.bottom.x << ", " << fp.bottom.y << ", " << fp.bottom.z << ", " << fp.bottom.w << ")" << std::endl;
 			}
 		}
 		else if (event.type == sf::Event::MouseMoved)
