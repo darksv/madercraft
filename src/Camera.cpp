@@ -61,6 +61,8 @@ void Camera::updateAspectRatio(float aspectRatio)
 
 	farPlaneDimensions_.x = dft * farDistance_ * aspectRatio_;
 	farPlaneDimensions_.y = dft * farDistance_;
+
+	// TODO calculate frustum vertices and then planes
 }
 
 glm::mat4 Camera::getViewMatrix()
@@ -85,9 +87,7 @@ glm::vec3 Camera::getPosition()
 
 FrustumVertices Camera::getFrustumVertices()
 {
-	// TODO complete this :)
-
-	return FrustumVertices();
+	return frustumVertices_;
 }
 
 glm::vec2 Camera::getNearPlaneDimensions()

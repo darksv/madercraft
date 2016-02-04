@@ -21,7 +21,7 @@ protected:
 	float aspectRatio_, fieldAngle_;
 
 	glm::vec2 nearPlaneDimensions_, farPlaneDimensions_;
-
+	FrustumVertices frustumVertices_;
 public:
 	Camera();
 
