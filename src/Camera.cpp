@@ -11,7 +11,10 @@ Camera::Camera() :
 	cameraSpeed_(0.65f),
 	cameraPosition_(0.0f, 0.0f, 30.0f),
 	cameraFront_(0.0f, 0.0f, 1.0f),
-	cameraUp_(0.0f, 0.0f, 1.0f)
+	cameraUp_(0.0f, 0.0f, 1.0f),
+	farDistance_(100.0f),
+	nearDistance_(0.1f),
+	fieldAngle_(45.0f)
 {
 
 }
@@ -53,7 +56,7 @@ glm::mat4 Camera::getViewMatrix()
 
 glm::mat4 Camera::getProjectionMatrix(float aspectRatio)
 {
-	return glm::perspective(45.0f, aspectRatio, 0.1f, 100.0f);
+	return glm::perspective(fieldAngle_, aspectRatio, nearDistance_, farDistance_);
 }
 
 glm::vec3 Camera::getDirection()

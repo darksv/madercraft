@@ -202,7 +202,6 @@ void Game::render()
 		if (world_.getDistanceToChunk(chunk, camera_.getPosition()) < 100.0f)
 			drawChunk(chunk);
 	}
-		
 	
 	window_->display();
 }

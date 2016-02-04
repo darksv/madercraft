@@ -12,6 +12,8 @@ protected:
 	glm::vec3 cameraUp_;
 
 	float pitch_, yaw_, roll_;
+	float nearDistance_, farDistance_;
+	float fieldAngle_;
 
 public:
 	Camera();
