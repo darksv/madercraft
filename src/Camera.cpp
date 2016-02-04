@@ -84,14 +84,16 @@ FrustumVertices Camera::getFrustumVertices()
 
 glm::vec2 Camera::getNearPlaneDimensions()
 {
-	// TODO complete
-	return glm::vec2();
+	float height = 2.0 * tan(glm::radians(fieldAngle_) / 2.0) * nearDistance_;
+	
+	return glm::vec2(height * aspectRatio_, height);
 }
 
 glm::vec2 Camera::getFarPlaneDimensions()
 {
-	// TODO complete
-	return glm::vec2();
+	float height = 2.0 * tan(glm::radians(fieldAngle_) / 2.0) * farDistance_;
+
+	return glm::vec2(height * aspectRatio_, height);
 }
 
 void Camera::rotate(GLfloat offsetX, GLfloat offsetY)
