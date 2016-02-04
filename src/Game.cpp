@@ -32,6 +32,8 @@ Game::Game(sf::Window* window) :
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CW);
 
+	updateViewport();
+
 	Texture* t1 = textureManager_.loadTextureFromFile("textures\\cube_top.raw");
 	Texture* t2 = textureManager_.loadTextureFromFile("textures\\cube_bottom.raw");
 	Texture* t3 = textureManager_.loadTextureFromFile("textures\\cube_side.raw");
@@ -89,7 +91,7 @@ void Game::processEvents()
 	{
 		if (event.type == sf::Event::Resized)
 		{
-			glViewport(0, 0, event.size.width, event.size.height);
+			updateViewport();
 		}
 		else if (event.type == sf::Event::Closed)
 		{
@@ -204,6 +206,14 @@ void Game::render()
 	}
 	
 	window_->display();
+}
+
+void Game::updateViewport()
+{
+	auto windowSize = window_->getSize();
+
+	glViewport(0, 0, windowSize.x, windowSize.y);
+	camera_.updateAspectRatio((float)windowSize.x / (float)windowSize.y);
 }
 
 sf::Vector2i Game::getWindowCenterPosition()

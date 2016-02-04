@@ -37,6 +37,7 @@ public:
 
 	void drawChunk(Chunk &chunk);
 
+	void updateViewport();
 	sf::Vector2i getWindowCenterPosition();
 	void setCursorAtWindowCenter();
 };

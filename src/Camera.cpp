@@ -14,7 +14,8 @@ Camera::Camera() :
 	cameraUp_(0.0f, 0.0f, 1.0f),
 	farDistance_(100.0f),
 	nearDistance_(0.1f),
-	fieldAngle_(45.0f)
+	fieldAngle_(45.0f),
+	aspectRatio_(1.0f)
 {
 
 }
@@ -47,6 +48,11 @@ void Camera::moveUp()
 void Camera::moveDown()
 {
 	cameraPosition_ += glm::vec3(0.0f, 0.0f, -1.0f) * cameraSpeed_;
+}
+
+void Camera::updateAspectRatio(float aspectRatio)
+{
+	aspectRatio_ = aspectRatio;
 }
 
 glm::mat4 Camera::getViewMatrix()

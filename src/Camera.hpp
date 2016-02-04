@@ -18,7 +18,7 @@ protected:
 
 	float pitch_, yaw_, roll_;
 	float nearDistance_, farDistance_;
-	float fieldAngle_;
+	float aspectRatio_, fieldAngle_;
 
 public:
 	Camera();
@@ -29,6 +29,8 @@ public:
 	void moveRight();
 	void moveUp();
 	void moveDown();
+
+	void updateAspectRatio(float aspectRatio);
 
 	glm::mat4 getViewMatrix();
 	glm::mat4 getProjectionMatrix(float aspectRatio);
