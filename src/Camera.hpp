@@ -3,6 +3,11 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
+struct FrustumVertices
+{
+	glm::vec3 ftl, ftr, fbl, fbr, ntl, ntr, nbl, nbr;
+};
+
 class Camera
 {
 protected:
@@ -29,5 +34,6 @@ public:
 	glm::mat4 getProjectionMatrix(float aspectRatio);
 	glm::vec3 getDirection();
 	glm::vec3 getPosition();
+	FrustumVertices getFrustumVertices();
 	void rotate(GLfloat offsetX, GLfloat offsetY);
 };

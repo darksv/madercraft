@@ -69,6 +69,13 @@ glm::vec3 Camera::getPosition()
 	return cameraPosition_;
 }
 
+FrustumVertices Camera::getFrustumVertices()
+{
+	// TODO complete this :)
+
+	return FrustumVertices();
+}
+
 void Camera::rotate(GLfloat offsetX, GLfloat offsetY)
 {
 	yaw_ -= offsetX;
