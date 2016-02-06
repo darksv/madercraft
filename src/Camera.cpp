@@ -17,11 +17,14 @@ void Camera::updateFrustum()
 
 	// algorithm based on http://www.lighthouse3d.com/tutorials/view-frustum-culling/geometric-approach-extracting-the-planes/
 
+	glm::vec3 leftVector = glm::normalize(glm::cross(cameraUp_, cameraFront_));
+	glm::vec3 upVector = glm::normalize(glm::cross(cameraFront_, leftVector));
+
 	// near plane
 
 	glm::vec3 nearPlaneCenter = cameraPosition_ + cameraFront_ * nearDistance_;
-	glm::vec3 nearPlaneUp = cameraUp_ * (nearPlaneDimensions_.y / 2.0f);
-	glm::vec3 nearPlaneLeft = glm::cross(cameraFront_, cameraUp_) * (nearPlaneDimensions_.x / 2.0f);
+	glm::vec3 nearPlaneUp = upVector * (nearPlaneDimensions_.y / 2.0f);
+	glm::vec3 nearPlaneLeft = leftVector * (nearPlaneDimensions_.x / 2.0f);
 
 	fv.ntl = nearPlaneCenter + nearPlaneUp + nearPlaneLeft;
 	fv.ntr = nearPlaneCenter + nearPlaneUp - nearPlaneLeft;
@@ -31,8 +34,8 @@ void Camera::updateFrustum()
 	// far plane
 
 	glm::vec3 farPlaneCenter = cameraPosition_ + cameraFront_ * farDistance_;
-	glm::vec3 farPlaneUp = cameraUp_ * (farPlaneDimensions_.y / 2.0f);
-	glm::vec3 farPlaneLeft = glm::cross(cameraFront_, cameraUp_) * (farPlaneDimensions_.x / 2.0f);
+	glm::vec3 farPlaneUp = upVector * (farPlaneDimensions_.y / 2.0f);
+	glm::vec3 farPlaneLeft = leftVector * (farPlaneDimensions_.x / 2.0f);
 
 	fv.ftl = farPlaneCenter + farPlaneUp + farPlaneLeft;
 	fv.ftr = farPlaneCenter + farPlaneUp - farPlaneLeft;
@@ -43,12 +46,12 @@ void Camera::updateFrustum()
 	FrustumPlanes& fp = frustumPlanes_;
 
 	// calculate planes with normal vectors directed to the inside of frustum
-	fp.far = calculatePlane(fv.ftl - fv.ftr, fv.fbr - fv.ftr, fv.ftr);
-	fp.near = calculatePlane(fv.nbr - fv.ntr, fv.ntl - fv.ntr, fv.ntr);
-	fp.top = calculatePlane(fv.ntl - fv.ftl, fv.ftr - fv.ftl, fv.ftl);
-	fp.bottom = calculatePlane(fv.nbl - fv.nbr, fv.fbr - fv.nbr, fv.nbr);
-	fp.left = calculatePlane(fv.ftl - fv.fbl, fv.nbl - fv.fbl, fv.fbl);
-	fp.right = calculatePlane(fv.ftr - fv.fbr, fv.nbr - fv.fbr, fv.fbr);
+	fp.far = calculatePlane(fv.ftl - fv.ftr, fv.fbr - fv.ftr, fv.ftr);//
+	fp.near = calculatePlane(fv.ntr - fv.ntl, fv.nbl - fv.ntl, fv.ntl);
+	fp.top = calculatePlane(fv.ntr - fv.ftr, fv.ftl - fv.ftr, fv.ftr);
+	fp.bottom = calculatePlane(fv.fbl - fv.fbr, fv.nbr - fv.fbr, fv.fbr);
+	fp.left = calculatePlane(fv.ntl - fv.ftl, fv.fbl - fv.ftl, fv.ftl);
+	fp.right = calculatePlane(fv.fbr - fv.ftr, fv.ntr - fv.ftr, fv.ftr);
 }
 
 Camera::Camera() :
@@ -137,7 +140,7 @@ bool Camera::isVerticeInFrustum(glm::vec3 position)
 
 	if (glm::dot(glm::vec4(position, 1.0), frustumPlanes.bottom) < 0)
 		return false;
-	
+
 	return true;
 }
 
