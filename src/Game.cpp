@@ -223,14 +223,56 @@ void Game::render()
 
 	for (Chunk& chunk : world_.getAllChunks())
 	{
-		bool isInFrustum = false;
-		for (auto& vertice : chunk.getVertices())
+		const auto vertices = chunk.getVertices();
+		
+		// find mins and maxes for each axis
+		auto x = std::minmax_element(vertices.begin(), vertices.end(), [](glm::vec3 const& left, glm::vec3 const& right) {
+			return left.x < right.x;
+		});
+		auto y = std::minmax_element(vertices.begin(), vertices.end(), [](glm::vec3 const& left, glm::vec3 const& right) {
+			return left.y < right.y;
+		});
+		auto z = std::minmax_element(vertices.begin(), vertices.end(), [](glm::vec3 const& left, glm::vec3 const& right) {
+			return left.z < right.z;
+		});
+
+		bool isInFrustum = true;
+
+		for (auto& plane : camera_.getFrustumPlanes().planes)
 		{
-			if (camera_.isVerticeInFrustum(vertice))
+			const glm::vec3 min(x.first->x, y.first->y, z.first->z);
+			const glm::vec3 max(x.second->x, y.second->y, z.second->z);
+
+			glm::vec3 p(min), n(max);
+
+			// finding P and N vertices (based on http://www.lighthouse3d.com/tutorials/view-frustum-culling/geometric-approach-testing-boxes-ii/)
+
+			if (plane.x >= 0)
 			{
-				isInFrustum = true;
+				p.x = max.x;
+				n.x = min.x;
+			}
+				
+			if (plane.y >= 0)
+			{
+				p.y = max.y;
+				n.y = min.y;
+			}
+				
+			if (plane.z >= 0)
+			{
+				p.z = max.z;
+				n.z = min.z;
+			}
+				
+			if (glm::dot(plane, glm::vec4(p, 1.0)) < 0) // outside frustum
+			{
+				isInFrustum = false;
 				break;
 			}
+			else if (glm::dot(plane, glm::vec4(n, 1.0)) < 0) // intersects
+				break;
+			
 		}
 
 		if (isInFrustum)
