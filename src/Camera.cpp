@@ -110,13 +110,13 @@ void Camera::updateAspectRatio(float aspectRatio)
 {
 	aspectRatio_ = aspectRatio;
 
-	const float dft = 2.0 * tan(glm::radians(fieldAngle_) / 2.0);
+	const double dft = 2.0 * tan(glm::radians(fieldAngle_) / 2.0);
 
-	nearPlaneDimensions_.x = dft * nearDistance_ * aspectRatio_;
-	nearPlaneDimensions_.y = dft * nearDistance_;
+	nearPlaneDimensions_.x = static_cast<float>(dft * nearDistance_ * aspectRatio_);
+	nearPlaneDimensions_.y = static_cast<float>(dft * nearDistance_);
 
-	farPlaneDimensions_.x = dft * farDistance_ * aspectRatio_;
-	farPlaneDimensions_.y = dft * farDistance_;
+	farPlaneDimensions_.x = static_cast<float>(dft * farDistance_ * aspectRatio_);
+	farPlaneDimensions_.y = static_cast<float>(dft * farDistance_);
 }
 
 bool Camera::isVerticeInFrustum(glm::vec3 position)

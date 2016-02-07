@@ -113,7 +113,7 @@ glm::uvec3 World::getBlockPositionInChunk(glm::ivec3 blockPosition)
 
 static int calculateBlockIndexByCoord(float absoluteCoord)
 {
-	return (absoluteCoord > 0.0f) ? ceil(absoluteCoord) : floor(absoluteCoord);
+	return static_cast<int>((absoluteCoord > 0.0f) ? ceil(absoluteCoord) : floor(absoluteCoord));
 }
 
 glm::ivec3 World::getBlockByPosition(glm::vec3 blockPosition)

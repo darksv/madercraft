@@ -58,7 +58,7 @@ bool ShaderProgram::compileShader(Shader& shader)
 	if (success)
 		shader.isCompiled_ = true;
 
-	return success;
+	return success == GL_TRUE;
 }
 
 bool ShaderProgram::compile()

@@ -15,7 +15,7 @@ Texture::Texture(TextureType type, TexturePixelFormat pixelFormat, const std::ve
 
 	pixelCount = data.size() / bytesPerPixel;
 
-	dimension = std::sqrt(pixelCount);
+	dimension = static_cast<size_t>(std::sqrt(pixelCount));
 	// detect square texture
 	if (dimension * dimension == pixelCount)
 		width_ = height_ = dimension;
@@ -43,9 +43,9 @@ bool Texture::loadToGpu()
 	GLboolean isLoaded;
 	glAreTexturesResident(1, &textureId_, &isLoaded);
 
-	loaded_ = isLoaded;
+	loaded_ = (isLoaded == GL_TRUE);
 
-	return isLoaded;
+	return loaded_;
 }
 
 GLuint Texture::getId()
