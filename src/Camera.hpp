@@ -3,14 +3,34 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
+#include <array>
+
 struct FrustumVertices
 {
-	glm::vec3 ftl, ftr, fbl, fbr, ntl, ntr, nbl, nbr;
+	union
+	{
+		glm::vec3 vertices[8];
+		struct
+		{
+			glm::vec3 ftl, ftr, fbl, fbr, ntl, ntr, nbl, nbr;
+		};
+	};
+
+	FrustumVertices() {};
 };
 
 struct FrustumPlanes
 {
-	glm::vec4 bottom, top, left, right, near, far;
+	union
+	{
+		glm::vec4 planes[6];
+		struct
+		{
+			glm::vec4 bottom, top, left, right, near, far;
+		};
+	};
+
+	FrustumPlanes() {};
 };
 
 class Camera
@@ -48,8 +68,8 @@ public:
 	glm::mat4 getProjectionMatrix(float aspectRatio);
 	glm::vec3 getDirection();
 	glm::vec3 getPosition();
-	FrustumVertices getFrustumVertices();
-	FrustumPlanes getFrustumPlanes();
+	FrustumVertices getFrustumVertices() const;
+	FrustumPlanes getFrustumPlanes() const;
 	glm::vec2 getNearPlaneDimensions();
 	glm::vec2 getFarPlaneDimensions();
 	void rotate(GLfloat offsetX, GLfloat offsetY);

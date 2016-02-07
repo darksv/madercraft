@@ -13,7 +13,7 @@ static glm::vec4 calculatePlane(glm::vec3 a, glm::vec3 b, glm::vec3 point)
 
 void Camera::updateFrustum()
 {
-	FrustumVertices& fv = frustumVertices_;
+	auto& fv = frustumVertices_;
 
 	// algorithm based on http://www.lighthouse3d.com/tutorials/view-frustum-culling/geometric-approach-extracting-the-planes/
 
@@ -43,15 +43,15 @@ void Camera::updateFrustum()
 	fv.fbr = farPlaneCenter - farPlaneUp - farPlaneLeft;
 
 
-	FrustumPlanes& fp = frustumPlanes_;
+	auto& fp = frustumPlanes_;
 
 	// calculate planes with normal vectors directed to the inside of frustum
-	fp.far = calculatePlane(fv.ftl - fv.ftr, fv.fbr - fv.ftr, fv.ftr);//
-	fp.near = calculatePlane(fv.ntr - fv.ntl, fv.nbl - fv.ntl, fv.ntl);
-	fp.top = calculatePlane(fv.ntr - fv.ftr, fv.ftl - fv.ftr, fv.ftr);
+	fp.far    = calculatePlane(fv.ftl - fv.ftr, fv.fbr - fv.ftr, fv.ftr);
+	fp.near   = calculatePlane(fv.ntr - fv.ntl, fv.nbl - fv.ntl, fv.ntl);
+	fp.top    = calculatePlane(fv.ntr - fv.ftr, fv.ftl - fv.ftr, fv.ftr);
 	fp.bottom = calculatePlane(fv.fbl - fv.fbr, fv.nbr - fv.fbr, fv.fbr);
-	fp.left = calculatePlane(fv.ntl - fv.ftl, fv.fbl - fv.ftl, fv.ftl);
-	fp.right = calculatePlane(fv.fbr - fv.ftr, fv.ntr - fv.ftr, fv.ftr);
+	fp.left   = calculatePlane(fv.ntl - fv.ftl, fv.fbl - fv.ftl, fv.ftl);
+	fp.right  = calculatePlane(fv.fbr - fv.ftr, fv.ntr - fv.ftr, fv.ftr);
 }
 
 Camera::Camera() :
@@ -122,25 +122,12 @@ void Camera::updateAspectRatio(float aspectRatio)
 bool Camera::isVerticeInFrustum(glm::vec3 position)
 {
 	auto frustumPlanes = getFrustumPlanes();
+	auto vertice = glm::vec4(position, 1.0);
+
+	for (auto& plane : frustumPlanes.planes)
+		if (glm::dot(vertice, plane) < 0)
+			return false;
 	
-	if (glm::dot(glm::vec4(position, 1.0), frustumPlanes.far) < 0)
-		return false;
-
-	if (glm::dot(glm::vec4(position, 1.0), frustumPlanes.near) < 0)
-		return false;
-
-	if (glm::dot(glm::vec4(position, 1.0), frustumPlanes.left) < 0)
-		return false;
-
-	if (glm::dot(glm::vec4(position, 1.0), frustumPlanes.right) < 0)
-		return false;
-
-	if (glm::dot(glm::vec4(position, 1.0), frustumPlanes.top) < 0)
-		return false;
-
-	if (glm::dot(glm::vec4(position, 1.0), frustumPlanes.bottom) < 0)
-		return false;
-
 	return true;
 }
 
@@ -164,12 +151,12 @@ glm::vec3 Camera::getPosition()
 	return cameraPosition_;
 }
 
-FrustumVertices Camera::getFrustumVertices()
+FrustumVertices Camera::getFrustumVertices() const
 {
 	return frustumVertices_;
 }
 
-FrustumPlanes Camera::getFrustumPlanes()
+FrustumPlanes Camera::getFrustumPlanes() const
 {
 	return frustumPlanes_;
 }
