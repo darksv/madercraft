@@ -58,13 +58,13 @@ std::vector<glm::vec3> Chunk::getVertices() const
 	std::vector<glm::vec3> vertices;
 	vertices.reserve(8);
 
-	const float x1 = position.x * Chunk::SIZE;
+	const float x1 = static_cast<float>(position.x) * Chunk::SIZE;
 	const float x2 = x1 + Chunk::SIZE;
 
-	const float y1 = position.y * Chunk::SIZE;
+	const float y1 = static_cast<float>(position.y) * Chunk::SIZE;
 	const float y2 = y1 + Chunk::SIZE;
 
-	const float z1 = position.z * Chunk::SIZE;
+	const float z1 = static_cast<float>(position.z) * Chunk::SIZE;
 	const float z2 = z1 + Chunk::SIZE;
 
 	vertices.emplace_back(x1, y1, z1);
