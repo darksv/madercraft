@@ -31,5 +31,8 @@ public:
 	glm::ivec3 getPosition() const;
 	std::vector<glm::vec3> getVertices() const;
 	void putBlockAt(BlockKind kind, glm::uvec3 relativePosition);
+
+	static Chunk empty(glm::ivec3 position);
+	static Chunk randomized(glm::ivec3 position);
 };
 

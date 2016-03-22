@@ -84,3 +84,41 @@ void Chunk::putBlockAt(BlockKind kind, glm::uvec3 relativePosition)
 	blocks_[relativePosition.x][relativePosition.y][relativePosition.z] = kind;
 	needsCacheUpdate_ = true;
 }
+
+Chunk Chunk::empty(glm::ivec3 position)
+{
+	Chunk chunk(position);
+	auto& blocks = chunk.getBlocks();
+
+	for (unsigned char x = 0; x < Chunk::SIZE; ++x)
+	{
+		for (unsigned char y = 0; y < Chunk::SIZE; ++y)
+		{
+			for (unsigned char z = 0; z < Chunk::SIZE; ++z)
+			{
+				blocks[x][y][z] = BlockKind::NONE;
+			}
+		}
+	}
+
+	return chunk;
+}
+
+Chunk Chunk::randomized(glm::ivec3 position)
+{
+	Chunk chunk(position);
+	auto& blocks = chunk.getBlocks();
+
+	for (unsigned char x = 0; x < Chunk::SIZE; ++x)
+	{
+		for (unsigned char y = 0; y < Chunk::SIZE; ++y)
+		{
+			for (unsigned char z = 0; z < Chunk::SIZE; ++z)
+			{
+				blocks[x][y][z] = (BlockKind)(rand() % 3);
+			}
+		}
+	}
+
+	return chunk;
+}

@@ -1,52 +1,14 @@
 #include "World.hpp"
 
-Chunk World::generateEmptyChunk(glm::ivec3 position)
-{
-	Chunk chunk(position);
-	auto& blocks = chunk.getBlocks();
-
-	for (unsigned char x = 0; x < Chunk::SIZE; ++x)
-	{
-		for (unsigned char y = 0; y < Chunk::SIZE; ++y)
-		{
-			for (unsigned char z = 0; z < Chunk::SIZE; ++z)
-			{
-				blocks[x][y][z] = BlockKind::NONE;
-			}
-		}
-	}
-
-	return chunk;
-}
-
-Chunk World::generateRandomizedChunk(glm::ivec3 position)
-{
-	Chunk chunk(position);
-	auto& blocks = chunk.getBlocks();
-
-	for (unsigned char x = 0; x < Chunk::SIZE; ++x)
-	{
-		for (unsigned char y = 0; y < Chunk::SIZE; ++y)
-		{
-			for (unsigned char z = 0; z < Chunk::SIZE; ++z)
-			{
-				blocks[x][y][z] = (BlockKind) (rand() % 3);
-			}
-		}
-	}
-
-	return chunk;
-}
-
 Chunk* World::createEmptyChunk(glm::ivec3 position)
 {
-	chunks_.push_back(generateEmptyChunk(position));
+	chunks_.push_back(Chunk::empty(position));
 	return &chunks_.back();
 }
 
 Chunk* World::createRandomizedChunk(glm::ivec3 position)
 {
-	chunks_.push_back(generateRandomizedChunk(position));
+	chunks_.push_back(Chunk::randomized(position));
 	return &chunks_.back();
 }
 

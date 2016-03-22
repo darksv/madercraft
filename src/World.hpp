@@ -14,9 +14,6 @@ protected:
 	std::list<Chunk> chunks_;
 
 public:
-	Chunk generateEmptyChunk(glm::ivec3 position);
-	Chunk generateRandomizedChunk(glm::ivec3 position);
-
 	Chunk* createEmptyChunk(glm::ivec3 position);
 	Chunk* createRandomizedChunk(glm::ivec3 position);
 	Chunk* getChunk(glm::ivec3 position);
