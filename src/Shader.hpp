@@ -25,6 +25,6 @@ public:
 	Shader(ShaderType type, std::string filePath);
 	Shader(const Shader& shader) = delete;
 
-	GLuint getId();
-	ShaderType getType();
+	GLuint getId() const;
+	ShaderType getType() const;
 };

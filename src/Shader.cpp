@@ -11,12 +11,12 @@ Shader::Shader(ShaderType type, std::string filePath) :
 	
 }
 
-GLuint Shader::getId()
+GLuint Shader::getId() const
 {
 	return shaderId_;
 }
 
-ShaderType Shader::getType()
+ShaderType Shader::getType() const
 {
 	return type_;
 }
