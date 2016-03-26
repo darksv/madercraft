@@ -171,6 +171,7 @@
     <ClInclude Include="src\Game.hpp" />
     <ClInclude Include="src\Grass.hpp" />
     <ClInclude Include="src\helpers.hpp" />
+    <ClInclude Include="src\Mesh.hpp" />
     <ClInclude Include="src\Shader.hpp" />
     <ClInclude Include="src\ShaderProgram.hpp" />
     <ClInclude Include="src\Texture.hpp" />
@@ -186,6 +187,7 @@
     <ClCompile Include="src\Grass.cpp" />
     <ClCompile Include="src\helpers.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\ShaderProgram.cpp" />
     <ClCompile Include="src\Texture.cpp" />
