@@ -48,39 +48,26 @@ Game::Game(sf::Window* window) :
 
 	world_.createRandomizedChunk(glm::vec3(0, 0, 0));
 	world_.createRandomizedChunk(glm::vec3(0, 1, 0));
+	world_.createRandomizedChunk(glm::vec3(0, 0, 1));
 }
 
 void Game::loop()
 {
-	sf::Clock renderClock;
+	sf::Clock gameClock;
 
+	sf::Time lastTime = gameClock.getElapsedTime();
 	while (isRunning_)
 	{
-		sf::Time timeStart = renderClock.getElapsedTime();
+		auto currentTime = gameClock.getElapsedTime();
+		auto elapsed = currentTime - lastTime;
 		{
 			processEvents();
+			update(elapsed);
 			render();
 		}
-		sf::Time timeEnd = renderClock.restart();
+		lastTime = currentTime;
 
-		framesPerSecond_ = (unsigned int)(1.0 / (timeEnd - timeStart).asSeconds());
-
-		auto cameraDirection = camera_.getDirection();
-		auto cameraPosition = camera_.getPosition();
-		auto currentBlockPosition = world_.getBlockByPosition(camera_.getPosition());
-		auto currentChunkPosition = world_.getChunkPositionByBlock(currentBlockPosition);
-
-		std::cout << "\r";
-		std::cout << framesPerSecond_ << "fps";
-		std::cout << " ";
-		std::cout << "(" << cameraPosition.x << ", " << cameraPosition.y << ", " << cameraPosition.z << ")";
-		std::cout << " ";
-		std::cout << "(" << currentBlockPosition.x << ", " << currentBlockPosition.y << ", " << currentBlockPosition.z << ")";
-		std::cout << " ";
-		std::cout << "(" << currentChunkPosition.x << ", " << currentChunkPosition.y << ", " << currentChunkPosition.z << ")";
-		std::cout << " ";
-		std::cout << "(" << cameraDirection.x << ", " << cameraDirection.y << ", " << cameraDirection.z << ")";
-		
+		framesPerSecond_ = (unsigned int)(1.0 / elapsed.asSeconds());		
 	}
 }
 
@@ -190,6 +177,25 @@ void Game::processEvents()
 	{
 		world_.putBlockAt(BlockKind::NONE, pickedBlock);
 	}
+}
+
+void Game::update(sf::Time delta)
+{
+	auto cameraDirection = camera_.getDirection();
+	auto cameraPosition = camera_.getPosition();
+	auto currentBlockPosition = world_.getBlockByPosition(camera_.getPosition());
+	auto currentChunkPosition = world_.getChunkPositionByBlock(currentBlockPosition);
+
+	std::cout << "\r";
+	std::cout << framesPerSecond_ << "fps";
+	std::cout << " ";
+	std::cout << "(" << cameraPosition.x << ", " << cameraPosition.y << ", " << cameraPosition.z << ")";
+	std::cout << " ";
+	std::cout << "(" << currentBlockPosition.x << ", " << currentBlockPosition.y << ", " << currentBlockPosition.z << ")";
+	std::cout << " ";
+	std::cout << "(" << currentChunkPosition.x << ", " << currentChunkPosition.y << ", " << currentChunkPosition.z << ")";
+	std::cout << " ";
+	std::cout << "(" << cameraDirection.x << ", " << cameraDirection.y << ", " << cameraDirection.z << ")";
 }
 
 void Game::drawChunk(Chunk& chunk)

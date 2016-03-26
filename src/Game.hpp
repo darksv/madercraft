@@ -32,6 +32,7 @@ public:
 	Game(sf::Window* window);
 
 	void processEvents();
+	void update(sf::Time delta);
 	void render();
 	void loop();
 
