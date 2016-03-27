@@ -4,6 +4,9 @@
 
 #include "Texture.hpp"
 
+namespace mc
+{
+
 Texture::Texture(TextureType type, TexturePixelFormat pixelFormat, const std::vector<char>& data) :
 	type_(type),
 	pixelFormat_(pixelFormat),
@@ -28,7 +31,7 @@ Texture::Texture(TextureType type, TexturePixelFormat pixelFormat, size_t width,
 	height_(height),
 	data_(data)
 {
-	
+
 }
 
 
@@ -54,4 +57,6 @@ GLuint Texture::getId()
 		loadToGpu();
 
 	return textureId_;
+}
+
 }

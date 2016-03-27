@@ -1,5 +1,8 @@
 #include "World.hpp"
 
+namespace mc
+{
+
 Chunk* World::createEmptyChunk(glm::ivec3 position)
 {
 	chunks_.push_back(Chunk::empty(position));
@@ -36,7 +39,7 @@ bool World::putBlockAt(BlockKind kind, glm::ivec3 position)
 
 	if (chunk == nullptr)
 		chunk = createEmptyChunk(chunkPosition);
-	
+
 	chunk->putBlockAt(kind, blockOffsetInChunk);
 
 	return true;
@@ -125,4 +128,6 @@ float World::getDistanceToChunk(const Chunk& chunk, glm::vec3 position)
 	// TODO use chunk's center point
 
 	return sqrt(pow((float)chunkPosition.x * Chunk::SIZE - position.x, 2) + pow((float)chunkPosition.y * Chunk::SIZE - position.y, 2) + pow((float)chunkPosition.z * Chunk::SIZE - position.z, 2));
+}
+
 }

@@ -7,6 +7,9 @@
 
 #include "BlockModel.hpp"
 
+namespace mc
+{
+
 BlockModel::BlockModel(Texture* textureTop, Texture* textureBottom, Texture* textureSide, ShaderProgram* shaderProgram) :
 	Mesh(shaderProgram)
 {
@@ -65,3 +68,4 @@ BlockModel::BlockModel(Texture* textureTop, Texture* textureBottom, Texture* tex
 	textures_.push_back(textureSide);
 }
 
+}

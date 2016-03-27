@@ -8,6 +8,9 @@
 #include "ShaderProgram.hpp"
 #include "Texture.hpp"
 
+namespace mc
+{
+
 using Vertice = std::pair<glm::vec3, glm::vec2>;
 
 class Mesh
@@ -18,7 +21,7 @@ protected:
 	ShaderProgram* shaderProgram_;
 	GLuint vao_, vbo_;
 	bool isLoaded_;
-	
+
 	virtual void load();
 
 public:
@@ -27,3 +30,5 @@ public:
 
 	void draw(std::vector<glm::vec3>& positions);
 };
+
+}

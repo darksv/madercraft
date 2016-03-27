@@ -2,6 +2,9 @@
 
 #include "helpers.hpp"
 
+namespace mc
+{
+
 std::vector<char> getFileContent(std::string filePath)
 {
 	std::ifstream fileStream(filePath, std::ios::binary);
@@ -9,4 +12,6 @@ std::vector<char> getFileContent(std::string filePath)
 		(std::istreambuf_iterator<char>(fileStream)),
 		(std::istreambuf_iterator<char>())
 	);
+}
+
 }

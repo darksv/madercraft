@@ -7,6 +7,9 @@
 
 #include "Mesh.hpp"
 
+namespace mc
+{
+
 Mesh::Mesh(ShaderProgram* shaderProgram) :
 	vao_(0),
 	vbo_(0),
@@ -22,7 +25,7 @@ void Mesh::load()
 
 	if (isLoaded_)
 		return;
-	
+
 	glGenVertexArrays(1, &vao_);
 	glBindVertexArray(vao_);
 
@@ -110,4 +113,6 @@ void Mesh::draw(std::vector<glm::vec3>& positions)
 ShaderProgram* Mesh::getShaderProgram() const
 {
 	return shaderProgram_;
+}
+
 }

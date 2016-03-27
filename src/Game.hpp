@@ -8,6 +8,9 @@
 #include "TextureManager.hpp"
 #include "World.hpp"
 
+namespace mc
+{
+
 class Game
 {
 protected:
@@ -41,3 +44,5 @@ public:
 	sf::Vector2i getWindowCenterPosition();
 	void setCursorAtWindowCenter();
 };
+
+}

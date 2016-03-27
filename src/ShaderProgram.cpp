@@ -3,6 +3,9 @@
 #include "helpers.hpp"
 #include "ShaderProgram.hpp"
 
+namespace mc
+{
+
 ShaderProgram::ShaderProgram() :
 	isCompiled_(false)
 {
@@ -93,4 +96,6 @@ bool ShaderProgram::compile()
 	}
 
 	return isCompiled_;
+}
+
 }

@@ -2,13 +2,16 @@
 
 #include "Shader.hpp"
 
+namespace mc
+{
+
 Shader::Shader(ShaderType type, std::string filePath) :
 	type_(type),
 	filePath_(filePath),
 	isFromFile_(true),
 	isCompiled_(false)
 {
-	
+
 }
 
 GLuint Shader::getId() const
@@ -21,3 +24,4 @@ ShaderType Shader::getType() const
 	return type_;
 }
 
+}

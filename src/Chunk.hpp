@@ -1,13 +1,16 @@
 #pragma once
 
-#define CHUNK_SIZE 32
-
 #include <map>
 #include <vector>
 
 #include <glm\vec3.hpp>
 
 #include "BlockKind.hpp"
+
+namespace mc
+{
+
+#define CHUNK_SIZE 32
 
 typedef BlockKind Blocks[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
 
@@ -36,3 +39,4 @@ public:
 	static Chunk randomized(glm::ivec3 position);
 };
 
+}

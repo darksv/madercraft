@@ -11,6 +11,9 @@
 #include "Grass.hpp"
 #include "ShaderProgram.hpp"
 
+namespace mc
+{
+
 glm::mat4 Game::getProjectionMatrix()
 {
 	sf::Vector2u windowSize = window_->getSize();
@@ -43,7 +46,7 @@ Game::Game(sf::Window* window) :
 	s->addShaderFromFile(ShaderType::FRAGMENT_SHADER, "shaders\\cube.frag");
 	s->compile();
 
-	blocks_[BlockKind::DIRT]  = (BlockModel*)new BlockGrass(t1, t2, t3, s);
+	blocks_[BlockKind::DIRT] = (BlockModel*)new BlockGrass(t1, t2, t3, s);
 	blocks_[BlockKind::GRASS] = (BlockModel*)new BlockGrass(t2, t2, t3, s);
 
 	world_.createRandomizedChunk(glm::vec3(0, 0, 0));
@@ -80,7 +83,7 @@ void Game::loop()
 		std::cout << "(" << currentChunkPosition.x << ", " << currentChunkPosition.y << ", " << currentChunkPosition.z << ")";
 		std::cout << " ";
 		std::cout << "(" << cameraDirection.x << ", " << cameraDirection.y << ", " << cameraDirection.z << ")";
-		
+
 	}
 }
 
@@ -135,15 +138,15 @@ void Game::processEvents()
 		{
 			GLfloat xoffset = 0, yoffset = 0;
 
-			if (! isCursorPositionSet_)
+			if (!isCursorPositionSet_)
 			{
 				setCursorAtWindowCenter();
 				isCursorPositionSet_ = true;
 			}
-			
+
 			xoffset = (float)(event.mouseMove.x - previousCursorPosition_.x);
 			yoffset = (float)(previousCursorPosition_.y - event.mouseMove.y);
-			
+
 			previousCursorPosition_ = event.mouseMove;
 
 			GLfloat sensitivity = 0.45f;
@@ -166,7 +169,7 @@ void Game::processEvents()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		camera_.moveBackward();
-	
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		camera_.moveLeft();
 
@@ -195,7 +198,7 @@ void Game::processEvents()
 void Game::drawChunk(Chunk& chunk)
 {
 	auto positions = chunk.getCalculatedPositions();
-	
+
 	for (auto item : positions)
 	{
 		BlockKind blockKind = item.first;
@@ -224,7 +227,7 @@ void Game::render()
 	for (Chunk& chunk : world_.getAllChunks())
 	{
 		const auto vertices = chunk.getVertices();
-		
+
 		// find mins and maxes for each axis
 		auto x = std::minmax_element(vertices.begin(), vertices.end(), [](glm::vec3 const& left, glm::vec3 const& right) {
 			return left.x < right.x;
@@ -252,19 +255,19 @@ void Game::render()
 				p.x = max.x;
 				n.x = min.x;
 			}
-				
+
 			if (plane.y >= 0)
 			{
 				p.y = max.y;
 				n.y = min.y;
 			}
-				
+
 			if (plane.z >= 0)
 			{
 				p.z = max.z;
 				n.z = min.z;
 			}
-				
+
 			if (glm::dot(plane, glm::vec4(p, 1.0)) < 0) // outside frustum
 			{
 				isInFrustum = false;
@@ -272,13 +275,13 @@ void Game::render()
 			}
 			else if (glm::dot(plane, glm::vec4(n, 1.0)) < 0) // intersects
 				break;
-			
+
 		}
 
 		if (isInFrustum)
 			drawChunk(chunk);
 	}
-	
+
 	window_->display();
 }
 
@@ -293,11 +296,13 @@ void Game::updateViewport()
 sf::Vector2i Game::getWindowCenterPosition()
 {
 	sf::Vector2u windowSize = window_->getSize();
-	
+
 	return sf::Vector2i(windowSize.x / 2, windowSize.y / 2);
 }
 
 void Game::setCursorAtWindowCenter()
 {
 	sf::Mouse::setPosition(getWindowCenterPosition());
+}
+
 }

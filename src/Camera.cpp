@@ -4,6 +4,9 @@
 
 #include "Camera.hpp"
 
+namespace mc
+{
+
 static glm::vec4 calculatePlane(glm::vec3 a, glm::vec3 b, glm::vec3 point)
 {
 	auto normal = glm::normalize(glm::cross(a, b));
@@ -46,12 +49,12 @@ void Camera::updateFrustum()
 	auto& fp = frustumPlanes_;
 
 	// calculate planes with normal vectors directed to the inside of frustum
-	fp.far    = calculatePlane(fv.ftl - fv.ftr, fv.fbr - fv.ftr, fv.ftr);
-	fp.near   = calculatePlane(fv.ntr - fv.ntl, fv.nbl - fv.ntl, fv.ntl);
-	fp.top    = calculatePlane(fv.ntr - fv.ftr, fv.ftl - fv.ftr, fv.ftr);
+	fp.far = calculatePlane(fv.ftl - fv.ftr, fv.fbr - fv.ftr, fv.ftr);
+	fp.near = calculatePlane(fv.ntr - fv.ntl, fv.nbl - fv.ntl, fv.ntl);
+	fp.top = calculatePlane(fv.ntr - fv.ftr, fv.ftl - fv.ftr, fv.ftr);
 	fp.bottom = calculatePlane(fv.fbl - fv.fbr, fv.nbr - fv.fbr, fv.fbr);
-	fp.left   = calculatePlane(fv.ntl - fv.ftl, fv.fbl - fv.ftl, fv.ftl);
-	fp.right  = calculatePlane(fv.fbr - fv.ftr, fv.ntr - fv.ftr, fv.ftr);
+	fp.left = calculatePlane(fv.ntl - fv.ftl, fv.fbl - fv.ftl, fv.ftl);
+	fp.right = calculatePlane(fv.fbr - fv.ftr, fv.ntr - fv.ftr, fv.ftr);
 }
 
 Camera::Camera() :
@@ -127,7 +130,7 @@ bool Camera::isVerticeInFrustum(glm::vec3 position)
 	for (auto& plane : frustumPlanes.planes)
 		if (glm::dot(vertice, plane) < 0)
 			return false;
-	
+
 	return true;
 }
 
@@ -190,4 +193,6 @@ void Camera::rotate(GLfloat offsetX, GLfloat offsetY)
 	cameraFront_ = glm::normalize(front);
 
 	updateFrustum();
+}
+
 }

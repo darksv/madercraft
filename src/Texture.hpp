@@ -5,6 +5,9 @@
 
 #include <GL/glew.h>
 
+namespace mc
+{
+
 enum class TextureType {
 	TEXTURE_2D
 };
@@ -37,3 +40,5 @@ public:
 	bool loadToGpu();
 	GLuint getId();
 };
+
+}

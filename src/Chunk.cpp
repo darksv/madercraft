@@ -1,5 +1,8 @@
 #include "Chunk.hpp"
 
+namespace mc
+{
+
 Chunk::Chunk(glm::ivec3 position) :
 	position_(position),
 	needsCacheUpdate_(true)
@@ -121,4 +124,6 @@ Chunk Chunk::randomized(glm::ivec3 position)
 	}
 
 	return chunk;
+}
+
 }

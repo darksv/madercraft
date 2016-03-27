@@ -4,6 +4,9 @@
 
 #include <GL/GLew.h>
 
+namespace mc
+{
+
 enum class ShaderType {
 	VERTEX_SHADER,
 	FRAGMENT_SHADER
@@ -28,3 +31,5 @@ public:
 	GLuint getId() const;
 	ShaderType getType() const;
 };
+
+}

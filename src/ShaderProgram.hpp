@@ -5,6 +5,9 @@
 
 #include "Shader.hpp"
 
+namespace mc
+{
+
 class ShaderProgram
 {
 protected:
@@ -24,3 +27,5 @@ public:
 	bool compileShader(Shader& shader);
 	bool compile();
 };
+
+}

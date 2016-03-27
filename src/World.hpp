@@ -8,6 +8,9 @@
 
 #include "Chunk.hpp"
 
+namespace mc
+{
+
 class World
 {
 protected:
@@ -29,3 +32,5 @@ public:
 
 	float getDistanceToChunk(const Chunk& chunk, glm::vec3 position);
 };
+
+}

@@ -4,6 +4,9 @@
 
 #include "Texture.hpp"
 
+namespace mc
+{
+
 class TextureManager
 {
 protected:
@@ -12,3 +15,5 @@ protected:
 public:
 	Texture* loadTextureFromFile(std::string filePath);
 };
+
+}

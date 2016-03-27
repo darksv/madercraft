@@ -5,6 +5,9 @@
 
 #include <array>
 
+namespace mc
+{
+
 struct FrustumVertices
 {
 	union
@@ -74,3 +77,5 @@ public:
 	glm::vec2 getFarPlaneDimensions();
 	void rotate(GLfloat offsetX, GLfloat offsetY);
 };
+
+}

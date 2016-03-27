@@ -14,7 +14,7 @@ int main()
 	
 	sf::Window window(videoMode, "Madercraft", sf::Style::Default, settings);
 	
-	Game game(&window);
+	mc::Game game(&window);
 	game.loop();
 
 	return 0;
