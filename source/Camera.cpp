@@ -116,7 +116,7 @@ void Camera::updateAspectRatio(float aspectRatio)
 	farPlaneDimensions_.y = static_cast<float>(dft * farDistance_);
 }
 
-bool Camera::isVerticeInFrustum(glm::vec3 position)
+bool Camera::isVerticeInFrustum(glm::vec3 position) const
 {
 	auto frustumPlanes = getFrustumPlanes();
 	auto vertice = glm::vec4(position, 1.0);
@@ -128,22 +128,22 @@ bool Camera::isVerticeInFrustum(glm::vec3 position)
 	return true;
 }
 
-glm::mat4 Camera::getViewMatrix()
+glm::mat4 Camera::getViewMatrix() const
 {
 	return glm::lookAt(cameraPosition_, cameraPosition_ + cameraFront_, cameraUp_);
 }
 
-glm::mat4 Camera::getProjectionMatrix(float aspectRatio)
+glm::mat4 Camera::getProjectionMatrix(float aspectRatio) const
 {
 	return glm::perspective(fieldAngle_, aspectRatio, nearDistance_, farDistance_);
 }
 
-glm::vec3 Camera::getDirection()
+glm::vec3 Camera::getDirection() const
 {
 	return cameraFront_;
 }
 
-glm::vec3 Camera::getPosition()
+glm::vec3 Camera::getPosition() const
 {
 	return cameraPosition_;
 }
@@ -158,12 +158,12 @@ FrustumPlanes Camera::getFrustumPlanes() const
 	return frustumPlanes_;
 }
 
-glm::vec2 Camera::getNearPlaneDimensions()
+glm::vec2 Camera::getNearPlaneDimensions() const
 {
 	return nearPlaneDimensions_;
 }
 
-glm::vec2 Camera::getFarPlaneDimensions()
+glm::vec2 Camera::getFarPlaneDimensions() const
 {
 	return farPlaneDimensions_;
 }

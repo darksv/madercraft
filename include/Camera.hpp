@@ -65,16 +65,16 @@ public:
 
 	void updateAspectRatio(float aspectRatio);
 
-	bool isVerticeInFrustum(glm::vec3 position);
+	bool isVerticeInFrustum(glm::vec3 position) const;
 
-	glm::mat4 getViewMatrix();
-	glm::mat4 getProjectionMatrix(float aspectRatio);
-	glm::vec3 getDirection();
-	glm::vec3 getPosition();
+	glm::mat4 getViewMatrix() const;
+	glm::mat4 getProjectionMatrix(float aspectRatio) const;
+	glm::vec3 getDirection() const;
+	glm::vec3 getPosition() const;
 	FrustumVertices getFrustumVertices() const;
 	FrustumPlanes getFrustumPlanes() const;
-	glm::vec2 getNearPlaneDimensions();
-	glm::vec2 getFarPlaneDimensions();
+	glm::vec2 getNearPlaneDimensions() const;
+	glm::vec2 getFarPlaneDimensions() const;
 	void rotate(GLfloat offsetX, GLfloat offsetY);
 };
 
