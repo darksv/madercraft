@@ -173,6 +173,7 @@
     <ClInclude Include="include\Game.hpp" />
     <ClInclude Include="include\Grass.hpp" />
     <ClInclude Include="include\helpers.hpp" />
+    <ClInclude Include="include\math.hpp" />
     <ClInclude Include="include\Mesh.hpp" />
     <ClInclude Include="include\Shader.hpp" />
     <ClInclude Include="include\ShaderProgram.hpp" />
@@ -189,6 +190,7 @@
     <ClCompile Include="source\Grass.cpp" />
     <ClCompile Include="source\helpers.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\math.cpp" />
     <ClCompile Include="source\Mesh.cpp" />
     <ClCompile Include="source\Shader.cpp" />
     <ClCompile Include="source\ShaderProgram.cpp" />

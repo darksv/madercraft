@@ -3,16 +3,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Camera.hpp"
+#include "math.hpp"
 
 namespace mc
 {
-
-static glm::vec4 calculatePlane(glm::vec3 a, glm::vec3 b, glm::vec3 point)
-{
-	auto normal = glm::normalize(glm::cross(a, b));
-
-	return glm::vec4(normal, -glm::dot(normal, point));
-}
 
 void Camera::updateFrustum()
 {
@@ -49,12 +43,12 @@ void Camera::updateFrustum()
 	auto& fp = frustumPlanes_;
 
 	// calculate planes with normal vectors directed to the inside of frustum
-	fp.far = calculatePlane(fv.ftl - fv.ftr, fv.fbr - fv.ftr, fv.ftr);
-	fp.near = calculatePlane(fv.ntr - fv.ntl, fv.nbl - fv.ntl, fv.ntl);
-	fp.top = calculatePlane(fv.ntr - fv.ftr, fv.ftl - fv.ftr, fv.ftr);
-	fp.bottom = calculatePlane(fv.fbl - fv.fbr, fv.nbr - fv.fbr, fv.fbr);
-	fp.left = calculatePlane(fv.ntl - fv.ftl, fv.fbl - fv.ftl, fv.ftl);
-	fp.right = calculatePlane(fv.fbr - fv.ftr, fv.ntr - fv.ftr, fv.ftr);
+	fp.far = math::calculatePlane(fv.ftl - fv.ftr, fv.fbr - fv.ftr, fv.ftr);
+	fp.near = math::calculatePlane(fv.ntr - fv.ntl, fv.nbl - fv.ntl, fv.ntl);
+	fp.top = math::calculatePlane(fv.ntr - fv.ftr, fv.ftl - fv.ftr, fv.ftr);
+	fp.bottom = math::calculatePlane(fv.fbl - fv.fbr, fv.nbr - fv.fbr, fv.fbr);
+	fp.left = math::calculatePlane(fv.ntl - fv.ftl, fv.fbl - fv.ftl, fv.ftl);
+	fp.right = math::calculatePlane(fv.fbr - fv.ftr, fv.ntr - fv.ftr, fv.ftr);
 }
 
 Camera::Camera() :
