@@ -19,11 +19,11 @@
     <Filter Include="Resources\Textures">
       <UniqueIdentifier>{eb78c081-4581-4a57-9f26-0c86098d8fcb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Blocks">
-      <UniqueIdentifier>{b0ffd078-a344-47fc-9eed-568ff3a56692}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Blocks">
-      <UniqueIdentifier>{36682a38-37d5-418c-98c3-94e73e3e4f45}</UniqueIdentifier>
+      <UniqueIdentifier>{c04315c4-61b8-4566-b63a-21a590ff688f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Blocks">
+      <UniqueIdentifier>{c7372a97-82cf-4ab3-bcf7-bfa9725bcffb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -44,85 +44,91 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\helpers.hpp">
+    <ClInclude Include="include\BlockKind.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Shader.hpp">
+    <ClInclude Include="include\BlockModel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Texture.hpp">
+    <ClInclude Include="include\Camera.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\TextureManager.hpp">
+    <ClInclude Include="include\Chunk.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\World.hpp">
+    <ClInclude Include="include\Game.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\BlockKind.hpp">
+    <ClInclude Include="include\helpers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\BlockModel.hpp">
+    <ClInclude Include="include\Mesh.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Camera.hpp">
+    <ClInclude Include="include\Shader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Chunk.hpp">
+    <ClInclude Include="include\ShaderProgram.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game.hpp">
+    <ClInclude Include="include\Texture.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Dirt.hpp">
+    <ClInclude Include="include\TextureManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\World.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Dirt.hpp">
       <Filter>Header Files\Blocks</Filter>
     </ClInclude>
-    <ClInclude Include="src\Grass.hpp">
+    <ClInclude Include="include\Grass.hpp">
       <Filter>Header Files\Blocks</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ShaderProgram.hpp">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="source\BlockModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Shader.cpp">
+    <ClCompile Include="source\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Texture.cpp">
+    <ClCompile Include="source\Chunk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\TextureManager.cpp">
+    <ClCompile Include="source\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\World.cpp">
+    <ClCompile Include="source\helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\BlockModel.cpp">
+    <ClCompile Include="source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Camera.cpp">
+    <ClCompile Include="source\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game.cpp">
+    <ClCompile Include="source\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\helpers.cpp">
+    <ClCompile Include="source\ShaderProgram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Dirt.cpp">
+    <ClCompile Include="source\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\TextureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\World.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Dirt.cpp">
       <Filter>Source Files\Blocks</Filter>
     </ClCompile>
-    <ClCompile Include="src\Grass.cpp">
+    <ClCompile Include="source\Grass.cpp">
       <Filter>Source Files\Blocks</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ShaderProgram.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Chunk.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
