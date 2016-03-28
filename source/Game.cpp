@@ -14,12 +14,6 @@
 namespace mc
 {
 
-glm::mat4 Game::getProjectionMatrix()
-{
-	sf::Vector2u windowSize = window_->getSize();
-	return camera_.getProjectionMatrix((float)windowSize.x / (float)windowSize.y);
-}
-
 Game::Game(sf::Window* window) :
 	window_(window)
 {
@@ -220,7 +214,7 @@ void Game::drawChunk(Chunk& chunk)
 		glUniformMatrix4fv(viewUniform, 1, GL_FALSE, glm::value_ptr(camera_.getViewMatrix()));
 
 		GLuint projectionUniform = shader->getUniform("projectionMatrix");
-		glUniformMatrix4fv(projectionUniform, 1, GL_FALSE, glm::value_ptr(getProjectionMatrix()));
+		glUniformMatrix4fv(projectionUniform, 1, GL_FALSE, glm::value_ptr(camera_.getProjectionMatrix()));
 
 		blockModel->draw(blockPositions);
 	}
@@ -297,7 +291,7 @@ void Game::updateViewport()
 	auto windowSize = window_->getSize();
 
 	glViewport(0, 0, windowSize.x, windowSize.y);
-	camera_.updateAspectRatio((float)windowSize.x / (float)windowSize.y);
+	camera_.changeViewportDimensions(glm::uvec2(windowSize.x, windowSize.y));
 }
 
 sf::Vector2i Game::getWindowCenterPosition()

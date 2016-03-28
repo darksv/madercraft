@@ -54,6 +54,17 @@ void Camera::updateFrustum()
 	fp.right = math::calculatePlane(fv.fbr - fv.ftr, fv.ntr - fv.ftr, fv.ftr);
 }
 
+void Camera::calculatePlanes()
+{
+	const double dft = 2.0 * tan(glm::radians(fieldAngle_) / 2.0);
+
+	nearPlaneDimensions_.x = static_cast<float>(dft * nearDistance_ * getAspectRatio());
+	nearPlaneDimensions_.y = static_cast<float>(dft * nearDistance_);
+
+	farPlaneDimensions_.x = static_cast<float>(dft * farDistance_ * getAspectRatio());
+	farPlaneDimensions_.y = static_cast<float>(dft * farDistance_);
+}
+
 Camera::Camera() :
 	pitch_(0.0f),
 	roll_(0.0f),
@@ -65,7 +76,7 @@ Camera::Camera() :
 	farDistance_(100.0f),
 	nearDistance_(0.1f),
 	fieldAngle_(45.0f),
-	aspectRatio_(1.0f)
+	viewportDimensions_(0, 0)
 {
 
 }
@@ -106,17 +117,11 @@ void Camera::moveDown()
 	updateFrustum();
 }
 
-void Camera::updateAspectRatio(float aspectRatio)
+void Camera::changeViewportDimensions(glm::uvec2 newDimensions)
 {
-	aspectRatio_ = aspectRatio;
+	viewportDimensions_ = newDimensions;
 
-	const double dft = 2.0 * tan(glm::radians(fieldAngle_) / 2.0);
-
-	nearPlaneDimensions_.x = static_cast<float>(dft * nearDistance_ * aspectRatio_);
-	nearPlaneDimensions_.y = static_cast<float>(dft * nearDistance_);
-
-	farPlaneDimensions_.x = static_cast<float>(dft * farDistance_ * aspectRatio_);
-	farPlaneDimensions_.y = static_cast<float>(dft * farDistance_);
+	calculatePlanes();
 }
 
 bool Camera::isVerticeInFrustum(glm::vec3 position) const
@@ -131,14 +136,19 @@ bool Camera::isVerticeInFrustum(glm::vec3 position) const
 	return true;
 }
 
+float Camera::getAspectRatio() const
+{
+	return (float)viewportDimensions_.x / (float)viewportDimensions_.y;
+}
+
 glm::mat4 Camera::getViewMatrix() const
 {
 	return glm::lookAt(cameraPosition_, cameraPosition_ + cameraFront_, cameraUp_);
 }
 
-glm::mat4 Camera::getProjectionMatrix(float aspectRatio) const
+glm::mat4 Camera::getProjectionMatrix() const
 {
-	return glm::perspective(fieldAngle_, aspectRatio, nearDistance_, farDistance_);
+	return glm::perspective(fieldAngle_, getAspectRatio(), nearDistance_, farDistance_);
 }
 
 glm::vec3 Camera::getDirection() const

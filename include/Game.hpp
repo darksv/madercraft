@@ -29,8 +29,6 @@ protected:
 	bool isCursorCenteringEnabled_ = true;
 	sf::Event::MouseMoveEvent previousCursorPosition_;
 
-	glm::mat4 getProjectionMatrix();
-
 public:
 	Game(sf::Window* window);
 
