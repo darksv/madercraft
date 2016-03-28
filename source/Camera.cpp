@@ -8,6 +8,9 @@
 namespace mc
 {
 
+namespace camera
+{
+
 void Camera::updateFrustum()
 {
 	auto& fv = frustumVertices_;
@@ -187,6 +190,8 @@ void Camera::rotate(GLfloat offsetX, GLfloat offsetY)
 	cameraFront_ = glm::normalize(front);
 
 	updateFrustum();
+}
+
 }
 
 }

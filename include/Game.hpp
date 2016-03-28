@@ -15,7 +15,7 @@ class Game
 {
 protected:
 	sf::Window* window_;
-	Camera camera_;
+	camera::Camera camera_;
 	World world_;
 	sf::Clock clock_;
 	TextureManager textureManager_;

@@ -8,6 +8,9 @@
 namespace mc
 {
 
+namespace camera
+{
+
 struct FrustumVertices
 {
 	union
@@ -77,5 +80,7 @@ public:
 	glm::vec2 getFarPlaneDimensions() const;
 	void rotate(GLfloat offsetX, GLfloat offsetY);
 };
+
+}
 
 }
