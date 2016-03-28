@@ -10,7 +10,7 @@
 namespace mc
 {
 
-#define CHUNK_SIZE 32
+const size_t CHUNK_SIZE = 32;
 
 typedef BlockKind Blocks[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
 
