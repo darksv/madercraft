@@ -1,10 +1,13 @@
 #include <iostream>
 #include <map>
 
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <Camera.hpp>
 
 #include "Dirt.hpp"
 #include "Game.hpp"
@@ -92,28 +95,6 @@ void Game::processEvents()
 			{
 				isCursorCenteringEnabled_ = false;
 				window_->setVisible(false);;
-			}
-			else if (event.key.code == sf::Keyboard::F)
-			{
-				auto fv = camera_.getFrustumVertices();
-				auto fp = camera_.getFrustumPlanes();
-
-				std::cout << std::endl;
-				std::cout << "ftl=(" << fv.ftl.x << ", " << fv.ftl.y << ", " << fv.ftl.z << ")" << std::endl;
-				std::cout << "ftr=(" << fv.ftr.x << ", " << fv.ftr.y << ", " << fv.ftr.z << ")" << std::endl;
-				std::cout << "fbl=(" << fv.fbl.x << ", " << fv.fbl.y << ", " << fv.fbl.z << ")" << std::endl;
-				std::cout << "fbr=(" << fv.fbr.x << ", " << fv.fbr.y << ", " << fv.fbr.z << ")" << std::endl;
-				std::cout << "ntl=(" << fv.ntl.x << ", " << fv.ntl.y << ", " << fv.ntl.z << ")" << std::endl;
-				std::cout << "ntr=(" << fv.ntr.x << ", " << fv.ntr.y << ", " << fv.ntr.z << ")" << std::endl;
-				std::cout << "nbl=(" << fv.nbl.x << ", " << fv.nbl.y << ", " << fv.nbl.z << ")" << std::endl;
-				std::cout << "nbr=(" << fv.nbr.x << ", " << fv.nbr.y << ", " << fv.nbr.z << ")" << std::endl;
-				std::cout << std::endl;
-				std::cout << "far=(" << fp.far.x << ", " << fp.far.y << ", " << fp.far.z << ", " << fp.far.w << ")" << std::endl;
-				std::cout << "near=(" << fp.near.x << ", " << fp.near.y << ", " << fp.near.z << ", " << fp.near.w << ")" << std::endl;
-				std::cout << "top=(" << fp.top.x << ", " << fp.top.y << ", " << fp.top.z << ", " << fp.top.w << ")" << std::endl;
-				std::cout << "bottom=(" << fp.bottom.x << ", " << fp.bottom.y << ", " << fp.bottom.z << ", " << fp.bottom.w << ")" << std::endl;
-				std::cout << "left=(" << fp.left.x << ", " << fp.left.y << ", " << fp.left.z << ", " << fp.left.w << ")" << std::endl;
-				std::cout << "right=(" << fp.right.x << ", " << fp.right.y << ", " << fp.right.z << ", " << fp.right.w << ")" << std::endl;
 			}
 		}
 		else if (event.type == sf::Event::MouseMoved)
@@ -242,7 +223,7 @@ void Game::render()
 
 		bool isInFrustum = true;
 
-		for (auto& plane : camera_.getFrustumPlanes().planes)
+		for (auto& plane : camera_.getFrustumPlanes())
 		{
 			const glm::vec3 min(x.first->x, y.first->y, z.first->z);
 			const glm::vec3 max(x.second->x, y.second->y, z.second->z);

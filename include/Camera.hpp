@@ -11,37 +11,11 @@ namespace mc
 namespace camera
 {
 
-struct FrustumVertices
-{
-	union
-	{
-		glm::vec3 vertices[8];
-		struct
-		{
-			glm::vec3 ftl, ftr, fbl, fbr, ntl, ntr, nbl, nbr;
-		};
-	};
-
-	FrustumVertices() {};
-};
-
-struct FrustumPlanes
-{
-	union
-	{
-		glm::vec4 planes[6];
-		struct
-		{
-			glm::vec4 bottom, top, left, right, near, far;
-		};
-	};
-
-	FrustumPlanes() {};
-};
+using FrustumPlanes = std::array<glm::vec4, 6>;
 
 class Camera
 {
-protected:
+private:
 	GLfloat cameraSpeed_;
 	glm::vec3 cameraPosition_;
 	glm::vec3 cameraFront_;
@@ -54,12 +28,11 @@ protected:
 
 	glm::vec2 nearPlaneDimensions_;
 	glm::vec2 farPlaneDimensions_;
-	FrustumVertices frustumVertices_;
-	FrustumPlanes frustumPlanes_;
+
+	std::array<glm::vec4, 6> frustumPlanes_;
 
 	void calculatePlanes();
 	void updateFrustum();
-
 public:
 	Camera();
 
@@ -79,8 +52,7 @@ public:
 	glm::mat4 getProjectionMatrix() const;
 	glm::vec3 getDirection() const;
 	glm::vec3 getPosition() const;
-	FrustumVertices getFrustumVertices() const;
-	FrustumPlanes getFrustumPlanes() const;
+    const FrustumPlanes& getFrustumPlanes() const;
 	glm::vec2 getNearPlaneDimensions() const;
 	glm::vec2 getFarPlaneDimensions() const;
 };

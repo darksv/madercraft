@@ -1,6 +1,8 @@
+#include <algorithm>
 #include <iostream>
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <Camera.hpp>
 
 #include "Camera.hpp"
 #include "math.hpp"
@@ -13,45 +15,37 @@ namespace camera
 
 void Camera::updateFrustum()
 {
-	auto& fv = frustumVertices_;
+	std::array<glm::vec3, 8> vertices;
 
 	// algorithm based on http://www.lighthouse3d.com/tutorials/view-frustum-culling/geometric-approach-extracting-the-planes/
 
-	glm::vec3 leftVector = glm::normalize(glm::cross(cameraUp_, cameraFront_));
-	glm::vec3 upVector = glm::normalize(glm::cross(cameraFront_, leftVector));
+	const glm::vec3 leftVector = glm::normalize(glm::cross(cameraUp_, cameraFront_));
+	const glm::vec3 upVector = glm::normalize(glm::cross(cameraFront_, leftVector));
 
-	// near plane
+	const glm::vec3 nearPlaneCenter = cameraPosition_ + cameraFront_ * nearDistance_;
+	const glm::vec3 nearPlaneUp = upVector * (nearPlaneDimensions_.y / 2.0f);
+	const glm::vec3 nearPlaneLeft = leftVector * (nearPlaneDimensions_.x / 2.0f);
 
-	glm::vec3 nearPlaneCenter = cameraPosition_ + cameraFront_ * nearDistance_;
-	glm::vec3 nearPlaneUp = upVector * (nearPlaneDimensions_.y / 2.0f);
-	glm::vec3 nearPlaneLeft = leftVector * (nearPlaneDimensions_.x / 2.0f);
+	const glm::vec3 farPlaneCenter = cameraPosition_ + cameraFront_ * farDistance_;
+	const glm::vec3 farPlaneUp = upVector * (farPlaneDimensions_.y / 2.0f);
+	const glm::vec3 farPlaneLeft = leftVector * (farPlaneDimensions_.x / 2.0f);
 
-	fv.ntl = nearPlaneCenter + nearPlaneUp + nearPlaneLeft;
-	fv.ntr = nearPlaneCenter + nearPlaneUp - nearPlaneLeft;
-	fv.nbl = nearPlaneCenter - nearPlaneUp + nearPlaneLeft;
-	fv.nbr = nearPlaneCenter - nearPlaneUp - nearPlaneLeft;
-
-	// far plane
-
-	glm::vec3 farPlaneCenter = cameraPosition_ + cameraFront_ * farDistance_;
-	glm::vec3 farPlaneUp = upVector * (farPlaneDimensions_.y / 2.0f);
-	glm::vec3 farPlaneLeft = leftVector * (farPlaneDimensions_.x / 2.0f);
-
-	fv.ftl = farPlaneCenter + farPlaneUp + farPlaneLeft;
-	fv.ftr = farPlaneCenter + farPlaneUp - farPlaneLeft;
-	fv.fbl = farPlaneCenter - farPlaneUp + farPlaneLeft;
-	fv.fbr = farPlaneCenter - farPlaneUp - farPlaneLeft;
-
-
-	auto& fp = frustumPlanes_;
+	vertices[0] = nearPlaneCenter + nearPlaneUp + nearPlaneLeft; // NTL
+	vertices[1] = nearPlaneCenter + nearPlaneUp - nearPlaneLeft; // NTR
+	vertices[2] = nearPlaneCenter - nearPlaneUp + nearPlaneLeft; // NBL
+	vertices[3] = nearPlaneCenter - nearPlaneUp - nearPlaneLeft; // NBR
+	vertices[4] = farPlaneCenter + farPlaneUp + farPlaneLeft;    // FTL
+	vertices[5] = farPlaneCenter + farPlaneUp - farPlaneLeft;    // FTR
+	vertices[6] = farPlaneCenter - farPlaneUp + farPlaneLeft;    // FBL
+	vertices[7] = farPlaneCenter - farPlaneUp - farPlaneLeft;    // FBR
 
 	// calculate planes with normal vectors directed to the inside of frustum
-	fp.far = math::calculatePlane(fv.ftl - fv.ftr, fv.fbr - fv.ftr, fv.ftr);
-	fp.near = math::calculatePlane(fv.ntr - fv.ntl, fv.nbl - fv.ntl, fv.ntl);
-	fp.top = math::calculatePlane(fv.ntr - fv.ftr, fv.ftl - fv.ftr, fv.ftr);
-	fp.bottom = math::calculatePlane(fv.fbl - fv.fbr, fv.nbr - fv.fbr, fv.fbr);
-	fp.left = math::calculatePlane(fv.ntl - fv.ftl, fv.fbl - fv.ftl, fv.ftl);
-	fp.right = math::calculatePlane(fv.fbr - fv.ftr, fv.ntr - fv.ftr, fv.ftr);
+	frustumPlanes_[0] = math::calculatePlane(vertices[4] - vertices[5], vertices[7] - vertices[5], vertices[5]); // far
+	frustumPlanes_[1] = math::calculatePlane(vertices[1] - vertices[0], vertices[2] - vertices[0], vertices[0]); // near
+	frustumPlanes_[2] = math::calculatePlane(vertices[1] - vertices[5], vertices[4] - vertices[5], vertices[5]); // top
+	frustumPlanes_[3] = math::calculatePlane(vertices[6] - vertices[7], vertices[3] - vertices[7], vertices[7]); // bottom
+	frustumPlanes_[4] = math::calculatePlane(vertices[0] - vertices[4], vertices[6] - vertices[4], vertices[4]); // left
+	frustumPlanes_[5] = math::calculatePlane(vertices[7] - vertices[5], vertices[1] - vertices[5], vertices[5]); // right
 }
 
 void Camera::calculatePlanes()
@@ -126,10 +120,9 @@ void Camera::changeViewportDimensions(glm::uvec2 newDimensions)
 
 bool Camera::isVerticeInFrustum(glm::vec3 position) const
 {
-	auto frustumPlanes = getFrustumPlanes();
 	auto vertice = glm::vec4(position, 1.0);
 
-	for (auto& plane : frustumPlanes.planes)
+	for (auto& plane : frustumPlanes_)
 		if (glm::dot(vertice, plane) < 0)
 			return false;
 
@@ -161,12 +154,7 @@ glm::vec3 Camera::getPosition() const
 	return cameraPosition_;
 }
 
-FrustumVertices Camera::getFrustumVertices() const
-{
-	return frustumVertices_;
-}
-
-FrustumPlanes Camera::getFrustumPlanes() const
+const FrustumPlanes& Camera::getFrustumPlanes() const
 {
 	return frustumPlanes_;
 }
