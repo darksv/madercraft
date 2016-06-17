@@ -8,7 +8,7 @@ namespace mc
 class BlockGrass : BlockModel
 {
 public:
-	BlockGrass::BlockGrass(Texture* textureTop, Texture* textureBottom, Texture* textureSide, ShaderProgram* shader);
+	BlockGrass(Texture* textureTop, Texture* textureBottom, Texture* textureSide, ShaderProgram* shader);
 };
 
 }
