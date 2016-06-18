@@ -9,10 +9,12 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <Camera.hpp>
 
+#include "helpers.hpp"
 #include "Dirt.hpp"
 #include "Game.hpp"
 #include "Grass.hpp"
 #include "ShaderProgram.hpp"
+#include "../VS14/GLContext.hpp"
 
 namespace mc
 {
@@ -27,10 +29,10 @@ Game::Game(sf::Window* window) :
 	glewExperimental = GL_TRUE;
 	glewInit();
 
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CW);
+	GLContext context;
+	context.depthTestEnabled(true);
+	context.faceCullingEnabled(true);
+	context.setCullingMode(GL_BACK, GL_CW);
 
 	updateViewport();
 
