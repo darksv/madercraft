@@ -18,11 +18,11 @@ class Mesh
 {
 protected:
 	std::unique_ptr<GLVertexArrayObject> vao_;
+	std::unique_ptr<GLBuffer> vbo_;
 
 	std::vector<Vertice> vertices_;
 	std::vector<Texture*> textures_;
 	ShaderProgram* shaderProgram_;
-	GLuint vbo_;
 	bool isLoaded_;
 
 	virtual void load(GLContext& context);

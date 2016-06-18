@@ -12,7 +12,6 @@ namespace mc
 {
 
 Mesh::Mesh(ShaderProgram* shaderProgram) :
-	vbo_(0),
 	isLoaded_(false),
 	shaderProgram_(shaderProgram)
 {
@@ -28,19 +27,18 @@ void Mesh::load(GLContext& context)
 
 	vao_ = context.getVertexArrayObject();
 	vao_->bind();
+	{
+		vbo_ = context.getMutableBuffer(GL_ARRAY_BUFFER, GL_STATIC_DRAW, sizeof(GLfloat) * vertices_.size() * 5, vertices_.data());
+		vbo_->bind();
 
-	glGenBuffers(1, &vbo_);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * vertices_.size() * 5, vertices_.data(), GL_STATIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(0 * sizeof(GLfloat)));
 
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(0 * sizeof(GLfloat)));
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+		vbo_->unbind();
+	}
 	vao_->unbind();
 
 	isLoaded_ = true;
@@ -79,7 +77,7 @@ void Mesh::draw(GLContext& context, std::vector<glm::vec3>& positions)
 
 	glUseProgram(shaderProgram_->getId());
 
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+	vbo_->bind();
 	{
 		glBindTexture(GL_TEXTURE_2D, textures_[0]->getId());
 		glDrawArraysInstanced(GL_TRIANGLES, 6 * 0, 6 * 1, instancesNum);
@@ -92,7 +90,7 @@ void Mesh::draw(GLContext& context, std::vector<glm::vec3>& positions)
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	vbo_->bind();
 
 	vao_->unbind();
 }
