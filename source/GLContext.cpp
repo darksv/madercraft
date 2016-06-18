@@ -11,7 +11,7 @@ GLContext::~GLContext()
 {
 }
 
-void GLContext::depthTestEnabled(bool enabled) noexcept
+void GLContext::depthTestEnabled(bool enabled) const noexcept
 {
 	if (enabled)
 		glEnable(GL_DEPTH_TEST);
@@ -19,7 +19,7 @@ void GLContext::depthTestEnabled(bool enabled) noexcept
 		glDisable(GL_DEPTH_TEST);
 }
 
-void GLContext::faceCullingEnabled(bool enabled) noexcept
+void GLContext::faceCullingEnabled(bool enabled) const noexcept
 {
 	if (enabled)
 		glEnable(GL_CULL_FACE);
@@ -27,8 +27,16 @@ void GLContext::faceCullingEnabled(bool enabled) noexcept
 		glDisable(GL_CULL_FACE);
 }
 
-void GLContext::setCullingMode(GLenum cullFace, GLenum frontFace) noexcept
+void GLContext::setCullingMode(GLenum cullFace, GLenum frontFace) const noexcept
 {
 	glCullFace(cullFace);
 	glFrontFace(frontFace);
+}
+
+std::unique_ptr<GLVertexArrayObject> GLContext::getVertexArrayObject() const noexcept
+{
+	GLuint handle;
+	glGenVertexArrays(1, &handle);
+
+	return std::make_unique<GLVertexArrayObject>(handle);
 }

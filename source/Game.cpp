@@ -14,7 +14,7 @@
 #include "Game.hpp"
 #include "Grass.hpp"
 #include "ShaderProgram.hpp"
-#include "../VS14/GLContext.hpp"
+#include "GLContext.hpp"
 
 namespace mc
 {
@@ -29,10 +29,9 @@ Game::Game(sf::Window* window) :
 	glewExperimental = GL_TRUE;
 	glewInit();
 
-	GLContext context;
-	context.depthTestEnabled(true);
-	context.faceCullingEnabled(true);
-	context.setCullingMode(GL_BACK, GL_CW);
+	context_.depthTestEnabled(true);
+	context_.faceCullingEnabled(true);
+	context_.setCullingMode(GL_BACK, GL_CW);
 
 	updateViewport();
 
@@ -199,7 +198,7 @@ void Game::drawChunk(Chunk& chunk)
 		GLuint projectionUniform = shader->getUniform("projectionMatrix");
 		glUniformMatrix4fv(projectionUniform, 1, GL_FALSE, glm::value_ptr(camera_.getProjectionMatrix()));
 
-		blockModel->draw(blockPositions);
+		blockModel->draw(context_, blockPositions);
 	}
 }
 

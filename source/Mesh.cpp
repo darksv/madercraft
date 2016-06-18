@@ -5,20 +5,20 @@
 #include <glm/vec3.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "GLVertexArrayObject.hpp"
 #include "Mesh.hpp"
 
 namespace mc
 {
 
 Mesh::Mesh(ShaderProgram* shaderProgram) :
-	vao_(0),
 	vbo_(0),
 	isLoaded_(false),
 	shaderProgram_(shaderProgram)
 {
 }
 
-void Mesh::load()
+void Mesh::load(GLContext& context)
 {
 	if (vertices_.size() == 0)
 		return;
@@ -26,8 +26,8 @@ void Mesh::load()
 	if (isLoaded_)
 		return;
 
-	glGenVertexArrays(1, &vao_);
-	glBindVertexArray(vao_);
+	vao_ = context.getVertexArrayObject();
+	vao_->bind();
 
 	glGenBuffers(1, &vbo_);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_);
@@ -41,15 +41,15 @@ void Mesh::load()
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glBindVertexArray(0);
+	vao_->unbind();
 
 	isLoaded_ = true;
 }
 
-void Mesh::draw(std::vector<glm::vec3>& positions)
+void Mesh::draw(GLContext& context, std::vector<glm::vec3>& positions)
 {
 	if (!isLoaded_)
-		load();
+		load(context);
 
 	const size_t instancesNum = positions.size();
 
@@ -63,7 +63,7 @@ void Mesh::draw(std::vector<glm::vec3>& positions)
 	GLuint modelMatricesBuffer;
 	GLint modelAttrib = glGetAttribLocation(shaderProgram_->getId(), "modelMatrix");
 
-	glBindVertexArray(vao_);
+	vao_->bind();
 
 	// create buffer for vector of model matrices for each instance
 	glGenBuffers(1, &modelMatricesBuffer);
@@ -105,7 +105,7 @@ void Mesh::draw(std::vector<glm::vec3>& positions)
 	}
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glBindVertexArray(0);
+	vao_->unbind();
 
 	glDeleteBuffers(1, &modelMatricesBuffer);
 }

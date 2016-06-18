@@ -19,6 +19,7 @@ protected:
 	World world_;
 	sf::Clock clock_;
 	TextureManager textureManager_;
+	GLContext context_;
 
 	bool isRunning_;
 	unsigned int framesPerSecond_;

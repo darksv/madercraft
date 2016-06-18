@@ -5,6 +5,7 @@
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 
+#include "GLContext.hpp"
 #include "ShaderProgram.hpp"
 #include "Texture.hpp"
 
@@ -16,19 +17,21 @@ using Vertice = std::pair<glm::vec3, glm::vec2>;
 class Mesh
 {
 protected:
+	std::unique_ptr<GLVertexArrayObject> vao_;
+
 	std::vector<Vertice> vertices_;
 	std::vector<Texture*> textures_;
 	ShaderProgram* shaderProgram_;
-	GLuint vao_, vbo_;
+	GLuint vbo_;
 	bool isLoaded_;
 
-	virtual void load();
+	virtual void load(GLContext& context);
 
 public:
 	Mesh(ShaderProgram* shaderProgram);
 	ShaderProgram* getShaderProgram() const;
 
-	void draw(std::vector<glm::vec3>& positions);
+	void draw(GLContext& context, std::vector<glm::vec3>& positions);
 };
 
 }
