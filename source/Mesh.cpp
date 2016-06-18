@@ -67,22 +67,15 @@ void Mesh::draw(GLContext& context, std::vector<glm::vec3>& positions)
 	// create buffer for vector of model matrices for each instance
 	auto modelMatricesBuffer = context.getMutableBuffer(GL_ARRAY_BUFFER, GL_STATIC_DRAW, sizeof(glm::mat4) * instancesNum, modelMatrices.data());
 
-	glEnableVertexAttribArray(modelAttrib + 0);
-	glEnableVertexAttribArray(modelAttrib + 1);
-	glEnableVertexAttribArray(modelAttrib + 2);
-	glEnableVertexAttribArray(modelAttrib + 3);
-
 	modelMatricesBuffer->bind();
-	glVertexAttribPointer(modelAttrib + 0, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (GLvoid*)(0 * sizeof(GLfloat)));
-	glVertexAttribPointer(modelAttrib + 1, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (GLvoid*)(4 * sizeof(GLfloat)));
-	glVertexAttribPointer(modelAttrib + 2, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (GLvoid*)(8 * sizeof(GLfloat)));
-	glVertexAttribPointer(modelAttrib + 3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (GLvoid*)(12 * sizeof(GLfloat)));
+	for (size_t i = 0; i < 4; ++i)
+	{
+		glEnableVertexAttribArray(modelAttrib + i);
+		glVertexAttribPointer(modelAttrib + i, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (GLvoid*)(4 * i * sizeof(GLfloat)));
+		glVertexAttribDivisor(modelAttrib + i, 1);
+	}
 	modelMatricesBuffer->unbind();
 
-	glVertexAttribDivisor(modelAttrib + 0, 1);
-	glVertexAttribDivisor(modelAttrib + 1, 1);
-	glVertexAttribDivisor(modelAttrib + 2, 1);
-	glVertexAttribDivisor(modelAttrib + 3, 1);
 
 	glUseProgram(shaderProgram_->getId());
 
