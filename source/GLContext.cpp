@@ -1,5 +1,6 @@
 #include "GLContext.hpp"
 #include <GL/glew.h>
+#include <glm/mat4x2.hpp>
 
 
 GLContext::GLContext()
@@ -31,6 +32,17 @@ void GLContext::setCullingMode(GLenum cullFace, GLenum frontFace) const noexcept
 {
 	glCullFace(cullFace);
 	glFrontFace(frontFace);
+}
+
+std::unique_ptr<GLBuffer> GLContext::getMutableBuffer(GLenum target, GLenum usage, GLsizei size, void* data) const noexcept
+{
+	GLuint handle;
+	glGenBuffers(1, &handle);
+	glBindBuffer(target, handle);
+	glBufferData(target, size, data, usage);
+	glBindBuffer(target, 0);
+
+	return std::make_unique<GLBuffer>(target, handle, size);
 }
 
 std::unique_ptr<GLVertexArrayObject> GLContext::getVertexArrayObject() const noexcept

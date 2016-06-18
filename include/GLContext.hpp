@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <GL/glew.h>
+#include "GLBuffer.hpp"
 #include "GLVertexArrayObject.hpp"
 
 class GLContext
@@ -14,6 +15,7 @@ public:
 	void faceCullingEnabled(bool enabled) const noexcept;
 	void setCullingMode(GLenum cullFace, GLenum frontFace) const noexcept;
 
+	std::unique_ptr<GLBuffer> getMutableBuffer(GLenum target, GLenum usage, GLsizei size, void* data) const noexcept;
 	std::unique_ptr<GLVertexArrayObject> getVertexArrayObject() const noexcept;
 };
 

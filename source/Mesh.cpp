@@ -60,28 +60,24 @@ void Mesh::draw(GLContext& context, std::vector<glm::vec3>& positions)
 	for (size_t i = 0; i < instancesNum; ++i)
 		modelMatrices.push_back(glm::translate(identityMatrix, positions[i]));
 
-	GLuint modelMatricesBuffer;
 	GLint modelAttrib = glGetAttribLocation(shaderProgram_->getId(), "modelMatrix");
 
 	vao_->bind();
 
 	// create buffer for vector of model matrices for each instance
-	glGenBuffers(1, &modelMatricesBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, modelMatricesBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * instancesNum, modelMatrices.data(), GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	auto modelMatricesBuffer = context.getMutableBuffer(GL_ARRAY_BUFFER, GL_STATIC_DRAW, sizeof(glm::mat4) * instancesNum, modelMatrices.data());
 
 	glEnableVertexAttribArray(modelAttrib + 0);
 	glEnableVertexAttribArray(modelAttrib + 1);
 	glEnableVertexAttribArray(modelAttrib + 2);
 	glEnableVertexAttribArray(modelAttrib + 3);
 
-	glBindBuffer(GL_ARRAY_BUFFER, modelMatricesBuffer);
+	modelMatricesBuffer->bind();
 	glVertexAttribPointer(modelAttrib + 0, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (GLvoid*)(0 * sizeof(GLfloat)));
 	glVertexAttribPointer(modelAttrib + 1, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (GLvoid*)(4 * sizeof(GLfloat)));
 	glVertexAttribPointer(modelAttrib + 2, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (GLvoid*)(8 * sizeof(GLfloat)));
 	glVertexAttribPointer(modelAttrib + 3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (GLvoid*)(12 * sizeof(GLfloat)));
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	modelMatricesBuffer->unbind();
 
 	glVertexAttribDivisor(modelAttrib + 0, 1);
 	glVertexAttribDivisor(modelAttrib + 1, 1);
@@ -106,8 +102,6 @@ void Mesh::draw(GLContext& context, std::vector<glm::vec3>& positions)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	vao_->unbind();
-
-	glDeleteBuffers(1, &modelMatricesBuffer);
 }
 
 ShaderProgram* Mesh::getShaderProgram() const
