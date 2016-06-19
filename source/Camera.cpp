@@ -131,7 +131,7 @@ bool Camera::isVerticeInFrustum(glm::vec3 position) const
 
 float Camera::getAspectRatio() const
 {
-	return (float)viewportDimensions_.x / (float)viewportDimensions_.y;
+	return static_cast<float>(viewportDimensions_.x) / static_cast<float>(viewportDimensions_.y);
 }
 
 glm::mat4 Camera::getViewMatrix() const

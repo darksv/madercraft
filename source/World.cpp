@@ -48,9 +48,9 @@ bool World::putBlockAt(BlockKind kind, glm::ivec3 position)
 static int calculateBlockOffset(int absoluteBlockPosition)
 {
 	if (absoluteBlockPosition >= 0)
-		return absoluteBlockPosition / (int)Chunk::SIZE;
+		return absoluteBlockPosition / static_cast<int>(Chunk::SIZE);
 	else
-		return (absoluteBlockPosition + 1) / (int)Chunk::SIZE - 1;
+		return (absoluteBlockPosition + 1) / static_cast<int>(Chunk::SIZE) - 1;
 }
 
 glm::ivec3 World::getChunkPositionByBlock(glm::ivec3 blockPosition)
@@ -127,7 +127,7 @@ float World::getDistanceToChunk(const Chunk& chunk, glm::vec3 position)
 	auto chunkPosition = chunk.getPosition();
 	// TODO use chunk's center point
 
-	return sqrt(pow((float)chunkPosition.x * Chunk::SIZE - position.x, 2) + pow((float)chunkPosition.y * Chunk::SIZE - position.y, 2) + pow((float)chunkPosition.z * Chunk::SIZE - position.z, 2));
+	return sqrt(pow(static_cast<float>(chunkPosition.x) * Chunk::SIZE - position.x, 2) + pow(static_cast<float>(chunkPosition.y) * Chunk::SIZE - position.y, 2) + pow(static_cast<float>(chunkPosition.z) * Chunk::SIZE - position.z, 2));
 }
 
 }

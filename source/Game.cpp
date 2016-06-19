@@ -69,7 +69,7 @@ void Game::loop()
 
 		lastTime = currentTime;
 
-		framesPerSecond_ = (unsigned int)(1.0 / elapsed.asSeconds());
+		framesPerSecond_ = static_cast<decltype(framesPerSecond_)>(1.0f / elapsed.asSeconds());
 	}
 }
 
@@ -108,8 +108,8 @@ void Game::processEvents()
 				isCursorPositionSet_ = true;
 			}
 
-			xoffset = (float)(event.mouseMove.x - previousCursorPosition_.x);
-			yoffset = (float)(previousCursorPosition_.y - event.mouseMove.y);
+			xoffset = static_cast<float>(event.mouseMove.x - previousCursorPosition_.x);
+			yoffset = static_cast<float>(previousCursorPosition_.y - event.mouseMove.y);
 
 			previousCursorPosition_ = event.mouseMove;
 

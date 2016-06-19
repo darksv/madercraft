@@ -13,13 +13,13 @@ Texture::Texture(TextureType type, TexturePixelFormat pixelFormat, const std::ve
 	pixelFormat_(pixelFormat),
 	data_(data)
 {
-	size_t bytesPerPixel, pixelCount, dimension;
+	size_t bytesPerPixel = 4;
 	if (pixelFormat == TexturePixelFormat::TEXTURE_RGB)
 		bytesPerPixel = 3;
 
-	pixelCount = data.size() / bytesPerPixel;
+	size_t pixelCount = data.size() / bytesPerPixel;
 
-	dimension = static_cast<size_t>(std::sqrt(pixelCount));
+	size_t dimension = static_cast<size_t>(std::sqrt(pixelCount));
 	// detect square texture
 	if (dimension * dimension == pixelCount)
 		width_ = height_ = dimension;

@@ -26,7 +26,7 @@ std::map<BlockKind, std::vector<glm::vec3>> Chunk::getCalculatedPositions()
 		return cachedPositions_;
 
 	std::map<BlockKind, std::vector<glm::vec3>> blockPositions;
-	glm::vec3 chunkPosition((float)position_.x * Chunk::SIZE, (float)position_.y * Chunk::SIZE, (float)position_.z * Chunk::SIZE);
+	glm::vec3 chunkPosition(static_cast<float>(position_.x) * Chunk::SIZE, static_cast<float>(position_.y) * Chunk::SIZE, static_cast<float>(position_.z) * Chunk::SIZE);
 
 	for (int x = 0; x < Chunk::SIZE; ++x)
 	{
@@ -118,7 +118,7 @@ Chunk Chunk::randomized(glm::ivec3 position)
 		{
 			for (unsigned char z = 0; z < Chunk::SIZE; ++z)
 			{
-				blocks[x][y][z] = (BlockKind)(rand() % 3);
+				blocks[x][y][z] = static_cast<BlockKind>(rand() % 3);
 			}
 		}
 	}
