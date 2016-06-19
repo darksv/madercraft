@@ -39,6 +39,7 @@ public:
 	void render();
 	void loop();
 
+	bool isChunkVisibleByCamera(const Chunk& chunk, const camera::Camera& camera);
 	void drawChunk(Chunk &chunk);
 
 	void updateViewport();
