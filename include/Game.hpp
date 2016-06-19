@@ -20,6 +20,7 @@ protected:
 	sf::Clock clock_;
 	TextureManager textureManager_;
 	GLContext context_;
+	std::unique_ptr<GLShaderProgram> shader_;
 
 	bool isRunning_;
 	unsigned int framesPerSecond_;

@@ -4,6 +4,7 @@
 #include <GL/glew.h>
 #include "GLBuffer.hpp"
 #include "GLVertexArrayObject.hpp"
+#include "GLShaderProgram.hpp"
 
 class GLContext
 {
@@ -17,5 +18,6 @@ public:
 
 	std::unique_ptr<GLBuffer> getMutableBuffer(GLenum target, GLenum usage, GLsizei size, void* data) const noexcept;
 	std::unique_ptr<GLVertexArrayObject> getVertexArrayObject() const noexcept;
+	std::unique_ptr<GLShaderProgram> getShaderProgram() const noexcept;
 };
 

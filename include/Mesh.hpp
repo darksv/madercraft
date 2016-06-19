@@ -6,7 +6,7 @@
 #include <glm/vec3.hpp>
 
 #include "GLContext.hpp"
-#include "ShaderProgram.hpp"
+#include "GLShaderProgram.hpp"
 #include "Texture.hpp"
 
 namespace mc

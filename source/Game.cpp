@@ -13,7 +13,7 @@
 #include "BlockModel.hpp"
 #include "helpers.hpp"
 #include "Game.hpp"
-#include "ShaderProgram.hpp"
+#include "GLShaderProgram.hpp"
 #include "GLContext.hpp"
 
 namespace mc
@@ -35,10 +35,10 @@ Game::Game(sf::Window* window) :
 
 	updateViewport();
 
-	ShaderProgram* s = new ShaderProgram();
-	s->addShaderFromFile(ShaderType::VERTEX_SHADER, "resources/shaders/cube.vs");
-	s->addShaderFromFile(ShaderType::FRAGMENT_SHADER, "resources/shaders/cube.frag");
-	s->compile();
+	shader_ = context_.getShaderProgram();
+	shader_->addShaderFromFile(ShaderType::Vertex, "resources/shaders/cube.vs");
+	shader_->addShaderFromFile(ShaderType::Fragment, "resources/shaders/cube.frag");
+	shader_->compile();
 
 	std::vector<Vertice> cubeVertices;
 	cubeVertices.reserve(180);
@@ -110,7 +110,7 @@ Game::Game(sf::Window* window) :
 		
 		auto blockKind = static_cast<BlockKind>(item["id"].int_value());
 
-		blocks_[blockKind] = new BlockModel(mesh, textures[0], textures[1], textures[2], s);
+		blocks_[blockKind] = new BlockModel(mesh, textures[0], textures[1], textures[2], shader_.get());
 	}
 
 	world_.createRandomizedChunk(glm::vec3(0, 0, 0));
@@ -252,19 +252,15 @@ void Game::drawChunk(Chunk& chunk)
 	{
 		auto blockKind = item.first;
 		auto blockPositions = item.second;
+
 		BlockModel* blockModel = blocks_[blockKind];
-		ShaderProgram* shader = blockModel->getShaderProgram();
 
-		GLint timeUniform = shader->getUniform("globalTime_");
-		glUniform1f(timeUniform, clock_.getElapsedTime().asSeconds());
+		auto shader = blockModel->getShaderProgram();
+		shader->setUniform("globalTime_", clock_.getElapsedTime().asSeconds());
+		shader->setUniform("viewMatrix", camera_.getViewMatrix());
+		shader->setUniform("projectionMatrix", camera_.getProjectionMatrix());
+		shader->use();
 
-		GLuint viewUniform = shader->getUniform("viewMatrix");
-		glUniformMatrix4fv(viewUniform, 1, GL_FALSE, glm::value_ptr(camera_.getViewMatrix()));
-
-		GLuint projectionUniform = shader->getUniform("projectionMatrix");
-		glUniformMatrix4fv(projectionUniform, 1, GL_FALSE, glm::value_ptr(camera_.getProjectionMatrix()));
-
-		glUseProgram(shader->getId());
 		glBindTexture(GL_TEXTURE_2D, 1);
 		blockModel->getMesh()->drawMultiple(context_, blockPositions);
 	}

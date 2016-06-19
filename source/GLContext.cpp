@@ -52,3 +52,8 @@ std::unique_ptr<GLVertexArrayObject> GLContext::getVertexArrayObject() const noe
 
 	return std::make_unique<GLVertexArrayObject>(handle);
 }
+
+std::unique_ptr<GLShaderProgram> GLContext::getShaderProgram() const noexcept
+{
+	return std::make_unique<GLShaderProgram>(glCreateProgram());
+}
