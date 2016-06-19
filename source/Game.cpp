@@ -7,8 +7,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <json11.hpp>
 #include <Camera.hpp>
 
+#include "BlockModel.hpp"
 #include "helpers.hpp"
 #include "Dirt.hpp"
 #include "Game.hpp"
@@ -35,17 +37,26 @@ Game::Game(sf::Window* window) :
 
 	updateViewport();
 
-	Texture* t1 = textureManager_.loadTextureFromFile("resources/textures/cube_top.raw");
-	Texture* t2 = textureManager_.loadTextureFromFile("resources/textures/cube_bottom.raw");
-	Texture* t3 = textureManager_.loadTextureFromFile("resources/textures/cube_side.raw");
-
 	ShaderProgram* s = new ShaderProgram();
 	s->addShaderFromFile(ShaderType::VERTEX_SHADER, "resources/shaders/cube.vs");
 	s->addShaderFromFile(ShaderType::FRAGMENT_SHADER, "resources/shaders/cube.frag");
 	s->compile();
 
-	blocks_[BlockKind::DIRT] = (BlockModel*)new BlockGrass(t1, t2, t3, s);
-	blocks_[BlockKind::GRASS] = (BlockModel*)new BlockGrass(t2, t2, t3, s);
+	auto fileContent = getFileContent("resources/blocks.json");
+	std::string errorLog;
+
+	auto json = json11::Json::parse(std::string(fileContent.begin(), fileContent.end()), errorLog);
+	for (auto& item : json.array_items())
+	{
+		std::vector<Texture*> textures;
+		for (auto& t : item["textures"].array_items())
+			textures.push_back(textureManager_.loadTextureFromFile("resources/textures/" + t.string_value()));
+		
+		auto blockKind = static_cast<BlockKind>(item["id"].int_value());
+		auto blockModel = new BlockGrass(textures[0], textures[1], textures[2], s);
+
+		blocks_[blockKind] = (BlockModel*)blockModel;
+	}
 
 	world_.createRandomizedChunk(glm::vec3(0, 0, 0));
 	world_.createRandomizedChunk(glm::vec3(0, 1, 0));

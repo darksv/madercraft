@@ -1,0 +1,12 @@
+[
+	{
+		"id": 1,
+		"name": "grass",
+		"textures": ["cube_top.raw", "cube_bottom.raw", "cube_side.raw"]
+	},
+	{
+		"id": 2,
+		"name": "dirt",
+		"textures": ["cube_top.raw", "cube_bottom.raw", "cube_side.raw"]
+	}
+]
