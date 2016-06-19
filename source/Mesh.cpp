@@ -26,20 +26,9 @@ void Mesh::load(GLContext& context)
 		return;
 
 	vao_ = context.getVertexArrayObject();
-	vao_->bind();
-	{
-		vbo_ = context.getMutableBuffer(GL_ARRAY_BUFFER, GL_STATIC_DRAW, sizeof(GLfloat) * vertices_.size() * 5, vertices_.data());
-		vbo_->bind();
-
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(0 * sizeof(GLfloat)));
-
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-
-		vbo_->unbind();
-	}
-	vao_->unbind();
+	vbo_ = context.getMutableBuffer(GL_ARRAY_BUFFER, GL_STATIC_DRAW, sizeof(GLfloat) * vertices_.size() * 5, vertices_.data());
+	vao_->setAttrib(0, *vbo_, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(0 * sizeof(GLfloat)));
+	vao_->setAttrib(1, *vbo_, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 
 	isLoaded_ = true;
 }
