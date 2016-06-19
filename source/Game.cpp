@@ -35,13 +35,13 @@ Game::Game(sf::Window* window) :
 
 	updateViewport();
 
-	Texture* t1 = textureManager_.loadTextureFromFile("textures\\cube_top.raw");
-	Texture* t2 = textureManager_.loadTextureFromFile("textures\\cube_bottom.raw");
-	Texture* t3 = textureManager_.loadTextureFromFile("textures\\cube_side.raw");
+	Texture* t1 = textureManager_.loadTextureFromFile("resources/textures/cube_top.raw");
+	Texture* t2 = textureManager_.loadTextureFromFile("resources/textures/cube_bottom.raw");
+	Texture* t3 = textureManager_.loadTextureFromFile("resources/textures/cube_side.raw");
 
 	ShaderProgram* s = new ShaderProgram();
-	s->addShaderFromFile(ShaderType::VERTEX_SHADER, "shaders\\cube.vs");
-	s->addShaderFromFile(ShaderType::FRAGMENT_SHADER, "shaders\\cube.frag");
+	s->addShaderFromFile(ShaderType::VERTEX_SHADER, "resources/shaders/cube.vs");
+	s->addShaderFromFile(ShaderType::FRAGMENT_SHADER, "resources/shaders/cube.frag");
 	s->compile();
 
 	blocks_[BlockKind::DIRT] = (BlockModel*)new BlockGrass(t1, t2, t3, s);
