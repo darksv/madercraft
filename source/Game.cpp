@@ -12,9 +12,7 @@
 
 #include "BlockModel.hpp"
 #include "helpers.hpp"
-#include "Dirt.hpp"
 #include "Game.hpp"
-#include "Grass.hpp"
 #include "ShaderProgram.hpp"
 #include "GLContext.hpp"
 
@@ -42,6 +40,59 @@ Game::Game(sf::Window* window) :
 	s->addShaderFromFile(ShaderType::FRAGMENT_SHADER, "resources/shaders/cube.frag");
 	s->compile();
 
+	std::vector<Vertice> cubeVertices;
+	cubeVertices.reserve(180);
+
+	// Bottom face
+	cubeVertices.push_back({ { -0.5f, -0.5f, -0.5f },{ 0.0f, 0.0f } }); // BL
+	cubeVertices.push_back({ { 0.5f, -0.5f, -0.5f },{ 1.0f, 0.0f } }); // BR
+	cubeVertices.push_back({ { 0.5f,  0.5f, -0.5f },{ 1.0f, 1.0f } }); // TR
+	cubeVertices.push_back({ { 0.5f,  0.5f, -0.5f },{ 1.0f, 1.0f } }); // TR
+	cubeVertices.push_back({ { -0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f } }); // TL
+	cubeVertices.push_back({ { -0.5f, -0.5f, -0.5f },{ 0.0f, 0.0f } }); // BL
+
+	// Top face
+	cubeVertices.push_back({ { -0.5f, -0.5f,  0.5f },{ 0.0f, 0.0f } }); // BL
+	cubeVertices.push_back({ { 0.5f,  0.5f,  0.5f },{ 1.0f, 1.0f } }); // TR
+	cubeVertices.push_back({ { 0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f } }); // BR
+	cubeVertices.push_back({ { 0.5f,  0.5f,  0.5f },{ 1.0f, 1.0f } }); // TR
+	cubeVertices.push_back({ { -0.5f, -0.5f,  0.5f },{ 0.0f, 0.0f } }); // BL
+	cubeVertices.push_back({ { -0.5f,  0.5f,  0.5f },{ 0.0f, 1.0f } }); // TL
+
+	// Front face
+	cubeVertices.push_back({ { -0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f } }); // TR
+	cubeVertices.push_back({ { -0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f } }); // BL
+	cubeVertices.push_back({ { -0.5f,  0.5f, -0.5f },{ 1.0f, 1.0f } }); // TL      
+	cubeVertices.push_back({ { -0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f } }); // BL
+	cubeVertices.push_back({ { -0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f } }); // TR
+	cubeVertices.push_back({ { -0.5f, -0.5f,  0.5f },{ 0.0f, 0.0f } }); // BR
+
+	// Back face
+	cubeVertices.push_back({ { 0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f } }); // TL
+	cubeVertices.push_back({ { 0.5f,  0.5f, -0.5f },{ 1.0f, 1.0f } }); // TR     
+	cubeVertices.push_back({ { 0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f } }); // BR
+	cubeVertices.push_back({ { 0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f } }); // BR
+	cubeVertices.push_back({ { 0.5f, -0.5f,  0.5f },{ 0.0f, 0.0f } }); // BL
+	cubeVertices.push_back({ { 0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f } }); // TL
+
+	// Right face
+	cubeVertices.push_back({ { -0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f } }); // TR
+	cubeVertices.push_back({ { 0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f } }); // BL
+	cubeVertices.push_back({ { 0.5f, -0.5f, -0.5f },{ 1.0f, 1.0f } }); // TL
+	cubeVertices.push_back({ { 0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f } }); // BL
+	cubeVertices.push_back({ { -0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f } }); // TR
+	cubeVertices.push_back({ { -0.5f, -0.5f,  0.5f },{ 0.0f, 0.0f } }); // BR
+
+	// Left face
+	cubeVertices.push_back({ { -0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f } }); // TL
+	cubeVertices.push_back({ { 0.5f,  0.5f, -0.5f },{ 1.0f, 1.0f } }); // TR
+	cubeVertices.push_back({ { 0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f } }); // BR
+	cubeVertices.push_back({ { 0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f } }); // BR
+	cubeVertices.push_back({ { -0.5f,  0.5f,  0.5f },{ 0.0f, 0.0f } }); // BL
+	cubeVertices.push_back({ { -0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f } }); // TL
+
+	auto mesh = new Mesh(cubeVertices);
+
 	auto fileContent = getFileContent("resources/blocks.json");
 	std::string errorLog;
 
@@ -50,12 +101,16 @@ Game::Game(sf::Window* window) :
 	{
 		std::vector<Texture*> textures;
 		for (auto& t : item["textures"].array_items())
-			textures.push_back(textureManager_.loadTextureFromFile("resources/textures/" + t.string_value()));
+		{
+			auto texture = textureManager_.loadTextureFromFile("resources/textures/" + t.string_value());
+			texture->loadToGpu();
+
+			textures.push_back(texture);
+		}
 		
 		auto blockKind = static_cast<BlockKind>(item["id"].int_value());
-		auto blockModel = new BlockGrass(textures[0], textures[1], textures[2], s);
 
-		blocks_[blockKind] = (BlockModel*)blockModel;
+		blocks_[blockKind] = new BlockModel(mesh, textures[0], textures[1], textures[2], s);
 	}
 
 	world_.createRandomizedChunk(glm::vec3(0, 0, 0));
@@ -195,7 +250,7 @@ void Game::drawChunk(Chunk& chunk)
 
 	for (auto item : positions)
 	{
-		BlockKind blockKind = item.first;
+		auto blockKind = item.first;
 		auto blockPositions = item.second;
 		BlockModel* blockModel = blocks_[blockKind];
 		ShaderProgram* shader = blockModel->getShaderProgram();
@@ -209,7 +264,9 @@ void Game::drawChunk(Chunk& chunk)
 		GLuint projectionUniform = shader->getUniform("projectionMatrix");
 		glUniformMatrix4fv(projectionUniform, 1, GL_FALSE, glm::value_ptr(camera_.getProjectionMatrix()));
 
-		blockModel->draw(context_, blockPositions);
+		glUseProgram(shader->getId());
+		glBindTexture(GL_TEXTURE_2D, 1);
+		blockModel->getMesh()->drawMultiple(context_, blockPositions);
 	}
 }
 
