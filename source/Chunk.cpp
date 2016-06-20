@@ -1,7 +1,21 @@
 #include "Chunk.hpp"
+#include <string>
 
 namespace mc
 {
+
+glm::uvec3 convert1dTo3d(size_t i)
+{
+	const auto z = i / (Chunk::SIZE * Chunk::SIZE);
+	i -= (z * Chunk::SIZE * Chunk::SIZE);
+
+	return{ i % Chunk::SIZE, i / Chunk::SIZE, z };
+}
+
+size_t convert3dTo1d(glm::vec3 p)
+{
+	return (p.z * Chunk::SIZE * Chunk::SIZE) + (p.y * Chunk::SIZE) + p.x;
+}
 
 Chunk::Chunk(glm::ivec3 position) :
 	position_(position),
@@ -15,9 +29,14 @@ Blocks& Chunk::getBlocks()
 	return blocks_;
 }
 
+BlockKind& Chunk::getBlockAt(glm::uvec3 relativePosition)
+{
+	return blocks_[convert3dTo1d(relativePosition)];
+}
+
 BlockKind Chunk::getBlockKindAt(glm::uvec3 relativePosition)
 {
-	return blocks_[relativePosition.x][relativePosition.y][relativePosition.z];
+	return getBlockAt(relativePosition);
 }
 
 std::map<BlockKind, std::vector<glm::vec3>> Chunk::getCalculatedPositions()
@@ -28,20 +47,15 @@ std::map<BlockKind, std::vector<glm::vec3>> Chunk::getCalculatedPositions()
 	std::map<BlockKind, std::vector<glm::vec3>> blockPositions;
 	glm::vec3 chunkPosition(static_cast<float>(position_.x) * Chunk::SIZE, static_cast<float>(position_.y) * Chunk::SIZE, static_cast<float>(position_.z) * Chunk::SIZE);
 
-	for (int x = 0; x < Chunk::SIZE; ++x)
+	for (size_t i = 0; i < Chunk::SIZE * Chunk::SIZE * Chunk::SIZE; ++i)
 	{
-		for (int y = 0; y < Chunk::SIZE; ++y)
-		{
-			for (int z = 0; z < Chunk::SIZE; ++z)
-			{
-				auto kind = blocks_[x][y][z];
+		const auto blockKind = blocks_[i];
+		if (blockKind == BlockKind::NONE)
+			continue;
 
-				if (kind == BlockKind::NONE)
-					continue;
+		const auto pos = convert1dTo3d(i);
 
-				blockPositions[kind].push_back(chunkPosition + glm::vec3(x, y, z));
-			}
-		}
+		blockPositions[blockKind].push_back(chunkPosition + glm::vec3(pos.x, pos.y, pos.z));
 	}
 
 	cachedPositions_ = blockPositions;
@@ -84,7 +98,7 @@ std::vector<glm::vec3> Chunk::getVertices() const
 
 void Chunk::putBlockAt(BlockKind kind, glm::uvec3 relativePosition)
 {
-	blocks_[relativePosition.x][relativePosition.y][relativePosition.z] = kind;
+	blocks_[convert3dTo1d(relativePosition)] = kind;
 	needsCacheUpdate_ = true;
 }
 
@@ -93,16 +107,7 @@ Chunk Chunk::empty(glm::ivec3 position)
 	Chunk chunk(position);
 	auto& blocks = chunk.getBlocks();
 
-	for (unsigned char x = 0; x < Chunk::SIZE; ++x)
-	{
-		for (unsigned char y = 0; y < Chunk::SIZE; ++y)
-		{
-			for (unsigned char z = 0; z < Chunk::SIZE; ++z)
-			{
-				blocks[x][y][z] = BlockKind::NONE;
-			}
-		}
-	}
+	std::fill(blocks.begin(), blocks.end(), BlockKind::NONE);
 
 	return chunk;
 }
@@ -112,16 +117,9 @@ Chunk Chunk::randomized(glm::ivec3 position)
 	Chunk chunk(position);
 	auto& blocks = chunk.getBlocks();
 
-	for (unsigned char x = 0; x < Chunk::SIZE; ++x)
-	{
-		for (unsigned char y = 0; y < Chunk::SIZE; ++y)
-		{
-			for (unsigned char z = 0; z < Chunk::SIZE; ++z)
-			{
-				blocks[x][y][z] = static_cast<BlockKind>(rand() % 3);
-			}
-		}
-	}
+	std::generate(blocks.begin(), blocks.end(), []() {
+		return static_cast<BlockKind>(rand() % 3);
+	});
 
 	return chunk;
 }
