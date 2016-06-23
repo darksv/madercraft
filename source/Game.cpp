@@ -168,22 +168,20 @@ void Game::processEvents()
 		}
 		else if (event.type == sf::Event::MouseMoved)
 		{
-			GLfloat xoffset = 0, yoffset = 0;
-
 			if (!isCursorPositionSet_)
 			{
 				setCursorAtWindowCenter();
 				isCursorPositionSet_ = true;
 			}
 
-			xoffset = static_cast<float>(event.mouseMove.x - previousCursorPosition_.x);
-			yoffset = static_cast<float>(previousCursorPosition_.y - event.mouseMove.y);
+			GLfloat offsetX = static_cast<float>(event.mouseMove.x - previousCursorPosition_.x);
+			GLfloat offsetY = static_cast<float>(previousCursorPosition_.y - event.mouseMove.y);
 
 			previousCursorPosition_ = event.mouseMove;
 
-			GLfloat sensitivity = 0.45f;
+			GLfloat mouseSensitivity = 0.45f;
 
-			camera_.rotate(xoffset * sensitivity, yoffset * sensitivity);
+			camera_.rotate(offsetX * mouseSensitivity, offsetY * mouseSensitivity);
 		}
 	}
 
