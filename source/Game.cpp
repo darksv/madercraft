@@ -114,12 +114,10 @@ Game::Game(sf::Window* window) :
 		blocks_[blockKind] = new BlockModel(mesh, textures[0], textures[1], textures[2], shader_.get());
 	}
 
-	world_.createRandomizedChunk(glm::vec3(0, 0, 0));
-	world_.createRandomizedChunk(glm::vec3(1, 0, 0));
-	world_.createRandomizedChunk(glm::vec3(2, 0, 0));
-	world_.createRandomizedChunk(glm::vec3(0, 1, 0));
-	world_.createRandomizedChunk(glm::vec3(1, 1, 0));
-	world_.createRandomizedChunk(glm::vec3(2, 1, 0));
+	for (size_t i = 0; i < 3; i++)
+		for (size_t j = 0; j < 3; j++)
+			for (size_t k = 0; k < 3; k++)
+				world_.createRandomizedChunk(glm::vec3(i, j, k));
 }
 
 void Game::loop()
