@@ -1,5 +1,4 @@
 #include "Chunk.hpp"
-#include <string>
 
 namespace mc
 {
@@ -12,7 +11,7 @@ glm::uvec3 convert1dTo3d(size_t i)
 	return{ i % Chunk::SIZE, i / Chunk::SIZE, z };
 }
 
-size_t convert3dTo1d(glm::vec3 p)
+size_t convert3dTo1d(glm::uvec3 p)
 {
 	return (p.z * Chunk::SIZE * Chunk::SIZE) + (p.y * Chunk::SIZE) + p.x;
 }
@@ -24,7 +23,20 @@ Chunk::Chunk(glm::ivec3 position) :
 
 }
 
+Chunk::Chunk(const Chunk& other) :
+	position_(other.getPosition()),
+	needsCacheUpdate_(true)
+{
+	auto& blocks = other.getBlocks();
+	std::copy(blocks.begin(), blocks.end(), blocks_.begin());
+}
+
 Blocks& Chunk::getBlocks()
+{
+	return blocks_;
+}
+
+const Blocks& Chunk::getBlocks() const
 {
 	return blocks_;
 }
@@ -47,7 +59,9 @@ std::map<BlockKind, std::vector<glm::vec3>> Chunk::getCalculatedPositions()
 	std::map<BlockKind, std::vector<glm::vec3>> blockPositions;
 	glm::vec3 chunkPosition(static_cast<float>(position_.x) * Chunk::SIZE, static_cast<float>(position_.y) * Chunk::SIZE, static_cast<float>(position_.z) * Chunk::SIZE);
 
-	for (size_t i = 0; i < Chunk::SIZE * Chunk::SIZE * Chunk::SIZE; ++i)
+	/* TODO: needs optimization */
+
+	for (size_t i = 0; i < blocks_.size(); ++i)
 	{
 		const auto blockKind = blocks_[i];
 		if (blockKind == BlockKind::NONE)
@@ -55,7 +69,22 @@ std::map<BlockKind, std::vector<glm::vec3>> Chunk::getCalculatedPositions()
 
 		const auto pos = convert1dTo3d(i);
 
-		blockPositions[blockKind].push_back(chunkPosition + glm::vec3(pos.x, pos.y, pos.z));
+		/* List all possible neighbours */
+		std::vector<glm::uvec3> nearest;
+		if (pos.x < Chunk::SIZE - 1) nearest.emplace_back(pos + glm::uvec3(1, 0, 0));
+		if (pos.y < Chunk::SIZE - 1) nearest.emplace_back(pos + glm::uvec3(0, 1, 0));
+		if (pos.z < Chunk::SIZE - 1) nearest.emplace_back(pos + glm::uvec3(0, 0, 1));
+		if (pos.x > 0)               nearest.emplace_back(pos - glm::uvec3(1, 0, 0));
+		if (pos.y > 0)               nearest.emplace_back(pos - glm::uvec3(0, 1, 0));
+		if (pos.z > 0)               nearest.emplace_back(pos - glm::uvec3(0, 0, 1));
+
+		const auto countCoveredFaces = std::count_if(nearest.begin(), nearest.end(), [this](const glm::vec3& p) {
+			return getBlockKindAt(p) != BlockKind::NONE;
+		});
+
+		/* Display current block only if there is at least one face not covered by other block */
+		if (countCoveredFaces < 6)
+			blockPositions[blockKind].push_back(chunkPosition + glm::vec3(pos.x, pos.y, pos.z));
 	}
 
 	cachedPositions_ = blockPositions;
@@ -98,7 +127,7 @@ std::vector<glm::vec3> Chunk::getVertices() const
 
 void Chunk::putBlockAt(BlockKind kind, glm::uvec3 relativePosition)
 {
-	blocks_[convert3dTo1d(relativePosition)] = kind;
+	getBlockAt(relativePosition) = kind;
 	needsCacheUpdate_ = true;
 }
 
@@ -118,7 +147,7 @@ Chunk Chunk::randomized(glm::ivec3 position)
 	auto& blocks = chunk.getBlocks();
 
 	std::generate(blocks.begin(), blocks.end(), []() {
-		return static_cast<BlockKind>(rand() % 3);
+		return static_cast<BlockKind>((rand() % 2) + 1);
 	});
 
 	return chunk;

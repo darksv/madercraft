@@ -28,8 +28,10 @@ private:
 
 public:
 	Chunk(glm::ivec3 position);
+	Chunk(const Chunk& other);
 
 	Blocks& getBlocks();
+	const Blocks& getBlocks() const;
 	BlockKind& getBlockAt(glm::uvec3 relativePosition);
 	BlockKind getBlockKindAt(glm::uvec3 relativePosition);
 	std::map<BlockKind, std::vector<glm::vec3>> getCalculatedPositions();

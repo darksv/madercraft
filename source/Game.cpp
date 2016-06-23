@@ -1,5 +1,6 @@
 #include <iostream>
 #include <map>
+#include <Windows.h>
 
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
@@ -114,8 +115,11 @@ Game::Game(sf::Window* window) :
 	}
 
 	world_.createRandomizedChunk(glm::vec3(0, 0, 0));
-	//world_.createRandomizedChunk(glm::vec3(0, 1, 0));
-	//world_.createRandomizedChunk(glm::vec3(0, 0, 1));
+	world_.createRandomizedChunk(glm::vec3(1, 0, 0));
+	world_.createRandomizedChunk(glm::vec3(2, 0, 0));
+	world_.createRandomizedChunk(glm::vec3(0, 1, 0));
+	world_.createRandomizedChunk(glm::vec3(1, 1, 0));
+	world_.createRandomizedChunk(glm::vec3(2, 1, 0));
 }
 
 void Game::loop()
@@ -327,6 +331,7 @@ void Game::render()
 {
 	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glPolygonMode(GL_FRONT, GL_LINE);
 
 	for (Chunk& chunk : world_.getAllChunks())
 	{
