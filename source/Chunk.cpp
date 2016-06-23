@@ -64,7 +64,7 @@ std::map<BlockKind, std::vector<glm::vec3>> Chunk::getCalculatedPositions()
 	for (size_t i = 0; i < blocks_.size(); ++i)
 	{
 		const auto blockKind = blocks_[i];
-		if (blockKind == BlockKind::NONE)
+		if (blockKind == BlockKind::None)
 			continue;
 
 		const auto pos = convert1dTo3d(i);
@@ -79,7 +79,7 @@ std::map<BlockKind, std::vector<glm::vec3>> Chunk::getCalculatedPositions()
 		if (pos.z > 0)               nearest.emplace_back(pos - glm::uvec3(0, 0, 1));
 
 		const auto countCoveredFaces = std::count_if(nearest.begin(), nearest.end(), [this](const glm::vec3& p) {
-			return getBlockKindAt(p) != BlockKind::NONE;
+			return getBlockKindAt(p) != BlockKind::None;
 		});
 
 		/* Display current block only if there is at least one face not covered by other block */
@@ -136,7 +136,7 @@ Chunk Chunk::empty(glm::ivec3 position)
 	Chunk chunk(position);
 	auto& blocks = chunk.getBlocks();
 
-	std::fill(blocks.begin(), blocks.end(), BlockKind::NONE);
+	std::fill(blocks.begin(), blocks.end(), BlockKind::None);
 
 	return chunk;
 }

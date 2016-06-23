@@ -7,9 +7,9 @@ namespace mc
 
 enum class BlockKind : std::uint8_t
 {
-	NONE = 0x00,
-	GRASS = 0x01,
-	DIRT = 0x02
+	None = 0x00,
+	Grass = 0x01,
+	Dirt = 0x02
 };
 
 }

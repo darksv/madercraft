@@ -220,12 +220,12 @@ void Game::processEvents()
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-		world_.putBlockAt(BlockKind::DIRT, pickedBlock);
+		world_.putBlockAt(BlockKind::Dirt, pickedBlock);
 	}
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
 	{
-		world_.putBlockAt(BlockKind::NONE, pickedBlock);
+		world_.putBlockAt(BlockKind::None, pickedBlock);
 	}
 }
 

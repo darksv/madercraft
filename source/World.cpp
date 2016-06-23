@@ -117,7 +117,7 @@ BlockKind World::getBlockKind(glm::ivec3 position)
 	auto chunk = getChunk(chunkPosition);
 
 	if (chunk == nullptr)
-		return BlockKind::NONE;
+		return BlockKind::None;
 	else
 		return chunk->getBlockKindAt(blockOffsetInChunk);
 }
