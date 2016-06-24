@@ -1,7 +1,7 @@
 #include <iostream>
 #include <map>
-#include <Windows.h>
 
+#include <Windows.h>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <GL/glew.h>
@@ -9,13 +9,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <json11.hpp>
-#include <Camera.hpp>
 
 #include "BlockModel.hpp"
-#include "helpers.hpp"
+#include "Camera.hpp"
 #include "Game.hpp"
 #include "GLShaderProgram.hpp"
 #include "GLContext.hpp"
+#include "helpers.hpp"
 
 namespace mc
 {
@@ -42,7 +42,7 @@ Game::Game(sf::Window* window) :
 	shader_->compile();
 
 	std::vector<Vertice> cubeVertices;
-	cubeVertices.reserve(180);
+	cubeVertices.reserve(36);
 
 	// Bottom face
 	cubeVertices.push_back({ { -0.5f, -0.5f, -0.5f },{ 0.0f, 0.0f } }); // BL

@@ -1,9 +1,9 @@
 #pragma once
 
+#include <array>
+
 #include <GL/glew.h>
 #include <glm/glm.hpp>
-
-#include <array>
 
 namespace mc
 {

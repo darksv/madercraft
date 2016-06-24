@@ -2,10 +2,8 @@
 
 #include <array>
 
-#include <GL/glew.h>
-
-#include "Mesh.hpp"
 #include "GLShaderProgram.hpp"
+#include "Mesh.hpp"
 #include "Texture.hpp"
 
 namespace mc
