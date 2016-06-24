@@ -34,6 +34,18 @@ void GLContext::setCullingMode(GLenum cullFace, GLenum frontFace) const noexcept
 	glFrontFace(frontFace);
 }
 
+std::unique_ptr<GLTexture> GLContext::getTexture(GLenum target, GLsizei width, GLsizei height, void* data) const noexcept
+{
+	GLuint handle;
+	glGenTextures(1, &handle);
+	glBindTexture(target, handle);
+	glTexImage2D(target, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(target);
+	glBindTexture(target, 0);
+
+	return std::make_unique<GLTexture>(target, handle, width, height);
+}
+
 std::unique_ptr<GLBuffer> GLContext::getMutableBuffer(GLenum target, GLenum usage, GLsizei size, void* data) const noexcept
 {
 	GLuint handle;

@@ -100,18 +100,16 @@ Game::Game(sf::Window* window) :
 	auto json = json11::Json::parse(std::string(fileContent.begin(), fileContent.end()), errorLog);
 	for (auto& item : json.array_items())
 	{
-		std::vector<Texture*> textures;
 		for (auto& t : item["textures"].array_items())
 		{
-			auto texture = textureManager_.loadTextureFromFile("resources/textures/" + t.string_value());
-			texture->loadToGpu();
+			auto textureData = getFileContent("resources/textures/" + t.string_value());
 
-			textures.push_back(texture);
+			textures_.push_back(context_.getTexture(GL_TEXTURE_2D, 128, 128, textureData.data()));
 		}
 		
 		auto blockKind = static_cast<BlockKind>(item["id"].int_value());
 
-		blocks_[blockKind] = new BlockModel(mesh, textures[0], textures[1], textures[2], shader_.get());
+		blocks_[blockKind] = new BlockModel(mesh, textures_[0].get(), textures_[1].get(), textures_[2].get(), shader_.get());
 	}
 
 	for (size_t i = 0; i < 3; i++)

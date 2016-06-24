@@ -3,7 +3,7 @@
 namespace mc
 {
 
-BlockModel::BlockModel(Mesh* mesh, Texture* textureTop, Texture* textureBottom, Texture* textureSide, GLShaderProgram* shaderProgram) :
+BlockModel::BlockModel(Mesh* mesh, GLTexture* textureTop, GLTexture* textureBottom, GLTexture* textureSide, GLShaderProgram* shaderProgram) :
 	mesh_(mesh),
 	shaderProgram_(shaderProgram)
 {

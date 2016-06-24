@@ -7,7 +7,7 @@
 
 #include "GLContext.hpp"
 #include "GLShaderProgram.hpp"
-#include "Texture.hpp"
+#include "GLTexture.hpp"
 
 namespace mc
 {

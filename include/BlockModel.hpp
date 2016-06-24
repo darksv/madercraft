@@ -4,7 +4,7 @@
 
 #include "GLShaderProgram.hpp"
 #include "Mesh.hpp"
-#include "Texture.hpp"
+#include "GLTexture.hpp"
 
 namespace mc
 {
@@ -12,7 +12,7 @@ namespace mc
 class BlockModel
 {
 public:
-	BlockModel(Mesh* mesh, Texture* textureTop, Texture* textureBottom, Texture* textureSide, GLShaderProgram* shaderProgram);
+	BlockModel(Mesh* mesh, GLTexture* textureTop, GLTexture* textureBottom, GLTexture* textureSide, GLShaderProgram* shaderProgram);
 	BlockModel(const BlockModel&) = delete;
 
 	GLShaderProgram* getShaderProgram() { return shaderProgram_; }
@@ -21,7 +21,7 @@ public:
 private:
 	Mesh* mesh_;
 	GLShaderProgram* shaderProgram_;
-	std::vector<Texture*> textures_;
+	std::vector<GLTexture*> textures_;
 };
 
 }

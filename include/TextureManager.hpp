@@ -2,7 +2,7 @@
 
 #include <map>
 
-#include "Texture.hpp"
+#include "GLTexture.hpp"
 
 namespace mc
 {
@@ -10,10 +10,10 @@ namespace mc
 class TextureManager
 {
 protected:
-	std::map<std::string, Texture*> loadedTextures_;
+	std::map<std::string, GLTexture*> loadedTextures_;
 
 public:
-	Texture* loadTextureFromFile(std::string filePath);
+	GLTexture* loadTextureFromFile(std::string filePath);
 };
 
 }

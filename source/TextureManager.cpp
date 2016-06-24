@@ -4,13 +4,13 @@
 namespace mc
 {
 
-Texture* TextureManager::loadTextureFromFile(std::string filePath)
+GLTexture* TextureManager::loadTextureFromFile(std::string filePath)
 {
 	for (auto pair : loadedTextures_)
 		if (pair.first == filePath)
 			return pair.second;
 
-	Texture * texture = new Texture(TextureType::TEXTURE_2D, TexturePixelFormat::TEXTURE_RGB, getFileContent(filePath));
+	GLTexture* texture = new GLTexture(TextureType::TEXTURE_2D, TexturePixelFormat::TEXTURE_RGB, getFileContent(filePath));
 
 	loadedTextures_[filePath] = texture;
 

@@ -5,7 +5,6 @@
 #include "BlockModel.hpp"
 #include "Camera.hpp"
 #include "Chunk.hpp"
-#include "TextureManager.hpp"
 #include "World.hpp"
 
 namespace mc
@@ -18,9 +17,9 @@ protected:
 	camera::Camera camera_;
 	World world_;
 	sf::Clock clock_;
-	TextureManager textureManager_;
 	GLContext context_;
 	std::unique_ptr<GLShaderProgram> shader_;
+	std::vector<std::unique_ptr<GLTexture>> textures_;
 
 	bool isRunning_;
 	unsigned int framesPerSecond_;
