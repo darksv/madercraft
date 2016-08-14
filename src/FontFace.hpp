@@ -10,7 +10,7 @@
 
 struct Glyph
 {
-	uint32_t charCode;
+	uint32_t codePoint;
 	glm::uvec2 advance;
 	glm::uvec2 size;
 	glm::vec2 coords[4];
@@ -24,8 +24,7 @@ public:
 
 	const std::vector<uint8_t>& getBitmap() const noexcept;
 	glm::uvec2 getBitmapSize() const noexcept;
-	const std::vector<Glyph>& getGlyphs() const noexcept;
-	const Glyph& getGlyphByChar(uint32_t charCode) const noexcept;
+	const Glyph& getGlyph(uint32_t charCode) const noexcept;
 
 private:
 	FT_Face face_;
