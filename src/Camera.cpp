@@ -2,7 +2,6 @@
 #include <iostream>
 
 #include <glm/gtc/matrix_transform.hpp>
-#include <Camera.hpp>
 
 #include "Camera.hpp"
 #include "math.hpp"
