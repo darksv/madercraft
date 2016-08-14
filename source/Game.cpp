@@ -130,8 +130,8 @@ Game::Game()
 
 Game::~Game()
 {
- SDL_GL_DeleteContext(oglContext_);
- SDL_DestroyWindow(window_);
+	SDL_GL_DeleteContext(oglContext_);
+	SDL_DestroyWindow(window_);
 }
 
 void Game::run()
@@ -330,8 +330,8 @@ void Game::render()
 
 void Game::updateViewport()
 {
- glm::ivec2 windowSize;
- SDL_GetWindowSize(window_, &windowSize.x, &windowSize.y);
+	glm::ivec2 windowSize;
+	SDL_GetWindowSize(window_, &windowSize.x, &windowSize.y);
 
 	glViewport(0, 0, windowSize.x, windowSize.y);
 	camera_.changeViewportDimensions(glm::uvec2(windowSize.x, windowSize.y));
