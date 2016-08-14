@@ -1,21 +1,9 @@
 #include "Game.hpp"
 
-int main()
+int main(int argc, char* argv[])
 {
-	sf::ContextSettings settings;
-	settings.majorVersion = 4;
-	settings.minorVersion = 1;
-	settings.antialiasingLevel = 16;
-	settings.depthBits = 24;
-
-	sf::VideoMode videoMode(sf::VideoMode::getFullscreenModes().at(0));
-	videoMode.width /= 2;
-	videoMode.height /= 2;
-	
-	sf::Window window(videoMode, "Madercraft", sf::Style::Default, settings);
-	
-	mc::Game game(&window);
-	game.loop();
+	mc::Game game;
+	game.run();
 
 	return 0;
 }

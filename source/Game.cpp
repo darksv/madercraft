@@ -1,9 +1,8 @@
+#include <chrono>
 #include <iostream>
 #include <map>
 
 #include <Windows.h>
-#include <SFML/System.hpp>
-#include <SFML/Window.hpp>
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -16,14 +15,25 @@
 #include "GLShaderProgram.hpp"
 #include "GLContext.hpp"
 #include "helpers.hpp"
+#include <FontManager.hpp>
 
 namespace mc
 {
 
-Game::Game(sf::Window* window) :
-	window_(window)
+Game::Game()
 {
-	window_->setMouseCursorVisible(false);
+	SDL_Init(SDL_INIT_VIDEO);
+
+	window_ = SDL_CreateWindow("MaderCraft",
+		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+		640, 480,
+		SDL_WINDOW_OPENGL);
+
+	oglContext_ = SDL_GL_CreateContext(window_);
+
+	SDL_SetRelativeMouseMode(SDL_TRUE);
+	SDL_GL_SetSwapInterval(0);
+
 
 	isRunning_ = true;
 
@@ -63,14 +73,14 @@ Game::Game(sf::Window* window) :
 	// Front face
 	cubeVertices.push_back({ { -0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f } }); // TR
 	cubeVertices.push_back({ { -0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f } }); // BL
-	cubeVertices.push_back({ { -0.5f,  0.5f, -0.5f },{ 1.0f, 1.0f } }); // TL      
+	cubeVertices.push_back({ { -0.5f,  0.5f, -0.5f },{ 1.0f, 1.0f } }); // TL   
 	cubeVertices.push_back({ { -0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f } }); // BL
 	cubeVertices.push_back({ { -0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f } }); // TR
 	cubeVertices.push_back({ { -0.5f, -0.5f,  0.5f },{ 0.0f, 0.0f } }); // BR
 
 	// Back face
 	cubeVertices.push_back({ { 0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f } }); // TL
-	cubeVertices.push_back({ { 0.5f,  0.5f, -0.5f },{ 1.0f, 1.0f } }); // TR     
+	cubeVertices.push_back({ { 0.5f,  0.5f, -0.5f },{ 1.0f, 1.0f } }); // TR  
 	cubeVertices.push_back({ { 0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f } }); // BR
 	cubeVertices.push_back({ { 0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f } }); // BR
 	cubeVertices.push_back({ { 0.5f, -0.5f,  0.5f },{ 0.0f, 0.0f } }); // BL
@@ -112,118 +122,99 @@ Game::Game(sf::Window* window) :
 		blocks_[blockKind] = new BlockModel(mesh, textures_[0].get(), textures_[1].get(), textures_[2].get(), shader_.get());
 	}
 
-	for (size_t i = 0; i < 3; i++)
-		for (size_t j = 0; j < 3; j++)
-			for (size_t k = 0; k < 3; k++)
+	for (size_t i = 0; i < 1; i++)
+		for (size_t j = 0; j < 1; j++)
+			for (size_t k = 0; k < 1; k++)
 				world_.createRandomizedChunk(glm::vec3(i, j, k));
 }
 
-void Game::loop()
+Game::~Game()
 {
-	sf::Clock gameClock;
+ SDL_GL_DeleteContext(oglContext_);
+ SDL_DestroyWindow(window_);
+}
 
-	sf::Time lastTime = gameClock.getElapsedTime();
+void Game::run()
+{
+	using namespace std::chrono;
+
 	while (isRunning_)
 	{
-		auto currentTime = gameClock.getElapsedTime();
-		auto elapsed = currentTime - lastTime;
+		const auto timeStart = steady_clock::now();
 		{
 			processEvents();
-			update(elapsed);
+			update(1.0/30.0);
 			render();
 		}
+		const auto timeEnd = steady_clock::now();
 
-		lastTime = currentTime;
-
-		framesPerSecond_ = static_cast<decltype(framesPerSecond_)>(1.0f / elapsed.asSeconds());
+		framesPerSecond_ = static_cast<decltype(framesPerSecond_)>(1.0 / duration_cast<duration<float>>(timeEnd - timeStart).count());
 	}
 }
+
+
 
 void Game::processEvents()
 {
-	sf::Event event;
-	while (window_->pollEvent(event))
+	GLfloat mouseSensitivity = 0.45f;
+
+	SDL_Event event;
+	while (SDL_PollEvent(&event))
 	{
-		if (event.type == sf::Event::Resized)
+		switch (event.type)
 		{
+		case SDL_WINDOWEVENT_RESIZED:
 			updateViewport();
-		}
-		else if (event.type == sf::Event::Closed)
-		{
+			break;
+		case SDL_WINDOWEVENT_CLOSE:
 			isRunning_ = false;
-		}
-		else if (event.type == sf::Event::KeyPressed)
-		{
-			if (event.key.code == sf::Keyboard::Escape)
+			break;
+		case SDL_KEYDOWN:
+			switch (event.key.keysym.scancode)
 			{
+			case SDL_SCANCODE_ESCAPE:
 				isRunning_ = false;
+				break;
 			}
-			else if (event.key.code == sf::Keyboard::Tab)
-			{
-				isCursorCenteringEnabled_ = false;
-				window_->setVisible(false);;
-			}
-		}
-		else if (event.type == sf::Event::MouseMoved)
-		{
-			if (!isCursorPositionSet_)
-			{
-				setCursorAtWindowCenter();
-				isCursorPositionSet_ = true;
-			}
-
-			GLfloat offsetX = static_cast<float>(event.mouseMove.x - previousCursorPosition_.x);
-			GLfloat offsetY = static_cast<float>(previousCursorPosition_.y - event.mouseMove.y);
-
-			previousCursorPosition_ = event.mouseMove;
-
-			GLfloat mouseSensitivity = 0.45f;
-
-			camera_.rotate(offsetX * mouseSensitivity, offsetY * mouseSensitivity);
+			break;
+		case SDL_MOUSEMOTION:
+			camera_.rotate(event.motion.xrel * mouseSensitivity, -event.motion.yrel * mouseSensitivity);
+			break;
 		}
 	}
 
-	if (isCursorCenteringEnabled_)
-	{
-		auto centerPosition = getWindowCenterPosition();
+	const auto scan = SDL_GetKeyboardState(nullptr);
 
-		sf::Mouse::setPosition(centerPosition, *window_);
-		previousCursorPosition_.x = centerPosition.x;
-		previousCursorPosition_.y = centerPosition.y;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	if (scan[SDL_SCANCODE_W])
 		camera_.moveForward();
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	if (scan[SDL_SCANCODE_S])
 		camera_.moveBackward();
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	if (scan[SDL_SCANCODE_A])
 		camera_.moveLeft();
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	if (scan[SDL_SCANCODE_D])
 		camera_.moveRight();
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+	if (scan[SDL_SCANCODE_LSHIFT])
 		camera_.moveDown();
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	if (scan[SDL_SCANCODE_SPACE])
 		camera_.moveUp();
 
-	auto pickedBlock = world_.getBlockIntersectedByLine(camera_.getDirection(), camera_.getPosition());
+	const auto pickedBlock = world_.getBlockIntersectedByLine(camera_.getDirection(), camera_.getPosition());
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-	{
+	const auto mouseState = SDL_GetMouseState(NULL, NULL);
+
+	if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT))
 		world_.putBlockAt(BlockKind::Dirt, pickedBlock);
-	}
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
-	{
+	if (mouseState & SDL_BUTTON(SDL_BUTTON_RIGHT))
 		world_.putBlockAt(BlockKind::None, pickedBlock);
-	}
 }
 
-void Game::update(sf::Time delta)
+void Game::update(float delta)
 {
 	auto cameraDirection = camera_.getDirection();
 	auto cameraPosition = camera_.getPosition();
@@ -311,13 +302,14 @@ void Game::drawChunk(Chunk& chunk)
 		BlockModel* blockModel = blocks_[blockKind];
 
 		auto shader = blockModel->getShaderProgram();
-		shader->setUniform("globalTime_", clock_.getElapsedTime().asSeconds());
+		shader->setUniform("globalTime_", 0);
 		shader->setUniform("viewMatrix", camera_.getViewMatrix());
 		shader->setUniform("projectionMatrix", camera_.getProjectionMatrix());
 		shader->use();
 
-		glBindTexture(GL_TEXTURE_2D, 1);
+		textures_[0]->bind();
 		blockModel->getMesh()->drawMultiple(context_, blockPositions);
+		textures_[0]->unbind();
 	}
 }
 
@@ -332,28 +324,17 @@ void Game::render()
 		if (isChunkVisibleByCamera(chunk, camera_))
 			drawChunk(chunk);
 	}
-
-	window_->display();
+	
+	SDL_GL_SwapWindow(window_);
 }
 
 void Game::updateViewport()
 {
-	auto windowSize = window_->getSize();
+ glm::ivec2 windowSize;
+ SDL_GetWindowSize(window_, &windowSize.x, &windowSize.y);
 
 	glViewport(0, 0, windowSize.x, windowSize.y);
 	camera_.changeViewportDimensions(glm::uvec2(windowSize.x, windowSize.y));
-}
-
-sf::Vector2i Game::getWindowCenterPosition()
-{
-	sf::Vector2u windowSize = window_->getSize();
-
-	return sf::Vector2i(windowSize.x / 2, windowSize.y / 2);
-}
-
-void Game::setCursorAtWindowCenter()
-{
-	sf::Mouse::setPosition(getWindowCenterPosition());
 }
 
 }
