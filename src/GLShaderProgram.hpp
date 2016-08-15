@@ -36,7 +36,9 @@ class GLShaderProgram
 public:
 	GLShaderProgram(GLuint handle);
 	GLShaderProgram(const GLShaderProgram& shaderProgram) = delete;
-
+	
+	void setUniform(GLint location, const GLfloat f);
+	void setUniform(GLint location, const glm::mat4& mat);
 	void setUniform(const GLchar* name, const GLfloat f);
 	void setUniform(const GLchar* name, const glm::mat4& mat);
 

@@ -12,16 +12,26 @@ GLShaderProgram::GLShaderProgram(GLuint handle) :
 
 }
 
+void GLShaderProgram::setUniform(GLint location, const GLfloat f)
+{
+	glUniform1f(location, f);
+}
+
+void GLShaderProgram::setUniform(GLint location, const glm::mat4& mat)
+{
+	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
+}
+
 void GLShaderProgram::setUniform(const GLchar* name, const GLfloat f)
 {
 	const auto location = glGetUniformLocation(handle_, name);
-	glUniform1f(location, f);
+	setUniform(location, f);
 }
 
 void GLShaderProgram::setUniform(const GLchar* name, const glm::mat4& mat)
 {
 	const auto location = glGetUniformLocation(handle_, name);
-	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
+	setUniform(location, mat);
 }
 
 void GLShaderProgram::addShaderFromFile(ShaderType type, std::string filePath)
@@ -61,7 +71,18 @@ bool GLShaderProgram::compileShader(Shader& shader)
 	glGetShaderiv(shader.handle_, GL_COMPILE_STATUS, &success);
 
 	if (success)
+	{
 		shader.isCompiled_ = true;
+	}
+	else
+	{
+		GLchar info[512] = {};
+		GLsizei length;
+
+		glGetShaderInfoLog(shader.handle_, sizeof(info), &length, info);
+
+		std::cout << info;
+	}
 
 	return success == GL_TRUE;
 }

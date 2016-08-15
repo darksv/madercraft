@@ -1,4 +1,5 @@
 #include <chrono>
+#include <fstream>
 #include <iostream>
 #include <map>
 
@@ -126,6 +127,18 @@ Game::Game()
 		for (size_t j = 0; j < 1; j++)
 			for (size_t k = 0; k < 1; k++)
 				world_.createRandomizedChunk(glm::vec3(i, j, k));
+
+	FontManager fm;
+	auto face = fm.getFace("C:/Windows/Fonts/arial.ttf", 40);
+	if (face)
+	{
+		auto bm = face->getBitmap();
+		std::ofstream ofs("font_bitmap_40.raw", std::ios::out | std::ios::binary);
+		ofs.write(reinterpret_cast<char*>(bm.data()), bm.size());
+
+		const auto g = face->getGlyph('a');
+		std::cout << g.codePoint << " " << g.size.x << " " << g.size.y << "\n";
+	}
 }
 
 Game::~Game()
@@ -143,7 +156,7 @@ void Game::run()
 		const auto timeStart = steady_clock::now();
 		{
 			processEvents();
-			update(1.0/30.0);
+			update(1.0/60.0);
 			render();
 		}
 		const auto timeEnd = steady_clock::now();
@@ -302,9 +315,9 @@ void Game::drawChunk(Chunk& chunk)
 		BlockModel* blockModel = blocks_[blockKind];
 
 		auto shader = blockModel->getShaderProgram();
-		shader->setUniform("globalTime_", 0);
-		shader->setUniform("viewMatrix", camera_.getViewMatrix());
-		shader->setUniform("projectionMatrix", camera_.getProjectionMatrix());
+		shader->setUniform(0, 0);
+		shader->setUniform(1, camera_.getViewMatrix());
+		shader->setUniform(2, camera_.getProjectionMatrix());
 		shader->use();
 
 		textures_[0]->bind();
